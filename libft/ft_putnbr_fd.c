@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:37:59 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/04/27 18:00:25 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/05/12 16:25:09 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+void	ft_putnbr_fd(int n, int fd)
+{
+	int	x;
 
-//get_line.c
-char	*get_line(void);
-
-//builtins.c
-void	exit_builtin(char *line);
-void	echo_builtin(char *line);
-void	pwd_builtin(void);
-void	cd_builtin(char *line);
-
-#endif //SHELL_H
+	x = 0;
+	if (n == -2147483648)
+	{
+		write(fd, "-2", 2);
+		n = 147483648;
+	}
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n *= -1;
+	}
+	if (n / 10)
+	{
+		ft_putnbr_fd((n / 10), fd);
+	}
+	x = n % 10 + '0';
+	write (fd, &x, 1);
+}

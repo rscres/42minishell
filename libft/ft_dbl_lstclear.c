@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_dbl_lstclear.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:37:59 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/09/15 19:27:40 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/09/21 12:43:27 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+void	ft_dbl_lstclear(t_dbl_list **lst)
+{
+	t_dbl_list	*current;
+	t_dbl_list	*next;
 
-//get_line.c
-char	*get_line(void);
-
-//builtins.c
-void	exit_builtin(char *line);
-void	echo_builtin(char *line);
-void	pwd_builtin(void);
-void	cd_builtin(char *line);
-
-#endif //SHELL_H
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}

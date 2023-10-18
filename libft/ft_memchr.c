@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:37:59 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/04/24 17:21:27 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/05/12 16:24:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+void	*ft_memchr(const void *str, int c, size_t n)
+{
+	unsigned char	*buffer;
+	size_t			i;
 
-//get_line.c
-char	*get_line(void);
-
-//builtins.c
-void	exit_builtin(char *line);
-void	echo_builtin(char *line);
-void	pwd_builtin(void);
-void	cd_builtin(char *line);
-
-#endif //SHELL_H
+	buffer = (unsigned char *)str;
+	i = 0;
+	while (i < n)
+	{
+		if (buffer[i] == (unsigned char )c)
+			return ((void *)(str + i));
+		i++;
+	}
+	return (NULL);
+}

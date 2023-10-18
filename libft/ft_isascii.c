@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:37:59 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/04/24 14:52:20 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/05/12 16:23:58 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
-
-//get_line.c
-char	*get_line(void);
-
-//builtins.c
-void	exit_builtin(char *line);
-void	echo_builtin(char *line);
-void	pwd_builtin(void);
-void	cd_builtin(char *line);
-
-#endif //SHELL_H
+int	ft_isascii(int a)
+{
+	if (a >= 0 && a <= 127)
+		return (1);
+	return (0);
+}

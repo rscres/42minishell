@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell.h                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:37:59 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/04/24 17:09:17 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/05/12 21:31:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHELL_H
-# define SHELL_H
+#include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/libft.h"
+int	ft_memcmp(const void *ptr1, const void *ptr2, size_t num)
+{
+	size_t				i;
+	const unsigned char	*p1;
+	const unsigned char	*p2;
 
-//get_line.c
-char	*get_line(void);
-
-//builtins.c
-void	exit_builtin(char *line);
-void	echo_builtin(char *line);
-void	pwd_builtin(void);
-void	cd_builtin(char *line);
-
-#endif //SHELL_H
+	i = 0;
+	p1 = (const unsigned char *)ptr1;
+	p2 = (const unsigned char *)ptr2;
+	while (i < num)
+	{
+		if (*(p1 + i) != *(p2 + i))
+		{
+			if (*(p1 + i) > *(p2 + i))
+				return (1);
+			else
+				return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
