@@ -6,12 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:05:24 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/12 16:23:41 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:41:56 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//Initialize a string s of n bytes with '\0'
 void	ft_bzero(void *s, size_t n)
 {
 	size_t			i;

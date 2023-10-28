@@ -6,12 +6,14 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 23:50:46 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/08/07 12:03:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:38:42 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//Trim the beginning and the end of a string with the characters in set
+//Return a new string
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	const char	*end;

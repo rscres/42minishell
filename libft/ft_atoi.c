@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:42:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/17 21:01:18 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:41:23 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	is_whitespace(char c)
 	return (0);
 }
 
+//Converts a string to an integer
 int	ft_atoi(const char *str)
 {
 	int	num;

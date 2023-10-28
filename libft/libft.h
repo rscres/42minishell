@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/12 14:20:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:00:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int			ft_isascii(int a);
 int			ft_isdigit(int a);
 int			ft_isalpha(int a);
 int			ft_isalnum(int a);
+int			ft_iswhitespace(char c);
 
 // String functions
 size_t		ft_strlcat(char *dest, const char *src, size_t size);
@@ -94,6 +95,7 @@ int			ft_abs(int x);
 void		ft_swap(int *a, int *b);
 size_t		ft_arrlen(char **arr);
 void		ft_safe_free(void *ptr);
+void		*ft_ternary(int condition, void *a, void *b);
 
 // Printf functions
 //FLAGS

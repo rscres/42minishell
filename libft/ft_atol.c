@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:47:26 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/12 13:46:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:41:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	is_whitespace(char c)
 	return (0);
 }
 
+//Converts a string to a long integer
 long int	ft_atol(const char *str)
 {
 	long int	num;

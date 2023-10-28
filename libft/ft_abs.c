@@ -6,10 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 17:49:34 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/07/26 17:51:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:40:56 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//Return the absolute value of an integer
 int	ft_abs(int x)
 {
 	if (x < 0)

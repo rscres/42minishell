@@ -6,12 +6,14 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:49:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/12 16:23:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:02:18 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//ft_substr() allocates (with malloc(3)) and returns a substring from the 
+//string ’s’, if within 'len'.
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;

@@ -6,12 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 13:00:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/08/22 13:34:54 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/23 18:40:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//Count the number of words in a string split with the character c
 static int	count_words(const char *s, char c)
 {
 	int	count;
@@ -26,6 +27,7 @@ static int	count_words(const char *s, char c)
 	return (count);
 }
 
+//Gets the end and the beginning of a word
 static void	ends(char const *s, char c, int *p, int *begin)
 {
 	int	end;
@@ -49,6 +51,7 @@ static void	ends(char const *s, char c, int *p, int *begin)
 	*p = end + 1;
 }
 
+//sets the variables to the initial value of 0
 static void	set_var(int *i, int *pos, int *begin)
 {
 	*i = 0;
@@ -56,6 +59,8 @@ static void	set_var(int *i, int *pos, int *begin)
 	*begin = 0;
 }
 
+
+//Split a string with the character c
 char	**ft_split(char const *s, char c)
 {
 	int		i;

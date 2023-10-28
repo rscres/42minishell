@@ -4,9 +4,7 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
-SRC =	main.c		\
-		get_line.c	\
-		builtins.c
+SRC =	main.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
@@ -34,15 +32,17 @@ $(LIBFT):
 clean:
 	rm -rf $(OBJ)
 	rm -rf $(OBJ_DIR)
+	@make -C libft clean
 
 fclean: clean
 	rm -rf $(NAME)
+	@make -C libft fclean
 
-re: fclean
+re: fclean all
 
 valgrind: all
 	valgrind --leak-check=full --track-origins=yes --suppressions=supp.supp \
-	./$(NAME)
+	--trace-children-skip='*/bin/*,*/sbin/*' ./$(NAME)
 
 run: all
 	./$(NAME)

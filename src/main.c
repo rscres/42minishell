@@ -5,12 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 13:14:55 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/18 16:38:15 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/10/27 12:50:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+// char	*get_line(int flag)
+// {
+// 	char	*line;
+
+// 	if (flag == 1)
+// 		line = readline("> ");
+// 	else
+// 		line = readline("minishell$ ");
+// 	if (line)
+// 		add_history(line);
+// 	return (line);
+// }
+
+char	*get_line(void)
+{
+	char	*line;
+
+	line = readline("minishell$ ");
+	while (line[ft_strlen(line) - 1] == '\\')
+	{
+		line[ft_strlen(line) - 1] = '\0';
+		line = ft_strjoin(line, readline("> "));
+	}
+	if (line)
+		add_history(line);
+	return (line);
+}
 
 int	main(void)
 {
@@ -19,17 +47,9 @@ int	main(void)
 	while (1)
 	{
 		line = get_line();
-		if (ft_strncmp(line, "exit", 4) == 0 && ft_strlen(line) == 4)
-			exit_builtin(line);
-		else if (ft_strncmp(line, "echo ", 5) == 0)
-			echo_builtin(line);
-		else if (ft_strncmp(line, "pwd", 3) == 0 && ft_strlen(line) == 3)
-			pwd_builtin();
-		else if (ft_strncmp(line, "cd ", 3) == 0)
-			cd_builtin(line);
-		else
-			printf("Command not found\n");
-		free(line);
+		printf("%s\n", line);
+		if (line)
+			free(line);
 	}
 	return (0);
 }

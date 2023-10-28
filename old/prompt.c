@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/24 14:57:55 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/27 13:02:48 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/10/18 13:59:17 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/10/24 15:31:50 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "shell.h"
 
-//ft_toupper() converts the letter c to upper case, if possible.
-int	ft_toupper(int a)
+void	print_prompt(int n)
 {
-	if (a >= 97 && a <= 122)
-		return (a - 32);
-	return (a);
+	if (n == 1)
+		ft_putstr_fd("$ ", 1);
+	else if (n == 2)
+		ft_putstr_fd("> ", 1);
 }
