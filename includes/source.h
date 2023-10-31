@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 13:16:12 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/27 21:17:25 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:34:00 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../libft/libft.h"
 
-# define EOF -1
 # define INIT_SRC_POS 0
 
 typedef struct s_src

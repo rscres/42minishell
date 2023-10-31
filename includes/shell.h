@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/27 13:19:45 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/10/31 20:01:13 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "source.h"
+
+int	signal_set(void);
 
 #endif //SHELL_H
