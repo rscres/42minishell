@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/31 19:34:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/02 12:16:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exec(char *line)
+int	exec(t_token **tokens)
 {
 	if (ft_strncmp(line, "echo", 4) == 0)
 		printf("%s\n", line + 5);
@@ -52,6 +52,7 @@ int	exec(char *line)
 int	main(void)
 {
 	char	*line;
+	t_main	data;
 
 	signal_set();
 	while (1)
@@ -59,9 +60,10 @@ int	main(void)
 		line = get_line();
 		if (!line)
 		{
-			printf("exit\n");
+			printf("exit");
 			exit(0);
 		}
+		data.tokens = parse_line(line);
 		exec(line);
 		if (line)
 			free(line);

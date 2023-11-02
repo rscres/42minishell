@@ -43,7 +43,7 @@ re: fclean all
 
 valgrind: all
 	valgrind --leak-check=full --track-origins=yes --suppressions=supp.supp \
-	--trace-children-skip='*/bin/*,*/sbin/*' ./$(NAME)
+	--trace-children-skip='*/bin/*,*/sbin/*' -q ./$(NAME)
 
 run: all
 	./$(NAME)
