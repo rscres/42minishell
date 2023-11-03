@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/27 13:00:36 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:27:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ size_t		ft_strlcat(char *dest, const char *src, size_t size);
 size_t		ft_strlen(const char *s);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 int			ft_strncmp(const char *s1, const char *s2, unsigned int n);
+int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_split(char const *s, char c);
 char		*ft_strdup(const char *src);
 char		*ft_strchr(const char *str, int c);
