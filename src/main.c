@@ -6,11 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 12:16:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:37:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+t_main	g_main;
 
 // char	*get_line(int flag)
 // {
@@ -49,26 +51,28 @@ char	*get_line(void)
 // 	return (0);
 // }
 
+void	ft_exit(int status)
+{
+	clear_hashtable(g_main.env_var);
+	printf("exit\n");
+	exit(status);
+}
+
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	char **env)
 {
 	char	*line;
-	t_main	data;
 
 	signal_set();
-	init_hashtable(data.env_var);
-	set_env(data.env_var, env);
+	init_global();
+	set_env(g_main.env_var, env);
 	while (1)
 	{
 		line = get_line();
 		if (!line)
-		{
-			printf("exit");
-			exit(0);
-		}
-		if (ft_strncmp(line, "echo", 4) == 0)
-			print_hashtable(data.env_var);
-		// data.tokens = parse_line(line);
+			ft_exit(0);
+		parse_line(line);
+		// g_data.tokens = parse_line(line);
 		// exec(line);
 		if (line)
 			free(line);

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 12:15:59 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:39:00 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-# define TABLE_SIZE 196
+# define TABLE_SIZE 256
 
 typedef enum s_token_type
 {
@@ -61,14 +61,24 @@ typedef struct s_main
 	t_token	*tokens;
 }	t_main;
 
-//Parsing
-//parser.c
+//Global variable
+extern t_main	g_main;
 
+//Init
+//init.c
+void	init_hashtable(t_env **env_var);
+void	init_global(void);
 
 //Signals
+//signal.c
 int		signal_set(void);
 
+//Parser
+//parser.c
+int		parse_line(char *str);
+
 //Hashtable
+//hashtable.c
 int		hash(char *key);
 t_env	*search(t_env **env_var, char *key);
 void	clear_hashtable(t_env **env_var);
@@ -76,8 +86,9 @@ void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);
 
 //Env
+//set_env.c
 int 	set_env(t_env **env_var, char **env);
-void	init_hashtable(t_env **env_var);
+int		free_tab(char **tab);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

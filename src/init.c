@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/03 15:42:26 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/03 16:50:41 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/11/06 13:06:47 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/11/06 13:14:22 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int get_env(t_env **env_var)
+void	init_hashtable(t_env **env_var)
 {
-	char	**arg;
+	int	i;
 
-	arg = ft_split(get_env("env"), '\n');
-	return (1);
+	i = 0;
+	while (i < TABLE_SIZE)
+		env_var[i++] = NULL;
+}
+
+void	init_global(void)
+{
+	init_hashtable(g_main.env_var);
+	g_main.tokens = NULL;
 }

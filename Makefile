@@ -6,7 +6,10 @@ FLAGS = -Wall -Werror -Wextra -g3
 SRC_DIR = src
 SRC =	main.c		\
 		signals.c	\
-		hashtable.c
+		hashtable.c	\
+		set_env.c	\
+		init.c		\
+		parser.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
