@@ -6,7 +6,7 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c\
 	ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c\
 	ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_atol.c\
 	ft_tolower.c ft_toupper.c ft_arrlen.c ft_safe_free.c ft_ternary.c\
-	ft_iswhitespace.c ft_strcmp.c\
+	ft_iswhitespace.c ft_strcmp.c ft_strndup.c\
 	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c\
 	ft_lstdelone.c ft_lstiter.c ft_lstlast.c\
 	ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_abs.c ft_swap.c\

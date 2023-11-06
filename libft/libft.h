@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/03 15:27:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:59:49 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int			ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_split(char const *s, char c);
 char		*ft_strdup(const char *src);
+char		*ft_strndup(const char *src, int len);
 char		*ft_strchr(const char *str, int c);
 char		*ft_strrchr(const char *str, int c);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
