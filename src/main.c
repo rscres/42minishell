@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/03 15:46:04 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:16:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,22 @@ char	*get_line(void)
 	return (line);
 }
 
-int	exec(t_token **tokens)
-{
-	if (ft_strncmp(line, "echo", 4) == 0)
-		printf("%s\n", line + 5);
-	return (0);
-}
+// int	exec(t_token **tokens)
+// {
+// 	if (ft_strncmp(line, "echo", 4) == 0)
+// 		printf("%s\n", line + 5);
+// 	return (0);
+// }
 
-int	main(void)
+int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
+	char **env)
 {
 	char	*line;
 	t_main	data;
 
 	signal_set();
-	get_env(data.env_var);
-	print_hashtable(data.env_var);
+	init_hashtable(data.env_var);
+	set_env(data.env_var, env);
 	while (1)
 	{
 		line = get_line();
@@ -65,8 +66,10 @@ int	main(void)
 			printf("exit");
 			exit(0);
 		}
-		data.tokens = parse_line(line);
-		exec(line);
+		if (ft_strncmp(line, "echo", 4) == 0)
+			print_hashtable(data.env_var);
+		// data.tokens = parse_line(line);
+		// exec(line);
 		if (line)
 			free(line);
 	}
