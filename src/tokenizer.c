@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 18:59:18 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:39:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,36 @@ static char	*update_save(char *save, int i)
 	tmp = ft_strdup(save + i);
 	free(save);
 	return (tmp);
+}
+
+static int	is_separator(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
+static int	get_j(int i, char *save)
+{
+	int j;
+	
+	j = i;
+	while (save[j] && !ft_iswhitespace(save[j]))
+	{
+		if (is_separator(save[j]))
+		{
+			if ((save[j] == '<' && save[j + 1] == '<')
+				|| (save[j] == '>' && save[j + 1] == '>'))
+				j += 2;
+			else if (save[j] == '<' || save[j] == '>' || save[j] == '|')
+				j++;
+			break ;
+		}
+		j++;
+		if (is_separator(save[j]))
+			break ;
+	}
+	return (j);
 }
 
 char	*tokenizer(char *str)
@@ -39,9 +69,7 @@ char	*tokenizer(char *str)
 			free(save);
 		return (NULL);
 	}
-	j = i;
-	while (save[j] && !ft_iswhitespace(save[j]))
-		j++;
+	j = get_j(i, save);
 	token = ft_strndup(save + i, j - i);
 	save = update_save(save, j);
 	return (token);
@@ -60,24 +88,3 @@ int	parse_line(char *str)
 	}
 	return (0);
 }
-
-// int main(void)
-// {
-// 	char	*line;
-// 	char	*token;
-
-// 	line = get_line();
-// 	while (line)
-// 	{
-// 		token = tokenizer(line);
-// 		while (token)
-// 		{
-// 			printf("%s\n", token);
-// 			free(token);
-// 			token = tokenizer(NULL);
-// 		}
-// 		free(line);
-// 		line = get_line();
-// 	}
-// 	return (0);
-// }
