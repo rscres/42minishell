@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/09 00:42:02 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/09 01:15:17 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_env
 //Main
 typedef struct s_main
 {
-	t_env	*env_var[TABLE_SIZE];
+	t_env	*env_var[TA BLE_SIZE];
 	t_token	*tokens;
 }	t_main;
 
