@@ -9,7 +9,8 @@ SRC =	main.c		\
 		hashtable.c	\
 		set_env.c	\
 		init.c		\
-		tokenizer.c
+		tokenizer.c	\
+		parse.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))

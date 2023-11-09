@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/07 16:39:08 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/08 00:20:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,38 @@ static int	is_separator(char c)
 	return (0);
 }
 
+static int	check_quote(int quote, char c)
+{
+	if (quote == 0 && c == '\'')
+		return (1);
+	else if (quote == 0 && c == '\"')
+		return (2);
+	else if (quote == 1 && c == '\'')
+		return (0);
+	else if (quote == 2 && c == '\"')
+		return (0);
+	return (quote);
+}
+
 static int	get_j(int i, char *save)
 {
 	int j;
+	int quote;
 	
 	j = i;
-	while (save[j] && !ft_iswhitespace(save[j]))
+	quote = 0;
+	while (save[j])
 	{
-		if (is_separator(save[j]))
+		if (save[j] == '\'' || save[j] == '\"')
+		{
+			quote = check_quote(quote, save[j]);
+			if (quote == 0)
+			{
+				j++;
+				break ;
+			}
+		}
+		if (is_separator(save[j]) && !quote)
 		{
 			if ((save[j] == '<' && save[j + 1] == '<')
 				|| (save[j] == '>' && save[j + 1] == '>'))
@@ -45,7 +69,7 @@ static int	get_j(int i, char *save)
 			break ;
 		}
 		j++;
-		if (is_separator(save[j]))
+		if ((is_separator(save[j]) || ft_iswhitespace(save[j])) && !quote)
 			break ;
 	}
 	return (j);
@@ -73,18 +97,4 @@ char	*tokenizer(char *str)
 	token = ft_strndup(save + i, j - i);
 	save = update_save(save, j);
 	return (token);
-}
-
-int	parse_line(char *str)
-{
-	char	*token;
-
-	token = tokenizer(str);
-	while (token)
-	{
-		printf("%s\n", token);
-		free(token);
-		token = tokenizer(NULL);
-	}
-	return (0);
 }

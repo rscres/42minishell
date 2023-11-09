@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 18:39:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/09 00:42:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int		signal_set(void);
 //Parser
 //parser.c
 int		parse_line(char *str);
+
+//tokenizer.c
+char	*tokenizer(char *str);
 
 //Hashtable
 //hashtable.c
