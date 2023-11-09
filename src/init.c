@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 13:14:22 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:26:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void	init_global(void)
 {
 	init_hashtable(g_main.env_var);
 	g_main.tokens = NULL;
+	g_main.open_quote = 0;
 }

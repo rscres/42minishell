@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/09 00:58:04 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:18:31 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_token	*new_token(char *name, int type)
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;
-	// printf("new_token: %s", token->name);
-	// printf("type: %i\n", token->type);
 	return (token);
 }
 
@@ -42,6 +40,19 @@ void	add_token(char *name, int type)
 		tmp = tmp->next;
 	tmp->next = new_token(name, type);
 	tmp->next->prev = tmp;
+}
+
+void	clear_tokens(void)
+{
+	t_token	*tmp;
+
+	while (g_main.tokens)
+	{
+		tmp = g_main.tokens;
+		g_main.tokens = g_main.tokens->next;
+		free(tmp->name);
+		free(tmp);
+	}
 }
 
 int	get_type(char *str)
@@ -65,16 +76,16 @@ int	get_type(char *str)
 
 char	*trim_quotes(char *token)
 {
-	char	*tmp;
+	// char	*tmp;
 
 	if (!token)
 		return (NULL);
-	tmp = token;
+	// tmp = NULL;
 	if (*token == '\'')
-		tmp = ft_strtrim(token, "\'");
+		token = ft_strtrim(token, "\'");
 	else if (*token == '\"')
-		tmp = ft_strtrim(token, "\"");
-	return (tmp);
+		token = ft_strtrim(token, "\"");
+	return (token);
 }
 
 int	parse_line(char *str)
@@ -88,6 +99,14 @@ int	parse_line(char *str)
 		free(token);
 		token = tokenizer(NULL);
 	}
+	t_token	*tmp = g_main.tokens;
+	while (tmp)
+	{
+		printf("%s=>", tmp->name);
+		printf("%i\n", tmp->type);
+		tmp = tmp->next;
+	}
+	clear_tokens();
 	while (g_main.tokens)
 	{
 		printf("%s=>", g_main.tokens->name);

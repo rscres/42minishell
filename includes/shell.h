@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/09 01:15:17 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/09 18:24:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ typedef struct s_env
 //Main
 typedef struct s_main
 {
-	t_env	*env_var[TA BLE_SIZE];
+	t_env	*env_var[TABLE_SIZE];
 	t_token	*tokens;
+	int		open_quote;
 }	t_main;
 
 //Global variable
@@ -90,7 +91,7 @@ void	insert_key(t_env **env_var, char *key, char *value);
 
 //Env
 //set_env.c
-int 	set_env(t_env **env_var, char **env);
+int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);
 
 //------------------TEST FUNCTIONS-----------------------
