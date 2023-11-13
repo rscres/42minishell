@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/09 18:24:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:27:58 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		signal_set(void);
 
 //Parser
 //parser.c
-int		parse_line(char *str);
+int		parse_line(char **str);
 
 //tokenizer.c
 char	*tokenizer(char *str);
