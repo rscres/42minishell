@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/13 12:27:50 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:58:56 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	signal_set();
 	init_global();
 	set_env(g_main.env_var, env);
+	// print_hashtable(g_main.env_var);
 	while (1)
 	{
 		line = get_line();

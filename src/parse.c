@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/13 19:30:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:45:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,12 @@ char	*trim_quotes(char *token)
 
 	if (!token)
 		return (NULL);
-	tmp = ft_strdup(token);
 	if (*token == '\'' || *(token + ft_strlen(token) - 1) == '\'')
 		tmp = ft_strtrim(token, "\'");
 	else if (*token == '\"' || *(token + ft_strlen(token) - 1) == '\"')
 		tmp = ft_strtrim(token, "\"");
+	else
+		tmp = ft_strdup(token);
 	free(token);
 	return (tmp);
 }
@@ -93,7 +94,6 @@ char	*trim_quotes(char *token)
 int	parse_line(char **str)
 {
 	char	*token;
-	char	*new_str;
 	char	*trim;
 
 	token = tokenizer(*str);
@@ -104,30 +104,52 @@ int	parse_line(char **str)
 		free(trim);
 		token = tokenizer(NULL);
 	}
-	while (g_main.open_quote)
-	{
-		new_str = readline("> ");
-		token = tokenizer(new_str);
-		while (token)
-		{
-			trim = trim_quotes(token);
-			add_token(trim, get_type(trim));
-			free(trim);
-			token = tokenizer(NULL);
-		}
-		*str = ft_strjoin(*str, "\n");
-		*str = ft_strjoin(*str, new_str);
-		free(new_str);
-	}
-	t_token	*tmp = g_main.tokens;
-	while (tmp)
-	{
-		printf("%s=>", tmp->name);
-		printf("%i\n", tmp->type);
-		tmp = tmp->next;
-	}
 	clear_tokens();
 	if (token)
 		free(token);
 	return (0);
 }
+
+// int	parse_line(char **str)
+// {
+// 	char	*token;
+// 	// char	*new_str;
+// 	char	*trim;
+
+// 	token = tokenizer(*str);
+// 	while (token)
+// 	{
+// 		trim = trim_quotes(token);
+// 		add_token(trim, get_type(trim));
+// 		free(trim);
+// 		token = tokenizer(NULL);
+// 	}
+// 	//deal with open quotes-----------
+// 	// while (g_main.open_quote)
+// 	// {
+// 	// 	new_str = readline("> ");
+// 	// 	token = tokenizer(new_str);
+// 	// 	while (token)
+// 	// 	{
+// 	// 		trim = trim_quotes(token);
+// 	// 		add_token(trim, get_type(trim));
+// 	// 		free(trim);
+// 	// 		token = tokenizer(NULL);
+// 	// 	}
+// 	// 	*str = ft_strjoin(*str, "\n");
+// 	// 	*str = ft_strjoin(*str, new_str);
+// 	// 	free(new_str);
+// 	// }
+// 	//-----------------------------------
+// 	// t_token	*tmp = g_main.tokens;
+// 	// while (tmp)
+// 	// {
+// 	// 	printf("%s=>", tmp->name);
+// 	// 	printf("%i\n", tmp->type);
+// 	// 	tmp = tmp->next;
+// 	// }
+// 	clear_tokens();
+// 	if (token)
+// 		free(token);
+// 	return (0);
+// }
