@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:23:01 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 19:23:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:32:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ void	add_token(char *name, int type)
 {
 	t_token	*tmp;
 
-	if (g_main.tokens == NULL)
+	if (g_main.token_list == NULL)
 	{
-		g_main.tokens = new_token(name, type);
+		g_main.token_list = new_token(name, type);
 		return ;
 	}
-	tmp = g_main.tokens;
+	tmp = g_main.token_list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_token(name, type);
 	tmp->next->prev = tmp;
 }
 
-void	clear_tokens(void)
+void	clear_token_list(void)
 {
 	t_token	*tmp;
 
-	while (g_main.tokens)
+	while (g_main.token_list)
 	{
-		tmp = g_main.tokens;
-		g_main.tokens = g_main.tokens->next;
+		tmp = g_main.token_list;
+		g_main.token_list = g_main.token_list->next;
 		free(tmp->name);
 		free(tmp);
 	}

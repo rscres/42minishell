@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 19:24:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:33:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ typedef struct s_env
 typedef struct s_main
 {
 	t_env	*env_var[TABLE_SIZE];
-	t_token	*tokens;
+	t_token	*token_list;
 	int		open_quote;
+	t_cmd	*cmd_list;
 }	t_main;
 
 //Global variable
@@ -92,7 +93,7 @@ int		parse_line(char **str);
 char	*tokenizer(char *str);
 
 //token_utils.c
-void	clear_tokens(void);
+void	clear_token_list(void);
 void	add_token(char *name, int type);
 t_token	*new_token(char *name, int type);
 

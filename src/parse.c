@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/14 19:23:57 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:33:33 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int	parse_line(char **str)
 	if (g_main.open_quote)
 	{
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
-		clear_tokens();
+		clear_token_list();
 		return (1);
 	}
-	clear_tokens(); //remove this later
+	clear_token_list(); //remove this later
 	if (token)
 		free(token);
 	return (0);
