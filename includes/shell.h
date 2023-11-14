@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/13 12:27:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:24:46 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+//command list
+typedef struct s_cmd
+{
+	char			*name;
+	char			**args;
+	int				argc;
+
+	struct s_cmd	*next;
+}	t_cmd;
+
 //hashtable
 typedef struct s_env
 {
@@ -80,6 +90,11 @@ int		parse_line(char **str);
 
 //tokenizer.c
 char	*tokenizer(char *str);
+
+//token_utils.c
+void	clear_tokens(void);
+void	add_token(char *name, int type);
+t_token	*new_token(char *name, int type);
 
 //Hashtable
 //hashtable.c

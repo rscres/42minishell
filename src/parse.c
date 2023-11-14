@@ -6,55 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/14 18:45:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:23:57 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-t_token	*new_token(char *name, int type)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->name = ft_strdup(name);
-	token->type = type;
-	token->next = NULL;
-	token->prev = NULL;
-	return (token);
-}
-
-void	add_token(char *name, int type)
-{
-	t_token	*tmp;
-
-	if (g_main.tokens == NULL)
-	{
-		g_main.tokens = new_token(name, type);
-		return ;
-	}
-	tmp = g_main.tokens;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_token(name, type);
-	tmp->next->prev = tmp;
-	// free(name);
-}
-
-void	clear_tokens(void)
-{
-	t_token	*tmp;
-
-	while (g_main.tokens)
-	{
-		tmp = g_main.tokens;
-		g_main.tokens = g_main.tokens->next;
-		free(tmp->name);
-		free(tmp);
-	}
-}
 
 int	get_type(char *str)
 {
@@ -104,7 +60,13 @@ int	parse_line(char **str)
 		free(trim);
 		token = tokenizer(NULL);
 	}
-	clear_tokens();
+	if (g_main.open_quote)
+	{
+		ft_putstr_fd("Error: unclosed quotes\n", 2);
+		clear_tokens();
+		return (1);
+	}
+	clear_tokens(); //remove this later
 	if (token)
 		free(token);
 	return (0);

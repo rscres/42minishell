@@ -4,12 +4,13 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
-SRC =	main.c		\
-		signals.c	\
-		hashtable.c	\
-		set_env.c	\
-		init.c		\
-		tokenizer.c	\
+SRC =	main.c			\
+		signals.c		\
+		hashtable.c		\
+		set_env.c		\
+		init.c			\
+		tokenizer.c		\
+		token_utils.c	\
 		parse.c
 
 OBJ_DIR = obj
