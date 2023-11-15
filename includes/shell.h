@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 19:33:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 21:16:33 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@
 typedef enum s_token_type
 {
 	WORD,
-	DOUBLE_GREATER_THAN,
-	DOUBLE_LESS_THAN,
-	GREATER_THAN,
-	LESS_THAN,
+	APPEND,
+	HEREDOC,
+	OUTFILE,
+	INFILE,
 	AND,
 	OR,
 	PIPE
 }	t_token_type;
 
 //Structs
-//token
+//token list
 typedef struct s_token
 {
 	char			*name;
@@ -52,7 +52,7 @@ typedef struct s_cmd
 	char			*name;
 	char			**args;
 	int				argc;
-
+	
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -96,6 +96,9 @@ char	*tokenizer(char *str);
 void	clear_token_list(void);
 void	add_token(char *name, int type);
 t_token	*new_token(char *name, int type);
+
+//cmd_list.c
+void	create_cmd_list(void);
 
 //Hashtable
 //hashtable.c

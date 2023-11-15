@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/14 19:33:33 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/14 21:16:46 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	get_type(char *str)
 {
 	if (!ft_strcmp(str, ">>"))
-		return (DOUBLE_GREATER_THAN);
+		return (APPEND);
 	else if (!ft_strcmp(str, "<<"))
-		return (DOUBLE_LESS_THAN);
+		return (HEREDOC);
 	else if (!ft_strcmp(str, ">"))
-		return (GREATER_THAN);
+		return (OUTFILE);
 	else if (!ft_strcmp(str, "<"))
-		return (LESS_THAN);
+		return (INFILE);
 	else if (!ft_strcmp(str, "&&"))
 		return (AND);
 	else if (!ft_strcmp(str, "||"))
@@ -66,6 +66,7 @@ int	parse_line(char **str)
 		clear_token_list();
 		return (1);
 	}
+	create_cmd_list();
 	clear_token_list(); //remove this later
 	if (token)
 		free(token);

@@ -11,7 +11,8 @@ SRC =	main.c			\
 		init.c			\
 		tokenizer.c		\
 		token_utils.c	\
-		parse.c
+		parse.c			\
+		cmd_list.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
