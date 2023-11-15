@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 21:16:33 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 01:23:38 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_cmd
 	char			*name;
 	char			**args;
 	int				argc;
-	
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -76,16 +75,20 @@ typedef struct s_main
 //Global variable
 extern t_main	g_main;
 
-//Init
+//EXIT
+//main.c
+void	ft_exit(int status);
+
+//INIT
 //init.c
 void	init_hashtable(t_env **env_var);
 void	init_global(void);
 
-//Signals
+//SIGNALS
 //signal.c
 int		signal_set(void);
 
-//Parser
+//PARSER
 //parser.c
 int		parse_line(char **str);
 
@@ -99,8 +102,13 @@ t_token	*new_token(char *name, int type);
 
 //cmd_list.c
 void	create_cmd_list(void);
+void	clear_cmd_list(void);
 
-//Hashtable
+//EXEC
+//builtin.c
+int		exec_builtin(char *name, char **args);
+
+//HaASHTABLE
 //hashtable.c
 int		hash(char *key);
 t_env	*search(t_env **env_var, char *key);
@@ -108,7 +116,7 @@ void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);
 
-//Env
+//ENV
 //set_env.c
 int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);

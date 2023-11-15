@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/14 21:16:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 01:30:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ int	parse_line(char **str)
 		return (1);
 	}
 	create_cmd_list();
+	exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
 	clear_token_list(); //remove this later
+	clear_cmd_list();
 	if (token)
 		free(token);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 16:58:56 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 01:19:40 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ char	*get_line(void)
 void	ft_exit(int status)
 {
 	clear_hashtable(g_main.env_var);
+	clear_cmd_list();
+	clear_token_list();
 	printf("exit\n");
 	exit(status);
 }

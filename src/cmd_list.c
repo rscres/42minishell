@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 21:20:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 01:47:28 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,36 @@ t_cmd	*new_cmd(char *name)
 	return (cmd);
 }
 
-void	add_cmd(char *name)
+void	add_cmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
 	if (g_main.cmd_list == NULL)
 	{
-		g_main.cmd_list = new_cmd(name);
+		g_main.cmd_list = cmd;
 		return ;
 	}
 	tmp = g_main.cmd_list;
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = new_cmd(name);
+	tmp->next = cmd;
 }
 
-void	clear_cmd_list(void)
-{
-	t_cmd	*tmp;
+// void	clear_cmd_list(void)
+// {
+// 	t_cmd	*tmp;
 
-	while (g_main.cmd_list)
-	{
-		tmp = g_main.cmd_list;
-		g_main.cmd_list = g_main.cmd_list->next;
-		free(tmp->name);
-		free(tmp);
-	}
-}
+// 	while (g_main.cmd_list)
+// 	{
+// 		tmp = g_main.cmd_list;
+// 		g_main.cmd_list = g_main.cmd_list->next;
+// 		free(tmp->name);
+// 		free(tmp);
+// 	}
+// }
 
+//------------------TEST FUNCTIONS------------------//
+//------------------TEST FUNCTIONS------------------//
 void	print_cmd_list(void)
 {
 	t_cmd	*tmp;
@@ -69,7 +71,31 @@ void	print_cmd_list(void)
 			printf("arg[%i] = %s\n", i, tmp->args[i]);
 			i++;
 		}
+		printf("argc = %i\n", tmp->argc);
 		tmp = tmp->next;
+	}
+}
+//------------------TEST FUNCTIONS------------------//
+//------------------TEST FUNCTIONS------------------//
+
+void	clear_cmd_list(void)
+{
+	t_cmd	*tmp;
+	int	i;
+
+	while (g_main.cmd_list)
+	{
+		tmp = g_main.cmd_list;
+		g_main.cmd_list = g_main.cmd_list->next;
+		i = 0;
+		while (i < tmp->argc)
+		{
+			free(tmp->args[i]);
+			i++;
+		}
+		free(tmp->args);
+		free(tmp->name);
+		free(tmp);
 	}
 }
 
@@ -85,8 +111,7 @@ void	create_cmd_list(void)
 	{
 		if (tmp->type == WORD)
 		{
-			// cmd = new_cmd(tmp->name);
-			add_cmd(tmp->name);
+			cmd = new_cmd(tmp->name);
 			tmp = tmp->next;
 			hold = tmp;
 			i = 0;
@@ -95,7 +120,7 @@ void	create_cmd_list(void)
 				i++;
 				tmp = tmp->next;
 			}
-			g_main.cmd_list->args = malloc(sizeof(char *) * (i + 1));
+			cmd->args = malloc(sizeof(char *) * (i + 1));
 			tmp = hold;
 			while (tmp && tmp->type == WORD)
 			{
@@ -103,30 +128,51 @@ void	create_cmd_list(void)
 				cmd->argc++;
 				tmp = tmp->next;
 			}
+			cmd->args[cmd->argc] = NULL;
+			add_cmd(cmd);
 		}
 		else if (tmp->type == INFILE || tmp->type == OUTFILE)
 		{
-			add_cmd(tmp->name);
+			// add_cmd(new_cmd(tmp->name));
+			cmd = new_cmd(tmp->name);
 			tmp = tmp->next;
 			cmd->args = malloc(sizeof(char *) * 2);
 			cmd->args[0] = ft_strdup(tmp->name);
+			cmd->args[1] = NULL;
+			cmd->argc++;
+			add_cmd(cmd);
+			tmp = tmp->next;
 		}
 		else if (tmp->type == PIPE)
 		{
-			add_cmd(tmp->name);
+			add_cmd(new_cmd(tmp->name));
+			tmp = tmp->next;
 		}
-		// else if (tmp->type == APPEND)
-		// {
-		// 	cmd = new_cmd(tmp->name);
-		// 	add_cmd(cmd);
-		// }
-		// else if (tmp->type == HEREDOC)
-		// {
-		// 	cmd = new_cmd(tmp->name);
-		// 	add_cmd(cmd);
-		// }
-
-		tmp = tmp->next;
+		else if (tmp->type == APPEND)
+		{
+			cmd = new_cmd(tmp->name);
+			tmp = tmp->next;
+			if (tmp->type == WORD)
+			{
+				cmd->args = malloc(sizeof(char *) * 2);
+				cmd->args[0] = ft_strdup(tmp->name);
+				cmd->args[1] = NULL;
+				cmd->argc++;
+			}
+			add_cmd(cmd);
+			tmp = tmp->next;
+		}
+		else if (tmp->type == HEREDOC)
+		{
+			cmd = new_cmd(tmp->name);
+			tmp = tmp->next;
+			cmd->args = malloc(sizeof(char *) * 2);
+			cmd->args[0] = ft_strdup(tmp->name);
+			cmd->args[1] = NULL;
+			cmd->argc++;
+			add_cmd(cmd);
+			tmp = tmp->next;
+		}
 	}
-	print_cmd_list();
+	// print_cmd_list();
 }
