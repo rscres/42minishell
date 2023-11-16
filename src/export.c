@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 22:20:35 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/16 18:32:01 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_vars(void)
 	}
 }
 
-static void	set_var(char **args)
+static int	set_var(char **args)
 {
 	char	**split;
 	int		i;
@@ -44,8 +44,14 @@ static void	set_var(char **args)
 			else
 				insert_key(g_main.env_var, split[0], split[1]);
 		}
+		else
+		{
+			ft_putendl_fd("export: not a valid identifier", 2);
+			return (1);
+		}
 		i++;
 	}
+	return (0);
 }
 
 int	ft_export(char **args)
@@ -53,6 +59,6 @@ int	ft_export(char **args)
 	if (args[0] == NULL)
 		print_vars();
 	else
-		set_var(args);
+		return (set_var(args));
 	return (0);
 }
