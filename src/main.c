@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 19:34:51 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:33:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_exit(int status)
 	clear_cmd_list();
 	clear_token_list();
 	printf("exit\n");
+	while (status > 255)
+		status -= 256;
 	exit(status);
 }
 
@@ -66,7 +68,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	{
 		line = get_line();
 		if (!line)
-			ft_exit(0);
+			ft_exit(g_main.status);
 		parse_line(&line);
 		if (line)
 		{
@@ -74,5 +76,5 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			free(line);
 		}
 	}
-	return (0);
+	return (g_main.status);
 }

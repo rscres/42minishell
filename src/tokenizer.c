@@ -6,12 +6,14 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 22:10:45 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:56:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
+//The update_save function is used to update the static variable save.
+//It is used to save the remaining string after the token has been extracted.
 static char	*update_save(char *save, int i)
 {
 	char	*tmp;
@@ -77,6 +79,11 @@ static int	get_j(int i, char *save)
 	return (j);
 }
 
+//The tokenizer function is used to split the input into tokens.
+//It is my own implementation of the strtok function and it works similarly.
+//When first called it takes the input string and saves it in a static variable.
+//All subsequent calls to the function will use the static variable instead of 
+//the input string.
 char	*tokenizer(char *str)
 {
 	static char	*save;

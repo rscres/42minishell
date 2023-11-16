@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 21:50:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:06:57 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_main
 	t_token	*token_list;
 	int		open_quote;
 	t_cmd	*cmd_list;
+	int		status;
 }	t_main;
 
 //Global variable

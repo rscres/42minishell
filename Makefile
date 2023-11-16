@@ -1,4 +1,4 @@
-NAME = my_shell
+NAME = minishell
 
 CC = cc
 FLAGS = -Wall -Werror -Wextra -g3

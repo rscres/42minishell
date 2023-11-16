@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/15 22:31:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:34:05 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int	parse_line(char **str)
 	// }
 	//---move this block----
 	create_cmd_list();
-
-	exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
+	// parse_tree(); //need to code this
+	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
 	clear_token_list();
 	clear_cmd_list();
 	//---move this block----

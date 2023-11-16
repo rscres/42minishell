@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 01:47:28 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/16 17:15:38 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ void	create_cmd_list(void)
 			cmd->args[cmd->argc] = NULL;
 			add_cmd(cmd);
 		}
-		else if (tmp->type == INFILE || tmp->type == OUTFILE)
+		else if (tmp->type == INFILE || tmp->type == OUTFILE
+			|| tmp->type == APPEND || tmp->type == HEREDOC)
 		{
-			// add_cmd(new_cmd(tmp->name));
 			cmd = new_cmd(tmp->name);
 			tmp = tmp->next;
 			cmd->args = malloc(sizeof(char *) * 2);
@@ -146,31 +146,6 @@ void	create_cmd_list(void)
 		else if (tmp->type == PIPE)
 		{
 			add_cmd(new_cmd(tmp->name));
-			tmp = tmp->next;
-		}
-		else if (tmp->type == APPEND)
-		{
-			cmd = new_cmd(tmp->name);
-			tmp = tmp->next;
-			if (tmp->type == WORD)
-			{
-				cmd->args = malloc(sizeof(char *) * 2);
-				cmd->args[0] = ft_strdup(tmp->name);
-				cmd->args[1] = NULL;
-				cmd->argc++;
-			}
-			add_cmd(cmd);
-			tmp = tmp->next;
-		}
-		else if (tmp->type == HEREDOC)
-		{
-			cmd = new_cmd(tmp->name);
-			tmp = tmp->next;
-			cmd->args = malloc(sizeof(char *) * 2);
-			cmd->args[0] = ft_strdup(tmp->name);
-			cmd->args[1] = NULL;
-			cmd->argc++;
-			add_cmd(cmd);
 			tmp = tmp->next;
 		}
 	}
