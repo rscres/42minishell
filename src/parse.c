@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/15 01:30:10 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/15 22:31:58 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,50 @@ int	parse_line(char **str)
 {
 	char	*token;
 	char	*trim;
+	int		expand;
+	char	*new_str;
 
 	token = tokenizer(*str);
+	expand = 1;
 	while (token)
 	{
+		if (token[0] == '\'' && get_type(token) == WORD)
+			expand = 0;
 		trim = trim_quotes(token);
-		add_token(trim, get_type(trim));
+		add_token(trim, get_type(trim), expand);
 		free(trim);
 		token = tokenizer(NULL);
+		expand = 1;
 	}
-	if (g_main.open_quote)
+	while (g_main.open_quote)
 	{
-		ft_putstr_fd("Error: unclosed quotes\n", 2);
-		clear_token_list();
-		return (1);
+		new_str = readline("> ");
+		token = tokenizer(new_str);
+		while (token)
+		{
+			trim = trim_quotes(token);
+			add_token(trim, get_type(trim), expand);
+			free(trim);
+			token = tokenizer(NULL);
+		}
+		*str = ft_strjoin(*str, "\n");
+		*str = ft_strjoin(*str, new_str);
+		free(new_str);
 	}
+	// if (g_main.open_quote)
+	// {
+	// 	ft_putstr_fd("Error: unclosed quotes\n", 2);
+	// 	g_main.open_quote = 0;
+	// 	clear_token_list();
+	// 	return (1);
+	// }
+	//---move this block----
 	create_cmd_list();
+
 	exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
-	clear_token_list(); //remove this later
+	clear_token_list();
 	clear_cmd_list();
+	//---move this block----
 	if (token)
 		free(token);
 	return (0);

@@ -6,12 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 21:52:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 22:20:35 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+//needs rework
 static void	print_vars(void)
 {
 	int	i;
@@ -49,7 +50,7 @@ static void	set_var(char **args)
 
 int	ft_export(char **args)
 {
-	if (!args)
+	if (args[0] == NULL)
 		print_vars();
 	else
 		set_var(args);

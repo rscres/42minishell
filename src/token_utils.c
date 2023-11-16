@@ -6,13 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:23:01 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/14 19:32:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 19:03:11 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-t_token	*new_token(char *name, int type)
+t_token	*new_token(char *name, int type, int expand)
 {
 	t_token	*token;
 
@@ -21,24 +21,25 @@ t_token	*new_token(char *name, int type)
 		return (NULL);
 	token->name = ft_strdup(name);
 	token->type = type;
+	token->expand = expand;
 	token->next = NULL;
 	token->prev = NULL;
 	return (token);
 }
 
-void	add_token(char *name, int type)
+void	add_token(char *name, int type, int expand)
 {
 	t_token	*tmp;
 
 	if (g_main.token_list == NULL)
 	{
-		g_main.token_list = new_token(name, type);
+		g_main.token_list = new_token(name, type, expand);
 		return ;
 	}
 	tmp = g_main.token_list;
 	while (tmp->next)
 		tmp = tmp->next;
-	tmp->next = new_token(name, type);
+	tmp->next = new_token(name, type, expand);
 	tmp->next->prev = tmp;
 }
 

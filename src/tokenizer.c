@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/13 18:30:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 22:10:45 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ static int	get_j(int i, char *save)
 	int	quote;
 
 	j = i;
-	// printf("quote = %i\n", g_main.open_quote);
 	quote = g_main.open_quote;
-	// printf("quote = %i\n", quote);
 	while (save[j])
 	{
 		if (save[j] == '\'' || save[j] == '\"')
@@ -76,7 +74,6 @@ static int	get_j(int i, char *save)
 			break ;
 	}
 	g_main.open_quote = quote;
-	// printf("quote = %i\n", quote);
 	return (j);
 }
 

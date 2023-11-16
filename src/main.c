@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 01:19:40 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/15 19:34:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ char	*get_line(void)
 	return (line);
 }
 
-// int	exec(t_token **tokens)
-// {
-// 	if (ft_strncmp(line, "echo", 4) == 0)
-// 		printf("%s\n", line + 5);
-// 	return (0);
-// }
-
 void	ft_exit(int status)
 {
 	clear_hashtable(g_main.env_var);
@@ -75,8 +68,6 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		if (!line)
 			ft_exit(0);
 		parse_line(&line);
-		// g_data.tokens = parse_line(line);
-		// exec(line);
 		if (line)
 		{
 			add_history(line);

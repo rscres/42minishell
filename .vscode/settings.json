@@ -2,6 +2,8 @@
 	"files.associations": {
 		"unistd.h": "c",
 		"signal.h": "c",
-		"source.h": "c"
+		"source.h": "c",
+		"compare": "c",
+		"type_traits": "c"
 	}
 }

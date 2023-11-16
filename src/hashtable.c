@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/03 15:43:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:46:15 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,29 @@ t_env	*search(t_env **env_var, char *key)
 		}
 	}
 	return (NULL);
+}
+
+int	update_key(t_env **env_var, char *key, char *value)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = hash(key);
+	if (env_var[i])
+	{
+		tmp = env_var[i];
+		while (tmp)
+		{
+			if (strcmp(tmp->key, key) == 0)
+			{
+				free(tmp->value);
+				tmp->value = strdup(value);
+				return (1);
+			}
+			tmp = tmp->next;
+		}
+	}
+	return (0);
 }
 
 //For testing purposes-----------------------------------------
