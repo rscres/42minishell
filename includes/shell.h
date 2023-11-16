@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/15 01:23:38 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/15 21:50:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,24 @@ typedef enum s_token_type
 	PIPE
 }	t_token_type;
 
+typedef enum s_builtin
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+}	t_builtin;
+
 //Structs
 //token list
 typedef struct s_token
 {
 	char			*name;
 	int				type;
+	int				expand;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -97,8 +109,8 @@ char	*tokenizer(char *str);
 
 //token_utils.c
 void	clear_token_list(void);
-void	add_token(char *name, int type);
-t_token	*new_token(char *name, int type);
+void	add_token(char *name, int type, int expand);
+t_token	*new_token(char *name, int type, int expand);
 
 //cmd_list.c
 void	create_cmd_list(void);
@@ -108,9 +120,14 @@ void	clear_cmd_list(void);
 //builtin.c
 int		exec_builtin(char *name, char **args);
 
+//BUILTINS
+//export.c
+int		ft_export(char **args);
+
 //HaASHTABLE
 //hashtable.c
 int		hash(char *key);
+int		update_key(t_env **env_var, char *key, char *value);
 t_env	*search(t_env **env_var, char *key);
 void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
