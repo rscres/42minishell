@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/16 13:34:05 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:47:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	parse_line(char **str)
 	// }
 	//---move this block----
 	create_cmd_list();
+	expand_var(g_main.cmd_list->args);
 	// parse_tree(); //need to code this
 	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
 	clear_token_list();

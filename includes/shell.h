@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/16 13:06:57 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:35:40 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ typedef struct s_main
 {
 	t_env	*env_var[TABLE_SIZE];
 	t_token	*token_list;
-	int		open_quote;
 	t_cmd	*cmd_list;
+	int		open_quote;
 	int		status;
 }	t_main;
 
@@ -116,6 +116,9 @@ t_token	*new_token(char *name, int type, int expand);
 //cmd_list.c
 void	create_cmd_list(void);
 void	clear_cmd_list(void);
+
+//expand_var.c
+void	expand_var(char **args);
 
 //EXEC
 //builtin.c
