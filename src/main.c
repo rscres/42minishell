@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 01:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 02:06:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	{
 		line = get_line();
 		if (!line)
-			ft_exit(g_main.status);
+			ft_exit2(g_main.status);
 		parse_line(&line);
 		if (line)
 		{

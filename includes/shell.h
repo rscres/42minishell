@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 01:47:54 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 02:06:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ extern t_main	g_main;
 //EXIT----------------------
 //exit.c
 void	ft_exit(char **args, int argc);
+void	ft_exit2(int status);
 
 //INIT----------------------
 //init.c

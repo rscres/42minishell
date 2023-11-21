@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 01:30:43 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 02:56:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,15 @@ char	*expand_var(char *name)
 	int		i;
 
 	i = -1;
-	if (!ft_strchr(name, '$'))
+	if (!ft_strchr(name, '$') || ft_strchr(name, '\'') )
 		return (name);
 	while (name[++i])
 	{
-		if (name[i] == '$')
+		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"')
 		{
 			if (name[i + 1] == '?')
 			{
-				var = ft_strdup("$?");
+				var = ft_strdup("?");
 				value = ft_itoa(g_main.status);
 			}
 			else

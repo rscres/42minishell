@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/21 01:27:25 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 02:50:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*trim_quotes(char *token)
 int	parse_line(char **str)
 {
 	char	*token;
-	char	*trim;
 	int		expand;
 	char	*new_str;
 
@@ -58,11 +57,11 @@ int	parse_line(char **str)
 	expand = 1;
 	while (token)
 	{
-		if (token[0] == '\'' && get_type(token) == WORD)
-			expand = 0;
-		trim = trim_quotes(token);
-		add_token(trim, get_type(trim), expand);
-		free(trim);
+		// if (token[0] == '\'' && get_type(token) == WORD)
+		// 	expand = 0;
+		// trim = trim_quotes(token);
+		add_token(token, get_type(token), expand);
+		free(token);
 		token = tokenizer(NULL);
 		expand = 1;
 	}
@@ -72,9 +71,9 @@ int	parse_line(char **str)
 		token = tokenizer(new_str);
 		while (token)
 		{
-			trim = trim_quotes(token);
-			add_token(trim, get_type(trim), expand);
-			free(trim);
+			// trim = trim_quotes(token);
+			add_token(token, get_type(token), expand);
+			free(token);
 			token = tokenizer(NULL);
 		}
 		*str = ft_strjoin(*str, "\n");
@@ -93,6 +92,7 @@ int	parse_line(char **str)
 	while (tmp)
 	{
 		tmp->name = expand_var(tmp->name);
+		tmp->name = trim_quotes(tmp->name);
 		tmp = tmp->next;
 	}
 	tmp = g_main.token_list;

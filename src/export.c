@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/16 18:32:01 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/21 02:27:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-//needs rework
+//needs rework to print in alphabetical order
 static void	print_vars(void)
 {
 	int	i;
@@ -28,6 +28,20 @@ static void	print_vars(void)
 	}
 }
 
+int	str_isalnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	set_var(char **args)
 {
 	char	**split;
@@ -39,15 +53,24 @@ static int	set_var(char **args)
 		if (ft_strchr(args[i], '='))
 		{
 			split = ft_split(args[i], '=');
+			if (!str_isalnum(split[0]))
+			{
+				ft_putendl_fd("export: not a valid identifier", 2);
+				return (1);
+			}
 			if (search(g_main.env_var, split[0]))
 				update_key(g_main.env_var, split[0], split[1]);
 			else
 				insert_key(g_main.env_var, split[0], split[1]);
+			free_tab(split);
 		}
 		else
 		{
-			ft_putendl_fd("export: not a valid identifier", 2);
-			return (1);
+			if (!str_isalnum(split[0]))
+			{
+				ft_putendl_fd("export: not a valid identifier", 2);
+				return (1);
+			}
 		}
 		i++;
 	}

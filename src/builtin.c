@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/16 18:16:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/21 02:16:07 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,25 @@ int	ft_pwd(void)
 
 int	ft_cd(char **args)
 {
+	int	ret;
+
+	ret = 0;
 	if (!g_main.cmd_list->argc)
 	{
-		if (chdir(getenv("HOME")) != 0)
+		if ((ret = chdir(getenv("HOME"))) != 0)
 		{
 			perror("cd");
 			return (1);
 		}
 	}
+	else if (g_main.cmd_list->argc > 1)
+	{
+		ft_putendl_fd("cd: too many arguments", 2);
+		return (1);
+	}
 	else
 	{
-		if (chdir(args[0]) != 0)
+		if ((ret = chdir(args[0])) != 0)
 		{
 			perror("cd");
 			return (1);
@@ -98,7 +106,7 @@ int	ft_env(void)
 	return (0);
 }
 
-int	exec_builtin(char *name, char **args)
+int	exec_builtin(char *name, char **args, int argc)
 {
 	if (!ft_strcmp(name, "echo"))
 		return (ft_echo(args, 1));
@@ -112,7 +120,7 @@ int	exec_builtin(char *name, char **args)
 		return (ft_unset(args));
 	else if (!ft_strcmp(name, "env"))
 		return (ft_env());
-	// else if (!ft_strcmp(name, "exit"))
-	// 	ft_exit(args);
+	else if (!ft_strcmp(name, "exit"))
+		ft_exit(args, argc);
 	return (0);
 }
