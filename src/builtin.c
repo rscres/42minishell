@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/21 02:16:07 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 13:57:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ int	ft_pwd(void)
 
 int	ft_cd(char **args)
 {
-	int	ret;
+	int		ret;
+	char	*cur_dir;
 
-	ret = 0;
+	cur_dir = getcwd(NULL, 0);
 	if (!g_main.cmd_list->argc)
 	{
-		if ((ret = chdir(getenv("HOME"))) != 0)
+		ret = chdir(getenv("HOME"));
+		if (ret != 0)
 		{
 			perror("cd");
 			return (1);
@@ -43,12 +45,16 @@ int	ft_cd(char **args)
 	}
 	else
 	{
-		if ((ret = chdir(args[0])) != 0)
+		ret = chdir(args[0]);
+		if (ret != 0)
 		{
 			perror("cd");
 			return (1);
 		}
 	}
+	update_key(g_main.env_var, "OLDPWD", cur_dir);
+	update_key(g_main.env_var, "PWD", getcwd(NULL, 0));
+	free(cur_dir);
 	return (0);
 }
 
@@ -61,13 +67,6 @@ int	ft_echo(char **args, int fd)
 	n_flag = 0;
 	while (args[i])
 	{
-		//delete after implementing variable expansion
-		if (!ft_strcmp(args[i], "$?"))
-		{
-			ft_putnbr_fd(g_main.status, fd);
-			i++;
-			continue ;
-		}
 		if (!ft_strcmp(args[i], "-n")) //fix for multiple -n and -nnnnnn
 		{
 			n_flag = 1;
