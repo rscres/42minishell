@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/16 15:33:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/21 01:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,6 @@ char	*get_line(void)
 	// if (line)
 	// 	add_history(line);
 	return (line);
-}
-
-void	ft_exit(int status)
-{
-	clear_hashtable(g_main.env_var);
-	clear_cmd_list();
-	clear_token_list();
-	printf("exit\n");
-	while (status > 255)
-		status -= 256;
-	exit(status);
 }
 
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
