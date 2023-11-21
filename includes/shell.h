@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/17 14:35:40 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 00:58:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ void	create_cmd_list(void);
 void	clear_cmd_list(void);
 
 //expand_var.c
-void	expand_var(char **args);
+char	*expand_var(char *name);
 
 //EXEC
 //builtin.c
-int		exec_builtin(char *name, char **args);
+int		exec_builtin(char *name, char **args, int argc);
 
 //BUILTINS
 //export.c

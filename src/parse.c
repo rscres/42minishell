@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/17 14:47:30 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 01:27:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,23 @@ int	parse_line(char **str)
 	// 	return (1);
 	// }
 	//---move this block----
+	t_token	*tmp = g_main.token_list;
+	while (tmp)
+	{
+		tmp->name = expand_var(tmp->name);
+		tmp = tmp->next;
+	}
+	tmp = g_main.token_list;
+	// while (tmp)
+	// {
+	// 	printf("%s=>", tmp->name);
+	// 	printf("%i\n", tmp->type);
+	// 	tmp = tmp->next;
+	// }
 	create_cmd_list();
-	expand_var(g_main.cmd_list->args);
 	// parse_tree(); //need to code this
-	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args);
+	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
+		g_main.cmd_list->argc);
 	clear_token_list();
 	clear_cmd_list();
 	//---move this block----
