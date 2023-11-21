@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 02:27:24 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 16:10:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,25 @@ static int	set_var(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '='))
+		if (args[i][ft_strlen(args[i]) - 1] == '=')
 		{
 			split = ft_split(args[i], '=');
-			if (!str_isalnum(split[0]))
+			if (!split[0] || !str_isalnum(split[0]))
+			{
+				ft_putendl_fd("export: not a valid identifier", 2);
+				return (1);
+			}
+			if (search(g_main.env_var, split[0]))
+				update_key(g_main.env_var, split[0], args[i + 1]);
+			else
+				insert_key(g_main.env_var, split[0], args[i + 1]);
+			free_tab(split);
+			i++;
+		}
+		else if (ft_strchr(args[i], '='))
+		{
+			split = ft_split(args[i], '=');
+			if (!split[0] || !str_isalnum(split[0]))
 			{
 				ft_putendl_fd("export: not a valid identifier", 2);
 				return (1);
@@ -66,7 +81,7 @@ static int	set_var(char **args)
 		}
 		else
 		{
-			if (!str_isalnum(split[0]))
+			if (str_isalnum(split[0]) == 0)
 			{
 				ft_putendl_fd("export: not a valid identifier", 2);
 				return (1);
