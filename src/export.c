@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 16:10:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:53:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_vars(void)
 	}
 }
 
-int	str_isalnum(char *str)
+static int	str_isalnum(char *str)
 {
 	int	i;
 
@@ -42,6 +42,14 @@ int	str_isalnum(char *str)
 	return (1);
 }
 
+static int	error_msg(char *str)
+{
+	ft_putstr_fd("export: `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	return (1);
+}
+
 static int	set_var(char **args)
 {
 	char	**split;
@@ -50,14 +58,11 @@ static int	set_var(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (args[i][ft_strlen(args[i]) - 1] == '=')
+		if (args[i][ft_strlen(args[i]) - 1] == '=' && ft_strlen(args[i]) > 1)
 		{
 			split = ft_split(args[i], '=');
 			if (!split[0] || !str_isalnum(split[0]))
-			{
-				ft_putendl_fd("export: not a valid identifier", 2);
-				return (1);
-			}
+				return (error_msg(split[0]));
 			if (search(g_main.env_var, split[0]))
 				update_key(g_main.env_var, split[0], args[i + 1]);
 			else
@@ -65,14 +70,11 @@ static int	set_var(char **args)
 			free_tab(split);
 			i++;
 		}
-		else if (ft_strchr(args[i], '='))
+		else if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
 		{
 			split = ft_split(args[i], '=');
 			if (!split[0] || !str_isalnum(split[0]))
-			{
-				ft_putendl_fd("export: not a valid identifier", 2);
-				return (1);
-			}
+				return (error_msg(split[0]));
 			if (search(g_main.env_var, split[0]))
 				update_key(g_main.env_var, split[0], split[1]);
 			else
@@ -81,11 +83,8 @@ static int	set_var(char **args)
 		}
 		else
 		{
-			if (str_isalnum(split[0]) == 0)
-			{
-				ft_putendl_fd("export: not a valid identifier", 2);
-				return (1);
-			}
+			if (!ft_isalpha(args[i][0]) || str_isalnum(args[i]) == 0)
+				return (error_msg(args[i]));
 		}
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 02:56:05 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 18:51:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static char	*insert_value(char *str, char *value, int name_len)
 	free(tmp2);
 	free(str);
 	return(tmp);
-
 }
 
 // void	expand_var(char **args)
@@ -93,11 +92,12 @@ char	*expand_var(char *name)
 	int		i;
 
 	i = -1;
-	if (!ft_strchr(name, '$') || ft_strchr(name, '\'') )
+	if (!ft_strchr(name, '$') || ft_strchr(name, '\''))
 		return (name);
 	while (name[++i])
 	{
-		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"')
+		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"'
+			&& name[i + 1] != ' ')
 		{
 			if (name[i + 1] == '?')
 			{
@@ -107,7 +107,7 @@ char	*expand_var(char *name)
 			else
 			{
 				var = get_var_name((const char *)name + i);
-				value = getenv(var);
+				value = search(g_main.env_var, var)->value;
 			}
 			name = insert_value(name, value, ft_strlen(var) + 1);
 			free(var);

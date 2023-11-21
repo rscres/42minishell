@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 02:06:16 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 18:47:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,9 @@ int		exec_builtin(char *name, char **args, int argc);
 //BUILTINS------------------
 //export.c
 int		ft_export(char **args);
+
+//echo.c
+int		ft_echo(char **args, int fd);
 
 //HaASHTABLE----------------
 //hashtable.c
