@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/16 17:15:38 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:24:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	print_cmd_list(void)
 void	clear_cmd_list(void)
 {
 	t_cmd	*tmp;
-	int	i;
+	int		i;
 
 	while (g_main.cmd_list)
 	{

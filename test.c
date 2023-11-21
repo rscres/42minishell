@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 18:45:34 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 19:14:25 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/11/21 14:46:32 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/11/21 14:53:25 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "./libft/libft.h"
+#include <stdio.h>
 
-int	ft_echo(char **args, int fd)
+int	main(void)
 {
-	int	i;
-	int	n_flag;
+	char	*str;
+	char	**split;
+	int		i;
 
+	str = "hello=123 A-";
+	split = ft_split(str, '=');
 	i = 0;
-	n_flag = 0;
-	while (args[i])
+	while (split[i])
 	{
-		if (!ft_strcmp(args[i], "-n")) //fix for multiple -n and -nnnnnn
-		{
-			n_flag = 1;
-			i++;
-			continue ;
-		}
-		if (args[i] != NULL && ft_strcmp(args[i], ""))
-			ft_putstr_fd(args[i], fd);
-		if (args[i + 1] != NULL && ft_strcmp(args[i], ""))
-			ft_putchar_fd(' ', fd);
+		printf("split[%d] = %s\n", i, split[i]);
 		i++;
 	}
-	if (!n_flag)
-		ft_putchar_fd('\n', fd);
 	return (0);
 }

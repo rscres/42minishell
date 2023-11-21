@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/21 02:50:03 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/21 20:36:11 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int	parse_line(char **str)
 	expand = 1;
 	while (token)
 	{
-		// if (token[0] == '\'' && get_type(token) == WORD)
-		// 	expand = 0;
-		// trim = trim_quotes(token);
 		add_token(token, get_type(token), expand);
 		free(token);
 		token = tokenizer(NULL);
@@ -71,7 +68,6 @@ int	parse_line(char **str)
 		token = tokenizer(new_str);
 		while (token)
 		{
-			// trim = trim_quotes(token);
 			add_token(token, get_type(token), expand);
 			free(token);
 			token = tokenizer(NULL);
