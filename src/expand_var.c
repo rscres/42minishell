@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 18:51:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:56:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_var_name(const char *str)
 
 //maybe change ft_strjoin so it doens't need outside free()'s
 
-static char	*insert_value(char *str, char *value, int name_len)
+static char	*insert_value(char *str, char *value, int name_len, int pos)
 {
 	int		i;
 	char	*tmp;
@@ -51,7 +51,7 @@ static char	*insert_value(char *str, char *value, int name_len)
 
 	if (!value)
 		value = "";
-	i = 0;
+	i = pos;
 	tmp = NULL;
 	while (str[i] != '$')
 		i++;
@@ -92,10 +92,17 @@ char	*expand_var(char *name)
 	int		i;
 
 	i = -1;
-	if (!ft_strchr(name, '$') || ft_strchr(name, '\''))
+	if (!ft_strchr(name, '$'))
 		return (name);
 	while (name[++i])
 	{
+		if (name[i] == '\'' && name[i + 1] && name[i + 1] != '\'')
+		{
+			i++;
+			while (name[i] && name[i] != '\'')
+				i++;
+		}
+		// printf("name[%i] = %c\n", i, name[i]);
 		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"'
 			&& name[i + 1] != ' ')
 		{
@@ -109,7 +116,7 @@ char	*expand_var(char *name)
 				var = get_var_name((const char *)name + i);
 				value = search(g_main.env_var, var)->value;
 			}
-			name = insert_value(name, value, ft_strlen(var) + 1);
+			name = insert_value(name, value, ft_strlen(var) + 1, i);
 			free(var);
 		}
 	}
