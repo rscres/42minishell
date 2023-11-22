@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/22 00:39:09 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/22 01:11:28 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_separator(char c)
 	return (0);
 }
 
-static int	check_quote(int quote, char c)
+int	check_quote(int quote, char c)
 {
 	if (quote == 0 && c == '\'')
 		return (1);
@@ -96,7 +96,6 @@ char	*tokenizer(char *str)
 	}
 	j = get_j(i, save);
 	token = ft_strndup(save + i, j - i);
-	printf("token = %s\n", token);
 	save = update_save(save, j);
 	return (token);
 }

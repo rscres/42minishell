@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/22 00:30:13 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/22 01:56:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	get_type(char *str)
 	return (WORD);
 }
 
+
+//REMOVE THIS FUNCTION-----------------
 char	*trim_quotes(char *token)
 {
 	char	*tmp;
@@ -44,6 +46,39 @@ char	*trim_quotes(char *token)
 	else
 		tmp = ft_strdup(token);
 	free(token);
+	return (tmp);
+}
+//REMOVE THIS FUNCTION-----------------
+
+char	*handle_quotes(char *str)
+{
+	int		i;
+	int		j;
+	char	quote_type;
+	char	*tmp;
+
+	i = 0;
+	j = 0;
+	quote_type = '\0';
+	tmp = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{	
+			if (quote_type == '\0')
+				quote_type = str[i];
+			else if (quote_type == str[i])
+			{
+				quote_type = '\0';
+				i++;
+			}
+		}
+		if (str[i] == quote_type)
+			i++;
+		else
+			tmp[j++] = str[i++];
+	}
+	free(str);
 	return (tmp);
 }
 
@@ -88,16 +123,16 @@ int	parse_line(char **str)
 	while (tmp)
 	{
 		tmp->name = expand_var(tmp->name);
-		// tmp->name = trim_quotes(tmp->name);
+		tmp->name = handle_quotes(tmp->name);
 		tmp = tmp->next;
 	}
-	tmp = g_main.token_list;
-	while (tmp)
-	{
-		printf("%s=>", tmp->name);
-		printf("%i\n", tmp->type);
-		tmp = tmp->next;
-	}
+	// tmp = g_main.token_list;
+	// while (tmp)
+	// {
+	// 	printf("%s=>", tmp->name);
+	// 	printf("%i\n", tmp->type);
+	// 	tmp = tmp->next;
+	// }
 	create_cmd_list();
 	// parse_tree(); //need to code this
 	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
