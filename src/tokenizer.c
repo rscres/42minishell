@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 20:27:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:39:09 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,7 @@ static int	get_j(int i, char *save)
 	while (save[j])
 	{
 		if (save[j] == '\'' || save[j] == '\"')
-		{
 			quote = check_quote(quote, save[j]);
-			if (quote == 0)
-			{
-				j++;
-				break ;
-			}
-		}
 		if (is_separator(save[j]) && !quote)
 		{
 			if ((save[j] == '<' && save[j + 1] == '<')
@@ -71,8 +64,7 @@ static int	get_j(int i, char *save)
 			break ;
 		}
 		j++;
-		if ((is_separator(save[j]) || ft_iswhitespace(save[j])
-				|| save[j] == '\'' || save[j] == '\"') && !quote)
+		if ((is_separator(save[j]) || ft_iswhitespace(save[j])) && !quote) 
 			break ;
 	}
 	g_main.open_quote = quote;
@@ -104,6 +96,7 @@ char	*tokenizer(char *str)
 	}
 	j = get_j(i, save);
 	token = ft_strndup(save + i, j - i);
+	printf("token = %s\n", token);
 	save = update_save(save, j);
 	return (token);
 }

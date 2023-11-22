@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/21 20:43:11 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:19:17 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_exit(char **args, int argc)
 {
 	int		i;
 	int		status;
-	char	*value;
+	// char	*value;
 
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
@@ -28,13 +28,13 @@ void	ft_exit(char **args, int argc)
 		exit(0);
 	}
 	i = 0;
-	if (ft_strcmp(args[0], "+") || ft_strcmp(args[0], "-"))
-	{
-		i++;
-		value = ft_strjoin(args[0], args[1]);
-		clear_cmd_list();
-		exit(ft_atoi(value));
-	}
+	// if (ft_strcmp(args[0], "+") || ft_strcmp(args[0], "-"))
+	// {
+	// 	i++;
+	// 	value = ft_strjoin(args[0], args[1]);
+	// 	clear_cmd_list();
+	// 	exit(ft_atoi(value));
+	// }
 	while (args[0][i])
 	{
 		if (!ft_isdigit(args[0][i]) && args[0][i] != '-' && args[0][i] != '+')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/21 20:36:11 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/22 00:30:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,16 @@ int	parse_line(char **str)
 	while (tmp)
 	{
 		tmp->name = expand_var(tmp->name);
-		tmp->name = trim_quotes(tmp->name);
+		// tmp->name = trim_quotes(tmp->name);
 		tmp = tmp->next;
 	}
 	tmp = g_main.token_list;
-	// while (tmp)
-	// {
-	// 	printf("%s=>", tmp->name);
-	// 	printf("%i\n", tmp->type);
-	// 	tmp = tmp->next;
-	// }
+	while (tmp)
+	{
+		printf("%s=>", tmp->name);
+		printf("%i\n", tmp->type);
+		tmp = tmp->next;
+	}
 	create_cmd_list();
 	// parse_tree(); //need to code this
 	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
