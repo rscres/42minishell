@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/22 00:56:51 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/22 20:17:48 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,64 +61,51 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 	tmp = ft_strjoin(tmp2, str + i + name_len);
 	free(tmp2);
 	free(str);
-	return(tmp);
+	return (tmp);
 }
 
-// void	expand_var(char **args)
-// {
-// 	char	*value;
-// 	char	*var;
-// 	int		i;
-
-// 	i = 0;
-// 	value = NULL;
-// 	while (args[i])
-// 	{
-// 		if (ft_strchr(args[i], '$'))
-// 		{
-// 			var = get_var_name((const char *)args[i]);
-// 			value = getenv(var);
-// 			args[i] = insert_value(args[i], value, ft_strlen(var) + 1);
-// 			free(var);
-// 		}
-// 		i++;
-// 	}
-// }
-
-char	*expand_var(char *name)
+char	*expand_var2(char *name, int i)
 {
 	char	*value;
 	char	*var;
+
+	if (name[i + 1] == '?')
+	{
+		var = ft_strdup("?");
+		value = ft_itoa(g_main.status);
+	}
+	else
+	{
+		var = get_var_name((const char *)name + i);
+		value = NULL;
+		if (search(g_main.env_var, var))
+			value = search(g_main.env_var, var)->value;
+	}
+	name = insert_value(name, value, ft_strlen(var) + 1, i);
+	free(var);
+	return (name);
+}
+
+//integrate check_qutoes() into this function
+
+char	*expand_var(char *name)
+{
+	int		quote;
 	int		i;
 
 	i = -1;
 	if (!ft_strchr(name, '$'))
 		return (name);
+	quote = 0;
 	while (name[++i])
 	{
-		if (name[i] == '\'' && name[i + 1] && name[i + 1] != '\'')
-		{
+		if (name[i] == '\'' || name[i] == '\"')
+			quote = check_quote(quote, name[i]);
+		while (name[i] && name[i] != '\'' && quote == 1)
 			i++;
-			while (name[i] && name[i] != '\'')
-				i++;
-		}
-		// printf("name[%i] = %c\n", i, name[i]);
 		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"'
 			&& name[i + 1] != ' ')
-		{
-			if (name[i + 1] == '?')
-			{
-				var = ft_strdup("?");
-				value = ft_itoa(g_main.status);
-			}
-			else
-			{
-				var = get_var_name((const char *)name + i);
-				value = search(g_main.env_var, var)->value;
-			}
-			name = insert_value(name, value, ft_strlen(var) + 1, i);
-			free(var);
-		}
+			name = expand_var2(name, i);
 	}
 	return (name);
 }
