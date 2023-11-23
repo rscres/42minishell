@@ -6,11 +6,25 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 18:45:34 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 19:14:25 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/23 20:42:34 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+static int	check_n_flag(char *arg)
+{
+	int	i;
+
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	ft_echo(char **args, int fd)
 {
@@ -21,8 +35,9 @@ int	ft_echo(char **args, int fd)
 	n_flag = 0;
 	while (args[i])
 	{
-		if (!ft_strcmp(args[i], "-n")) //fix for multiple -n and -nnnnnn
+		if (args[i][0] == '-' && check_n_flag(args[i]))
 		{
+			printf("n_flag\n");
 			n_flag = 1;
 			i++;
 			continue ;

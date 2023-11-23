@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 13:01:48 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:00:04 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 		i++;
 	tmp = ft_strndup(str, i);
 	tmp2 = ft_strjoin(tmp, value);
-	free(tmp);
+	ft_safe_free(tmp);
 	tmp = ft_strjoin(tmp2, str + i + name_len);
-	free(tmp2);
-	free(str);
+	ft_safe_free(tmp2);
+	ft_safe_free(str);
 	return (tmp);
 }
 
@@ -86,7 +86,7 @@ static char	*expand_var2(char *str, int i)
 			value = search(g_main.env_var, var)->value;
 	}
 	str = insert_value(str, value, ft_strlen(var) + 1, i);
-	free(var);
+	ft_safe_free(var);
 	return (str);
 }
 

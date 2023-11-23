@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/22 20:47:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/23 20:24:19 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,6 @@ int	get_type(char *str)
 	return (WORD);
 }
 
-
-//REMOVE THIS FUNCTION-----------------
-char	*trim_quotes(char *token)
-{
-	char	*tmp;
-
-	if (!token)
-		return (NULL);
-	if (*token == '\'' || *(token + ft_strlen(token) - 1) == '\'')
-		tmp = ft_strtrim(token, "\'");
-	else if (*token == '\"' || *(token + ft_strlen(token) - 1) == '\"')
-		tmp = ft_strtrim(token, "\"");
-	else
-		tmp = ft_strdup(token);
-	free(token);
-	return (tmp);
-}
-//REMOVE THIS FUNCTION-----------------
-
 char	*remove_quotes(char *str)
 {
 	int		i;
@@ -71,7 +52,7 @@ char	*remove_quotes(char *str)
 		else
 			tmp[j++] = str[i++];
 	}
-	free(str);
+	ft_safe_free(str);
 	return (tmp);
 }
 
@@ -86,7 +67,7 @@ int	parse_line(char **str)
 	while (token)
 	{
 		add_token(token, get_type(token), expand);
-		free(token);
+		ft_safe_free(token);
 		token = tokenizer(NULL);
 		expand = 1;
 	}
@@ -97,12 +78,12 @@ int	parse_line(char **str)
 		while (token)
 		{
 			add_token(token, get_type(token), expand);
-			free(token);
+			ft_safe_free(token);
 			token = tokenizer(NULL);
 		}
 		*str = ft_strjoin(*str, "\n");
 		*str = ft_strjoin(*str, new_str);
-		free(new_str);
+		ft_safe_free(new_str);
 	}
 	// if (g_main.open_quote)
 	// {
@@ -133,8 +114,7 @@ int	parse_line(char **str)
 	clear_token_list();
 	clear_cmd_list();
 	//---move this block----
-	if (token)
-		free(token);
+	ft_safe_free(token);
 	return (0);
 }
 

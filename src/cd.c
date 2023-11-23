@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2023/11/23 13:41:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:48:20 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	update_pwd(void)
 	dir = getcwd(NULL, 0);
 	update_key(g_main.env_var, "OLDPWD", search(g_main.env_var, "PWD")->value);
 	update_key(g_main.env_var, "PWD", dir);
-	free(dir);
+	ft_safe_free(dir);
 }
 
 int	ft_cd(char **args)
