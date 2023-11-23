@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/22 20:17:48 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/23 02:18:15 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+//The functions in this file are used to expand the variables in the command line.
+//For example, if the user types "echo $USER", the program will print "echo rseelaen".
 
 static char	*remove_dollar(char	*var)
 {
@@ -64,7 +67,7 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 	return (tmp);
 }
 
-char	*expand_var2(char *name, int i)
+static char	*expand_var2(char *name, int i)
 {
 	char	*value;
 	char	*var;
