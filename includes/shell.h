@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 02:10:53 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/23 19:14:09 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,12 @@ t_token	*new_token(char *name, int type, int expand);
 void	create_cmd_list(void);
 void	clear_cmd_list(void);
 
+//cmd_list_utils.c
+t_cmd	*new_cmd(char *name);
+void	add_cmd(t_cmd *cmd);
+void	clear_cmd_list(void);
+void	print_cmd_list(void); //test function
+
 //expand_var.c
 char	*expand_var(char *name);
 
@@ -149,6 +155,10 @@ void	insert_key(t_env **env_var, char *key, char *value);
 //set_env.c
 int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);
+
+//HEREDOC---------------------------------------
+//heredoc.c
+char	*heredoc(char *delimiter);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

@@ -13,12 +13,14 @@ SRC =	main.c			\
 		token_utils.c	\
 		parse.c			\
 		cmd_list.c		\
+		cmd_list_utils.c\
 		builtin.c		\
 		expand_var.c	\
 		export.c		\
 		exit.c			\
 		echo.c			\
-		cd.c
+		cd.c			\
+		heredoc.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
