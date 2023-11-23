@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 02:18:15 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/23 13:01:48 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-//The functions in this file are used to expand the variables in the command line.
-//For example, if the user types "echo $USER", the program will print "echo rseelaen".
+//The functions in this file are used to expand the variables in the command
+// line. For example, if the user types "echo $USER", the program will print
+// "echo rseelaen".
 
 static char	*remove_dollar(char	*var)
 {
@@ -67,48 +68,46 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 	return (tmp);
 }
 
-static char	*expand_var2(char *name, int i)
+static char	*expand_var2(char *str, int i)
 {
 	char	*value;
 	char	*var;
 
-	if (name[i + 1] == '?')
+	if (str[i + 1] == '?')
 	{
 		var = ft_strdup("?");
 		value = ft_itoa(g_main.status);
 	}
 	else
 	{
-		var = get_var_name((const char *)name + i);
+		var = get_var_name((const char *)str + i);
 		value = NULL;
 		if (search(g_main.env_var, var))
 			value = search(g_main.env_var, var)->value;
 	}
-	name = insert_value(name, value, ft_strlen(var) + 1, i);
+	str = insert_value(str, value, ft_strlen(var) + 1, i);
 	free(var);
-	return (name);
+	return (str);
 }
 
-//integrate check_qutoes() into this function
-
-char	*expand_var(char *name)
+char	*expand_var(char *str)
 {
 	int		quote;
 	int		i;
 
 	i = -1;
-	if (!ft_strchr(name, '$'))
-		return (name);
+	if (!ft_strchr(str, '$'))
+		return (str);
 	quote = 0;
-	while (name[++i])
+	while (str[++i])
 	{
-		if (name[i] == '\'' || name[i] == '\"')
-			quote = check_quote(quote, name[i]);
-		while (name[i] && name[i] != '\'' && quote == 1)
+		if (str[i] == '\'' || str[i] == '\"')
+			quote = check_quote(quote, str[i]);
+		while (str[i] && str[i] != '\'' && quote == 1)
 			i++;
-		if (name[i] == '$' && name[i + 1] && name[i + 1] != '\"'
-			&& name[i + 1] != ' ')
-			name = expand_var2(name, i);
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != '\"'
+			&& str[i + 1] != ' ')
+			str = expand_var2(str, i);
 	}
-	return (name);
+	return (str);
 }

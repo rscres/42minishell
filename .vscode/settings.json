@@ -4,6 +4,7 @@
 		"signal.h": "c",
 		"source.h": "c",
 		"compare": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"typeinfo": "c"
 	}
 }
