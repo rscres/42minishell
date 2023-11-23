@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/22 01:08:29 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/23 02:10:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,21 @@ typedef struct s_main
 //Global variable
 extern t_main	g_main;
 
-//EXIT----------------------
+//EXIT------------------------------------------
 //exit.c
 void	ft_exit(char **args, int argc);
 void	ft_exit2(int status);
 
-//INIT----------------------
+//INIT------------------------------------------
 //init.c
 void	init_hashtable(t_env **env_var);
 void	init_global(void);
 
-//SIGNALS-------------------
+//SIGNALS---------------------------------------
 //signal.c
 int		signal_set(void);
 
-//PARSER--------------------
+//PARSER----------------------------------------
 //parser.c
 int		parse_line(char **str);
 
@@ -122,18 +122,21 @@ void	clear_cmd_list(void);
 //expand_var.c
 char	*expand_var(char *name);
 
-//EXEC----------------------
+//EXEC------------------------------------------
 //builtin.c
 int		exec_builtin(char *name, char **args, int argc);
 
-//BUILTINS------------------
+//BUILTINS--------------------------------------
 //export.c
 int		ft_export(char **args);
 
 //echo.c
 int		ft_echo(char **args, int fd);
 
-//HaASHTABLE----------------
+//cd.c
+int		ft_cd(char **args);
+
+//HASHTABLE-------------------------------------
 //hashtable.c
 int		hash(char *key);
 int		update_key(t_env **env_var, char *key, char *value);
@@ -142,7 +145,7 @@ void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);
 
-//ENV-----------------------
+//ENV-------------------------------------------
 //set_env.c
 int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);

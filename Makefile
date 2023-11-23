@@ -17,7 +17,8 @@ SRC =	main.c			\
 		expand_var.c	\
 		export.c		\
 		exit.c			\
-		echo.c
+		echo.c			\
+		cd.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
