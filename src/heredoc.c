@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/24 22:32:16 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:38:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimiter, 2);
 	ft_putstr_fd("')\n", 2);
+	g_main.is_heredoc_running = 0;
+	g_main.status = 0;
 	return (NULL);
 }
 
