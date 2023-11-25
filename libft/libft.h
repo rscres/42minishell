@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/06 18:59:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:25:02 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			ft_printf(const char *s, ...);
 int			ft_abs(int x);
 void		ft_swap(int *a, int *b);
 size_t		ft_arrlen(char **arr);
-void		ft_safe_free(void *ptr);
+void		ft_safe_free(void **ptr);
 void		*ft_ternary(int condition, void *a, void *b);
 
 // Printf functions

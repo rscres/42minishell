@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/23 20:24:19 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:29:50 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*remove_quotes(char *str)
 		else
 			tmp[j++] = str[i++];
 	}
-	ft_safe_free(str);
+	ft_safe_free((void **)&str);
 	return (tmp);
 }
 
@@ -60,38 +60,42 @@ int	parse_line(char **str)
 {
 	char	*token;
 	int		expand;
-	char	*new_str;
+	// char	*new_str;
 
 	token = tokenizer(*str);
 	expand = 1;
 	while (token)
 	{
 		add_token(token, get_type(token), expand);
-		ft_safe_free(token);
+		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
 		expand = 1;
 	}
-	while (g_main.open_quote)
-	{
-		new_str = readline("> ");
-		token = tokenizer(new_str);
-		while (token)
-		{
-			add_token(token, get_type(token), expand);
-			ft_safe_free(token);
-			token = tokenizer(NULL);
-		}
-		*str = ft_strjoin(*str, "\n");
-		*str = ft_strjoin(*str, new_str);
-		ft_safe_free(new_str);
-	}
-	// if (g_main.open_quote)
+	// while (g_main.open_quote)
 	// {
-	// 	ft_putstr_fd("Error: unclosed quotes\n", 2);
-	// 	g_main.open_quote = 0;
-	// 	clear_token_list();
-	// 	return (1);
+	// 	if (g_main.open_quote == 1)
+	// 		heredoc("\'");
+	// 	else if (g_main.open_quote == 2)
+	// 		heredoc("eof");
+		// new_str = readline("> ");
+		// token = tokenizer(new_str);
+		// while (token)
+		// {
+		// 	add_token(token, get_type(token), expand);
+		// 	ft_safe_free((void **)token);
+		// 	token = tokenizer(NULL);
+		// }
+		// *str = ft_strjoin(*str, "\n");
+		// *str = ft_strjoin(*str, new_str);
+		// ft_safe_free((void **)&new_str);
 	// }
+	if (g_main.open_quote)
+	{
+		ft_putstr_fd("Error: unclosed quotes\n", 2);
+		g_main.open_quote = 0;
+		clear_token_list();
+		return (1);
+	}
 	//---move this block----
 	t_token	*tmp = g_main.token_list;
 	while (tmp)
@@ -114,7 +118,7 @@ int	parse_line(char **str)
 	clear_token_list();
 	clear_cmd_list();
 	//---move this block----
-	ft_safe_free(token);
+	ft_safe_free((void **)&token);
 	return (0);
 }
 

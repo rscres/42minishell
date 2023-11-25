@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 19:13:14 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:26:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	clear_cmd_list(void)
 		i = 0;
 		while (i < tmp->argc)
 		{
-			ft_safe_free(tmp->args[i]);
+			ft_safe_free((void **)&tmp->args[i]);
 			i++;
 		}
-		ft_safe_free(tmp->args);
-		ft_safe_free(tmp->name);
-		ft_safe_free(tmp);
+		ft_safe_free((void **)&tmp->args);
+		ft_safe_free((void **)&tmp->name);
+		ft_safe_free((void **)&tmp);
 	}
 }
 

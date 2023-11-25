@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:23:01 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 15:09:55 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:27:33 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	clear_token_list(void)
 	{
 		tmp = g_main.token_list;
 		g_main.token_list = g_main.token_list->next;
-		ft_safe_free(tmp->name);
-		ft_safe_free(tmp);
+		ft_safe_free((void **)&tmp->name);
+		ft_safe_free((void **)&tmp);
 	}
 }

@@ -6,17 +6,17 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:21:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/10/11 19:22:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:22:22 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_safe_free(void *ptr)
+void	ft_safe_free(void **ptr)
 {
-	if (ptr)
+	if (*ptr)
 	{
-		free(ptr);
-		ptr = NULL;
+		free(*ptr);
+		*ptr = NULL;
 	}
 }

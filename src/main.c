@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 15:40:17 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:27:06 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			ft_exit2(g_main.status);
 		if (ft_strlen(line) > 0)
 			parse_line(&line);
-		ft_safe_free(line);
+		ft_safe_free((void **)&line);
 	}
 	return (g_main.status);
 }
