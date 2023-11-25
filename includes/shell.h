@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 19:14:09 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:49:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_main
 	t_cmd	*cmd_list;
 	int		open_quote;
 	int		status;
+	int		is_heredoc_running;
 }	t_main;
 
 //Global variable
