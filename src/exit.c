@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/24 22:37:15 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:16:01 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_exit(char **args, int argc)
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
 	printf("exit\n");
-	if (argc > 1)
+	if (argc > 2)
 	{	
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		clear_cmd_list();
@@ -57,12 +57,10 @@ void	ft_exit(char **args, int argc)
 	if (!args[0])
 	{
 		clear_cmd_list();
-		exit(0);
+		exit(g_main.status);
 	}
 	check_if_num(args[0]);
 	status = adjust_status(ft_atoi(args[0]));
-	if (!status)
-		status = g_main.status;
 	clear_cmd_list();
 	exit(status);
 }
