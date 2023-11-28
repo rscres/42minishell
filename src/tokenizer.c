@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:55:50 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 01:23:52 by renato           ###   ########.fr       */
+/*   Updated: 2023/11/27 14:16:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	get_j(int i, char *save)
 			break ;
 		}
 		j++;
-		if ((is_separator(save[j]) || ft_iswhitespace(save[j])) && !quote) 
+		if ((is_separator(save[j]) || ft_iswhitespace(save[j])) && !quote)
 			break ;
 	}
 	g_main.open_quote = quote;

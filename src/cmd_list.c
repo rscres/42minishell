@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 16:21:19 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:01:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,5 @@ void	create_cmd_list(void)
 		else
 			tmp = tmp->next;
 	}
-	print_cmd_list();
+	// print_cmd_list();
 }

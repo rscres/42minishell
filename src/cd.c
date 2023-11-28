@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2023/11/24 21:26:25 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:08:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ static void	update_pwd(void)
 
 int	ft_cd(char **args)
 {
-	if (!g_main.cmd_list->argc)
+	if (g_main.cmd_list->argc <= 1)
 	{
-		args[0] = search(g_main.env_var, "HOME")->value;
+		args[1] = search(g_main.env_var, "HOME")->value;
 	}
-	if (g_main.cmd_list->argc > 1)
+	if (g_main.cmd_list->argc > 2)
 	{
 		ft_putendl_fd("cd: too many arguments", 2);
 		return (1);
 	}
-	if (chdir(args[0]) != 0)
+	if (chdir(args[1]) != 0)
 	{
 		perror("cd");
 		return (1);

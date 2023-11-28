@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/24 21:26:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:12:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@ int	ft_env(void)
 int	exec_builtin(char *name, char **args, int argc)
 {
 	if (!ft_strcmp(name, "echo"))
-		return (ft_echo(args, 1));
+		return (ft_echo(args + 1, 1));
 	else if (!ft_strcmp(name, "cd"))
 		return (ft_cd(args));
 	else if (!ft_strcmp(name, "pwd"))
 		return (ft_pwd());
 	else if (!ft_strcmp(name, "export"))
-		return (ft_export(args));
+		return (ft_export(args + 1, argc));
 	else if (!ft_strcmp(name, "unset"))
-		return (ft_unset(args));
+		return (ft_unset(args + 1));
 	else if (!ft_strcmp(name, "env"))
 		return (ft_env());
 	else if (!ft_strcmp(name, "exit"))
-		ft_exit(args, argc);
+		ft_exit(args + 1, argc);
 	else if (!ft_strcmp(name, "<<"))
 		heredoc(args[0]);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 15:49:16 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:12:29 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	execute_cmd_list(void);
 
 //BUILTINS--------------------------------------
 //export.c
-int		ft_export(char **args);
+int		ft_export(char **args, int argc);
 
 //echo.c
 int		ft_echo(char **args, int fd);

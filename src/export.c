@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/21 18:53:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:13:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ static int	set_var(char **args)
 	return (0);
 }
 
-int	ft_export(char **args)
+int	ft_export(char **args, int argc)
 {
-	if (args[0] == NULL)
+	if (argc < 2)
 		print_vars();
 	else
 		return (set_var(args));
