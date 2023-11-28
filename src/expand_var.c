@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/24 21:26:52 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:59:33 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 	return (tmp);
 }
 
-static char	*expand_var2(char *str, int i)
+char	*expand_var2(char *str, int i)
 {
 	char	*value;
 	char	*var;

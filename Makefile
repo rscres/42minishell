@@ -20,7 +20,8 @@ SRC =	main.c			\
 		exit.c			\
 		echo.c			\
 		cd.c			\
-		heredoc.c
+		heredoc.c		\
+		execute.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))

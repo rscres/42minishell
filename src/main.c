@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/24 21:27:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:30:30 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,14 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		if (!line)
 			ft_exit2(g_main.status);
 		if (ft_strlen(line) > 0)
+		{
+			g_main.line = line;
 			parse_line(&line);
+			execute_cmd_list();
+			clear_token_list();
+			clear_cmd_list();
+			add_history(g_main.line);
+		}
 		ft_safe_free((void **)&line);
 	}
 	return (g_main.status);

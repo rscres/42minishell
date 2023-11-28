@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/24 21:49:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:49:16 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <signal.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
@@ -81,6 +82,7 @@ typedef struct s_main
 	t_env	*env_var[TABLE_SIZE];
 	t_token	*token_list;
 	t_cmd	*cmd_list;
+	char	*line;
 	int		open_quote;
 	int		status;
 	int		is_heredoc_running;
@@ -128,10 +130,14 @@ void	print_cmd_list(void); //test function
 
 //expand_var.c
 char	*expand_var(char *name);
+char	*expand_var2(char *str, int i);
 
 //EXEC------------------------------------------
 //builtin.c
 int		exec_builtin(char *name, char **args, int argc);
+
+//execute.c
+void	execute_cmd_list(void);
 
 //BUILTINS--------------------------------------
 //export.c
@@ -148,6 +154,7 @@ int		ft_cd(char **args);
 int		hash(char *key);
 int		update_key(t_env **env_var, char *key, char *value);
 t_env	*search(t_env **env_var, char *key);
+char	*search_value(t_env **env_var, char *key);
 void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);

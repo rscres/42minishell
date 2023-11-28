@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/24 21:29:50 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:32:05 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ int	parse_line(char **str)
 	// }
 	create_cmd_list();
 	// parse_tree(); //need to code this
-	g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
-		g_main.cmd_list->argc);
-	clear_token_list();
-	clear_cmd_list();
+	// g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
+	// 	g_main.cmd_list->argc);
+	// clear_token_list();
+	// clear_cmd_list();
 	//---move this block----
 	ft_safe_free((void **)&token);
 	return (0);

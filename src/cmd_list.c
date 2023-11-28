@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 19:13:18 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:21:19 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,29 @@ static int	get_argc(t_token *tmp)
 	return (i);
 }
 
+void	create_arg_list(t_cmd *cmd, t_token *tmp)
+{
+	cmd->args = malloc(sizeof(char *) * (get_argc(tmp) + 2));
+	if (get_argc(tmp) > 0)
+		cmd->args[cmd->argc++] = ft_strdup(tmp->prev->name);
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == WORD && tmp->prev->type != INFILE
+			&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
+			&& tmp->prev->type != HEREDOC)
+		{
+			cmd->args[cmd->argc] = ft_strdup(tmp->name);
+			cmd->argc++;
+		}
+		tmp = tmp->next;
+	}
+	cmd->args[cmd->argc] = NULL;
+}
+
 void	create_cmd_list(void)
 {
 	t_token	*tmp;
 	t_cmd	*cmd;
-	t_token	*hold;
 	int		cmd_count;
 
 	tmp = g_main.token_list;
@@ -44,22 +62,8 @@ void	create_cmd_list(void)
 			cmd_count = 1;
 			cmd = new_cmd(tmp->name);
 			tmp = tmp->next;
-			hold = tmp;
-			cmd->args = malloc(sizeof(char *) * (get_argc(tmp) + 1));
-			while (tmp && tmp->type != PIPE)
-			{
-				if (tmp->type == WORD && tmp->prev->type != INFILE
-					&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
-					&& tmp->prev->type != HEREDOC)
-				{
-					cmd->args[cmd->argc] = ft_strdup(tmp->name);
-					cmd->argc++;
-				}
-				tmp = tmp->next;
-			}
-			cmd->args[cmd->argc] = NULL;
+			create_arg_list(cmd, tmp);
 			add_cmd(cmd);
-			tmp = hold;
 		}
 		else if (tmp->type == INFILE || tmp->type == OUTFILE
 			|| tmp->type == APPEND || tmp->type == HEREDOC)
