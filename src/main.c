@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 15:30:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:28:27 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;
-			parse_line(&line);
+			lexer(&line);
 			execute_cmd_list();
 			clear_token_list();
 			clear_cmd_list();

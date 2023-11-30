@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 19:12:29 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:32:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef enum s_builtin
 
 //Structs
 //token list
+
 typedef struct s_token
 {
 	char			*name;
@@ -60,15 +61,22 @@ typedef struct s_token
 }	t_token;
 
 //command list
+
 typedef struct s_cmd
 {
 	char			*name;
 	char			**args;
 	int				argc;
+	int				redir;
+	int				fd_in;
+	int				fd_out;
+	int				type;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }	t_cmd;
 
 //hashtable
+
 typedef struct s_env
 {
 	char			*key;
@@ -76,7 +84,23 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+//AST node
+
+typedef struct s_ast
+{
+	char			*name;
+	char			**args;
+	int				argc;
+	int				redir;
+	int				fd_in;
+	int				fd_out;
+	int				type;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
+
 //Main
+
 typedef struct s_main
 {
 	t_env	*env_var[TABLE_SIZE];
@@ -89,68 +113,84 @@ typedef struct s_main
 }	t_main;
 
 //Global variable
+
 extern t_main	g_main;
 
 //EXIT------------------------------------------
 //exit.c
+
 void	ft_exit(char **args, int argc);
 void	ft_exit2(int status);
 
 //INIT------------------------------------------
 //init.c
+
 void	init_hashtable(t_env **env_var);
 void	init_global(void);
 
 //SIGNALS---------------------------------------
 //signal.c
+
 int		signal_set(void);
 
 //PARSER----------------------------------------
 //parser.c
-int		parse_line(char **str);
+
+int		lexer(char **str);
 
 //tokenizer.c
+
 char	*tokenizer(char *str);
 int		check_quote(int quote, char c);
 
 //token_utils.c
+
 void	clear_token_list(void);
 void	add_token(char *name, int type, int expand);
 t_token	*new_token(char *name, int type, int expand);
 
 //cmd_list.c
+
 void	create_cmd_list(void);
 void	clear_cmd_list(void);
 
 //cmd_list_utils.c
+
 t_cmd	*new_cmd(char *name);
 void	add_cmd(t_cmd *cmd);
 void	clear_cmd_list(void);
 void	print_cmd_list(void); //test function
 
 //expand_var.c
+
 char	*expand_var(char *name);
 char	*expand_var2(char *str, int i);
 
 //EXEC------------------------------------------
 //builtin.c
+
 int		exec_builtin(char *name, char **args, int argc);
 
 //execute.c
+
 void	execute_cmd_list(void);
 
 //BUILTINS--------------------------------------
 //export.c
+
 int		ft_export(char **args, int argc);
 
 //echo.c
+
 int		ft_echo(char **args, int fd);
 
 //cd.c
+
 int		ft_cd(char **args);
 
 //HASHTABLE-------------------------------------
 //hashtable.c
+
 int		hash(char *key);
 int		update_key(t_env **env_var, char *key, char *value);
 t_env	*search(t_env **env_var, char *key);
@@ -161,11 +201,13 @@ void	insert_key(t_env **env_var, char *key, char *value);
 
 //ENV-------------------------------------------
 //set_env.c
+
 int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);
 
 //HEREDOC---------------------------------------
 //heredoc.c
+
 char	*heredoc(char *delimiter);
 
 //------------------TEST FUNCTIONS-----------------------

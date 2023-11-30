@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/28 15:32:05 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:28:27 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*remove_quotes(char *str)
 	return (tmp);
 }
 
-int	parse_line(char **str)
+int	lexer(char **str)
 {
 	char	*token;
 	int		expand;
@@ -121,47 +121,3 @@ int	parse_line(char **str)
 	ft_safe_free((void **)&token);
 	return (0);
 }
-
-// int	parse_line(char **str)
-// {
-// 	char	*token;
-// 	// char	*new_str;
-// 	char	*trim;
-
-// 	token = tokenizer(*str);
-// 	while (token)
-// 	{
-// 		trim = trim_quotes(token);
-// 		add_token(trim, get_type(trim));
-// 		free(trim);
-// 		token = tokenizer(NULL);
-// 	}
-// 	//deal with open quotes-----------
-// 	// while (g_main.open_quote)
-// 	// {
-// 	// 	new_str = readline("> ");
-// 	// 	token = tokenizer(new_str);
-// 	// 	while (token)
-// 	// 	{
-// 	// 		trim = trim_quotes(token);
-// 	// 		add_token(trim, get_type(trim));
-// 	// 		free(trim);
-// 	// 		token = tokenizer(NULL);
-// 	// 	}
-// 	// 	*str = ft_strjoin(*str, "\n");
-// 	// 	*str = ft_strjoin(*str, new_str);
-// 	// 	free(new_str);
-// 	// }
-// 	//-----------------------------------
-// 	// t_token	*tmp = g_main.tokens;
-// 	// while (tmp)
-// 	// {
-// 	// 	printf("%s=>", tmp->name);
-// 	// 	printf("%i\n", tmp->type);
-// 	// 	tmp = tmp->next;
-// 	// }
-// 	clear_tokens();
-// 	if (token)
-// 		free(token);
-// 	return (0);
-// }

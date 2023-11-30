@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2023/11/28 19:12:07 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:22:00 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_builtin(char *name, char **args, int argc)
 	else if (!ft_strcmp(name, "env"))
 		return (ft_env());
 	else if (!ft_strcmp(name, "exit"))
-		ft_exit(args + 1, argc);
+		ft_exit(args, argc);
 	else if (!ft_strcmp(name, "<<"))
 		heredoc(args[0]);
 	return (0);

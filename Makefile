@@ -11,7 +11,8 @@ SRC =	main.c			\
 		init.c			\
 		tokenizer.c		\
 		token_utils.c	\
-		parse.c			\
+		lexer.c			\
+		parser.c		\
 		cmd_list.c		\
 		cmd_list_utils.c\
 		builtin.c		\

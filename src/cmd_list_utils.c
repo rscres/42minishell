@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/24 21:26:36 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:31:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ t_cmd	*new_cmd(char *name)
 	cmd->name = ft_strdup(name);
 	cmd->args = NULL;
 	cmd->argc = 0;
+	cmd->redir = 0;
+	cmd->fd_in = 1;
+	cmd->fd_out = 0;
+	cmd->type = 0;
 	cmd->next = NULL;
+	cmd->prev = NULL;
 	return (cmd);
 }
 
