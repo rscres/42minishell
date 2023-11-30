@@ -6,12 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:49:46 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 19:19:25 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:31:45 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+//Join two strings
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -34,6 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+//Joins two strings and frees the first one
 char	*ft_strjoin_free(char const *s1, char const *s2)
 {
 	char	*str;
