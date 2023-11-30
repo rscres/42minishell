@@ -5,6 +5,7 @@
 		"source.h": "c",
 		"compare": "c",
 		"type_traits": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"stdlib.h": "c"
 	}
 }

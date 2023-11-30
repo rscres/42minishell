@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/29 21:31:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:39:48 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	add_cmd(t_cmd *cmd)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = cmd;
+	tmp->next->prev = tmp;
 }
 
 void	clear_cmd_list(void)
