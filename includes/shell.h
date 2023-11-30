@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/29 21:32:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:53:10 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include "../libft/libft.h"
 
 # define TABLE_SIZE 256
+# define FALSE 0
+# define TRUE 1
 
 typedef enum s_token_type
 {
@@ -75,6 +77,20 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
+//cmd_info
+
+typedef struct s_cmd_info
+{
+	char	*path;
+	int		heredoc;
+	int		heredoc_count;
+	int		infile;
+	int		outfile;
+	int		append;
+	int		pipe;
+	int		pipe_count;
+}	t_cmd_info;
+
 //hashtable
 
 typedef struct s_env
@@ -84,32 +100,18 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-//AST node
-
-typedef struct s_ast
-{
-	char			*name;
-	char			**args;
-	int				argc;
-	int				redir;
-	int				fd_in;
-	int				fd_out;
-	int				type;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}	t_ast;
-
 //Main
 
 typedef struct s_main
 {
-	t_env	*env_var[TABLE_SIZE];
-	t_token	*token_list;
-	t_cmd	*cmd_list;
-	char	*line;
-	int		open_quote;
-	int		status;
-	int		is_heredoc_running;
+	t_env		*env_var[TABLE_SIZE];
+	t_token		*token_list;
+	t_cmd		*cmd_list;
+	t_cmd_info	cmd_info;
+	char		*line;
+	int			open_quote;
+	int			status;
+	int			is_heredoc_running;
 }	t_main;
 
 //Global variable
@@ -134,7 +136,7 @@ void	init_global(void);
 int		signal_set(void);
 
 //PARSER----------------------------------------
-//parser.c
+//lexer.c
 
 int		lexer(char **str);
 
@@ -156,7 +158,7 @@ void	clear_cmd_list(void);
 
 //cmd_list_utils.c
 
-t_cmd	*new_cmd(char *name);
+t_cmd	*new_cmd(char *name, int type);
 void	add_cmd(t_cmd *cmd);
 void	clear_cmd_list(void);
 void	print_cmd_list(void); //test function
@@ -165,6 +167,10 @@ void	print_cmd_list(void); //test function
 
 char	*expand_var(char *name);
 char	*expand_var2(char *str, int i);
+
+//parser.c
+
+int		parser(void);
 
 //EXEC------------------------------------------
 //builtin.c

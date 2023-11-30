@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 19:01:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:52:10 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	create_cmd_list(void)
 		if (tmp->type == WORD && !cmd_count)
 		{
 			cmd_count = 1;
-			cmd = new_cmd(tmp->name);
+			cmd = new_cmd(tmp->name, tmp->type);
 			tmp = tmp->next;
 			create_arg_list(cmd, tmp);
 			add_cmd(cmd);
@@ -68,7 +68,7 @@ void	create_cmd_list(void)
 		else if (tmp->type == INFILE || tmp->type == OUTFILE
 			|| tmp->type == APPEND || tmp->type == HEREDOC)
 		{
-			cmd = new_cmd(tmp->name);
+			cmd = new_cmd(tmp->name, tmp->type);
 			tmp = tmp->next;
 			cmd->args = malloc(sizeof(char *) * 2);
 			cmd->args[0] = ft_strdup(tmp->name);
@@ -80,7 +80,7 @@ void	create_cmd_list(void)
 		else if (tmp->type == PIPE)
 		{
 			cmd_count = 0;
-			add_cmd(new_cmd(tmp->name));
+			add_cmd(new_cmd(tmp->name, tmp->type));
 			tmp = tmp->next;
 		}
 		else

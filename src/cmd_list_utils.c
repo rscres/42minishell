@@ -6,13 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/29 21:39:48 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:51:30 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-t_cmd	*new_cmd(char *name)
+t_cmd	*new_cmd(char *name, int type)
 {
 	t_cmd	*cmd;
 
@@ -25,7 +25,7 @@ t_cmd	*new_cmd(char *name)
 	cmd->redir = 0;
 	cmd->fd_in = 1;
 	cmd->fd_out = 0;
-	cmd->type = 0;
+	cmd->type = type;
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	return (cmd);
