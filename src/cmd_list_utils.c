@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/30 17:51:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:17:54 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	clear_cmd_list(void)
 		tmp = g_main.cmd_list;
 		g_main.cmd_list = g_main.cmd_list->next;
 		i = 0;
-		while (i < tmp->argc)
+		while (tmp->args[i])
 		{
 			ft_safe_free((void **)&tmp->args[i]);
 			i++;

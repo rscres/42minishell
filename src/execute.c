@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/30 12:29:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/06 19:28:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ static void	exec(t_cmd *cmd, char *path)
 	}
 	if (pid == 0)
 	{
-		// redir(cmd);
+		redir(cmd);
 		execve(path, cmd->args, NULL);
 		ft_putstr_fd("execve error\n", 2);
 		exit(1);

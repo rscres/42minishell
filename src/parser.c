@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/05 21:39:47 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:18:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	move_cmd(t_cmd *cmd)
 	tmp = cmd;
 	if (tmp->prev)
 		tmp->prev->next = tmp->next;
+	else
+		g_main.cmd_list = tmp->next;
 	if (tmp->next)
 		tmp->next->prev = tmp->prev;
 	while (tmp->next && tmp->next->type != PIPE)
@@ -27,6 +29,7 @@ void	move_cmd(t_cmd *cmd)
 		cmd->next = tmp->next;
 	else
 		cmd->next = NULL;
+	// print_cmd_list();
 	tmp->next = cmd;
 	cmd->prev = tmp;
 }
@@ -46,8 +49,8 @@ void	arrange_cmd_list(void)
 			move = FALSE;
 			hold = tmp;
 			move_cmd(hold);
-			while (tmp->next && tmp->next->type != PIPE)
-				tmp = tmp->next;
+			// while (tmp->next && tmp->next->type != PIPE)
+			// 	tmp = tmp->next;
 		}
 		tmp = tmp->next;
 		if (tmp && tmp->type == PIPE)
@@ -55,9 +58,8 @@ void	arrange_cmd_list(void)
 	}
 	while (tmp && tmp->prev)
 		tmp = tmp->prev;
+	// print_cmd_list();
 	g_main.cmd_list = tmp;
-	print_cmd_list();
-
 }
 
 void	set_output(t_cmd *cmd)
@@ -65,7 +67,7 @@ void	set_output(t_cmd *cmd)
 	t_cmd	*tmp;
 
 	tmp = cmd;
-	while (tmp->type != WORD)
+	while (tmp && tmp->type != WORD)
 		tmp = tmp->next;
 	while (tmp)
 	{
@@ -133,10 +135,10 @@ void	set_input(t_cmd *cmd)
 
 int	parser(void)
 {
-	// print_cmd_list();
+	print_cmd_list();
 	arrange_cmd_list();
-	// set_output(g_main.cmd_list);
+	set_output(g_main.cmd_list);
 	// set_input(g_main.cmd_list);
-	// print_cmd_list();
+	print_cmd_list();
 	return (0);
 }
