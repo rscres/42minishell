@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/30 18:16:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/05 21:39:47 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	arrange_cmd_list(void)
 
 	tmp = g_main.cmd_list;
 	move = TRUE;
-	while (tmp)
+	while (tmp && tmp->next)
 	{
 		if (tmp->type == WORD && tmp->next && move)
 		{
@@ -53,11 +53,90 @@ void	arrange_cmd_list(void)
 		if (tmp && tmp->type == PIPE)
 			move = TRUE;
 	}
+	while (tmp && tmp->prev)
+		tmp = tmp->prev;
+	g_main.cmd_list = tmp;
+	print_cmd_list();
 
+}
+
+void	set_output(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp->type != WORD)
+		tmp = tmp->next;
+	while (tmp)
+	{
+		printf("type: %s\n", tmp->args[0]);
+		if (tmp->type == OUTFILE)
+		{
+			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (tmp->fd_out == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->args[0], 2);
+				ft_putstr_fd(": ", 2);
+				// ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+				g_main.status = 1;
+				return ;
+			}
+		}
+		if (tmp->type == APPEND)
+		{
+			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (tmp->fd_out == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->args[0], 2);
+				ft_putstr_fd(": ", 2);
+				// ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+				g_main.status = 1;
+				return ;
+			}
+		}
+		tmp = tmp->prev;
+	}
+}
+
+void	set_input(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (tmp->type != WORD)
+		tmp = tmp->next;
+	while (tmp)
+	{
+		if (tmp->type == INFILE)
+		{
+			tmp->fd_in = open(tmp->args[0], O_RDONLY);
+			if (tmp->fd_in == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->args[0], 2);
+				ft_putstr_fd(": ", 2);
+				// ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+				g_main.status = 1;
+				return ;
+			}
+		}
+		if (tmp->type == HEREDOC)
+			return ;
+		tmp = tmp->prev;
+	}
 }
 
 int	parser(void)
 {
+	// print_cmd_list();
 	arrange_cmd_list();
+	// set_output(g_main.cmd_list);
+	// set_input(g_main.cmd_list);
+	// print_cmd_list();
 	return (0);
 }
