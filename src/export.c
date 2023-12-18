@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 19:13:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:35:34 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ static void	print_vars(void)
 	int	i;
 
 	i = 0;
-	while (g_main.env_var[i])
+	while (i < TABLE_SIZE)
 	{
-		ft_putstr_fd("declare -x ", 0);
-		ft_putstr_fd(g_main.env_var[i]->key, 0);
-		ft_putchar_fd('=', 0);
-		ft_putendl_fd(g_main.env_var[i]->value, 0);
+		if (g_main.env_var[i] && g_main.env_var[i]->key)
+		{
+			ft_putstr_fd("declare -x ", 0);
+			ft_putstr_fd(g_main.env_var[i]->key, 0);
+			ft_putchar_fd('=', 0);
+			ft_putendl_fd(g_main.env_var[i]->value, 0);
+		}
 		i++;
 	}
 }
@@ -50,6 +53,8 @@ static int	error_msg(char *str)
 	return (1);
 }
 
+
+//
 static int	set_var(char **args)
 {
 	char	**split;
@@ -58,23 +63,13 @@ static int	set_var(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if (args[i][ft_strlen(args[i]) - 1] == '=' && ft_strlen(args[i]) > 1)
+		if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
 		{
 			split = ft_split(args[i], '=');
 			if (!split[0] || !str_isalnum(split[0]))
 				return (error_msg(split[0]));
-			if (search(g_main.env_var, split[0]))
-				update_key(g_main.env_var, split[0], args[i + 1]);
-			else
-				insert_key(g_main.env_var, split[0], args[i + 1]);
-			free_tab(split);
-			i++;
-		}
-		else if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
-		{
-			split = ft_split(args[i], '=');
-			if (!split[0] || !str_isalnum(split[0]))
-				return (error_msg(split[0]));
+			if (!split[1])
+				split[1] = ft_strdup("");
 			if (search(g_main.env_var, split[0]))
 				update_key(g_main.env_var, split[0], split[1]);
 			else

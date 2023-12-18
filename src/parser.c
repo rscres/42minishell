@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/06 17:18:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:14:30 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	set_output(t_cmd *cmd)
 		tmp = tmp->next;
 	while (tmp)
 	{
-		printf("type: %s\n", tmp->args[0]);
 		if (tmp->type == OUTFILE)
 		{
 			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
