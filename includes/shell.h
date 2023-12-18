@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/05 19:57:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:23:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_token
 {
 	char			*name;
 	int				type;
-	int				expand;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -149,8 +148,8 @@ int		check_quote(int quote, char c);
 //token_utils.c
 
 void	clear_token_list(void);
-void	add_token(char *name, int type, int expand);
-t_token	*new_token(char *name, int type, int expand);
+void	add_token(char *name, int type);
+t_token	*new_token(char *name, int type);
 
 //cmd_list.c
 
