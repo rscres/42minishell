@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 15:14:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:31:17 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	arrange_cmd_list(void)
 	move = TRUE;
 	while (tmp && tmp->next)
 	{
-		if (tmp->type == WORD && tmp->next && move)
+		if (tmp->type == WORD && tmp->next->type != PIPE && move)
 		{
 			move = FALSE;
 			hold = tmp;
@@ -67,13 +67,18 @@ void	set_output(t_cmd *cmd)
 	t_cmd	*tmp;
 
 	tmp = cmd;
+	printf("1tmp->name = %s\n", tmp->name);
 	while (tmp && tmp->type != WORD)
 		tmp = tmp->next;
-	while (tmp)
+	if (tmp)
 	{
+		printf("2tmp->name = %s\n", tmp->name);
 		if (tmp->type == OUTFILE)
 		{
-			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (tmp->fd_out == 1)
+				tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			else
+				open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (tmp->fd_out == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -87,7 +92,10 @@ void	set_output(t_cmd *cmd)
 		}
 		if (tmp->type == APPEND)
 		{
-			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (tmp->fd_out == 1)
+				tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (tmp->fd_out == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -99,7 +107,7 @@ void	set_output(t_cmd *cmd)
 				return ;
 			}
 		}
-		tmp = tmp->prev;
+		// tmp = tmp->prev;
 	}
 }
 
@@ -134,10 +142,10 @@ void	set_input(t_cmd *cmd)
 
 int	parser(void)
 {
-	print_cmd_list();
+	// print_cmd_list();
 	arrange_cmd_list();
 	set_output(g_main.cmd_list);
 	// set_input(g_main.cmd_list);
-	print_cmd_list();
+	// print_cmd_list();
 	return (0);
 }

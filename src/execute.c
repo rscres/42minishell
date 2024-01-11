@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 15:46:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/11 18:58:01 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ static void	exec(t_cmd *cmd, char *path)
 	if (pid == 0)
 	{
 		// redir(cmd);
+		dup2(cmd->fd_in, STDIN_FILENO);
+		dup2(cmd->fd_out, STDOUT_FILENO);
 		if (execve(path, cmd->args, NULL) == -1)
 			ft_putstr_fd("execve error\n", 2);
 		exit(1);
@@ -181,7 +183,7 @@ int	check_if_builtin(char *name)
 	if (ft_strcmp(name, "echo") == 0 || ft_strcmp(name, "cd") == 0
 		|| ft_strcmp(name, "pwd") == 0 || ft_strcmp(name, "export") == 0
 		|| ft_strcmp(name, "unset") == 0 || ft_strcmp(name, "env") == 0
-		|| ft_strcmp(name, "exit") == 0)
+		|| ft_strcmp(name, "exit") == 0 || ft_strcmp(name, "<<") == 0)
 		return (1);
 	return (0);
 }
@@ -194,6 +196,7 @@ void	execute_cmd_list(void)
 	cmd = g_main.cmd_list;
 	while (cmd)
 	{
+		g_main.is_heredoc_running = 1;
 		if (check_if_builtin(cmd->name))
 			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
 		else
@@ -212,6 +215,7 @@ void	execute_cmd_list(void)
 			}
 			ft_safe_free((void **)&path);
 		}
+		g_main.is_heredoc_running = 0;
 		cmd = cmd->next;
 	}
 }

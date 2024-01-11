@@ -45,16 +45,16 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(FLAGS) -I./includes/ -g3 -c $< -o $@
 
 $(LIBFT):
-	@make -C libft
+	@make -C libft --silent
 
 clean:
 	rm -rf $(OBJ)
 	rm -rf $(OBJ_DIR)
-	@make -C libft clean
+	@make -C libft clean --silent
 
 fclean: clean
 	rm -rf $(NAME)
-	@make -C libft fclean
+	@make -C libft fclean --silent
 
 re: fclean all
 

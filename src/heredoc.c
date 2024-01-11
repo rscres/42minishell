@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 13:57:55 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/11 20:08:54 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 char	*heredoc(char *delimiter)
 {
 	char	*line;
-	char	*tmp;
 	char	*heredoc;
 	int		line_count;
 
@@ -54,19 +53,16 @@ char	*heredoc(char *delimiter)
 		line = readline("> ");
 		if (!line)
 			return (heredoc_error(delimiter, heredoc, line_count));
+		heredoc = ft_strjoin_free(heredoc, line);
+		heredoc = ft_strjoin_free(heredoc, "\n");
 		if (!ft_strcmp(line, delimiter))
 			break ;
-		tmp = ft_strjoin(heredoc, line);
-		free(heredoc);
-		heredoc = ft_strjoin(tmp, "\n");
-		ft_safe_free((void **)&tmp);
 		ft_safe_free((void **)&line);
 	}
 	ft_safe_free((void **)&line);
-	// g_main.line = ft_strjoin(line, heredoc);
-	// printf("g_main.line: %s\n", g_main.line);
+	g_main.line = ft_strjoin_free(g_main.line, "\n");
+	g_main.line = ft_strjoin_free(g_main.line, heredoc);
 	heredoc = expand_var_heredoc(heredoc);
-	printf("%s\n", heredoc);
 	g_main.is_heredoc_running = 0;
 	return (heredoc);
 }
