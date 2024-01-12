@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 13:06:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/27 13:42:58 by rseelaen         ###   ########.fr       */
+/*   Created: 2023/11/03 15:42:26 by rseelaen          #+#    #+#             */
+/*   Updated: 2023/11/06 13:09:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/shell.h"
+#include "shell.h"
 
-void	init_hashtable(t_env **env_var)
+int	free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (i < TABLE_SIZE)
-		env_var[i++] = NULL;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+	return (i);
 }
 
-void ft_pipe_init (void)
+int	set_env(t_env **env_var, char **env)
 {
-	g_main.cmd_info = ft_calloc(1, sizeof(t_cmd_info));
-}
-void	init_global(void)
-{
-	init_hashtable(g_main.env_var);
-	ft_pipe_init();
-	g_main.token_list = NULL;
-	g_main.line = NULL;
-	g_main.open_quote = 0;
-	g_main.status = 0;
-	g_main.is_heredoc_running = 0;
+	char	**arg;
+	int		i;
 
+	i = 0;
+	while (env[i])
+	{
+		arg = ft_split(env[i], '=');
+		if (arg[0] && arg[1])
+			insert_key(env_var, arg[0], arg[1]);
+		free_tab(arg);
+		i++;
+	}
+	return (1);
 }
