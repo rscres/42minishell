@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:35:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/11 19:31:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handler(int sig)
 		// rl_reset_line_state();
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		if (!g_main.is_heredoc_running)
+		if (!g_main.is_cmd_running)
 			rl_redisplay();
 	}
 }

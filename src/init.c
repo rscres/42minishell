@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:15:42 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void	init_global(char **envp)
 	g_main.envp = envp;
 	g_main.open_quote = 0;
 	g_main.status = 0;
-	g_main.is_heredoc_running = 0;
+	g_main.is_cmd_running = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/11 15:31:17 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:00:20 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	arrange_cmd_list(void)
 			move = FALSE;
 			hold = tmp;
 			move_cmd(hold);
-			// while (tmp->next && tmp->next->type != PIPE)
-			// 	tmp = tmp->next;
 		}
 		tmp = tmp->next;
 		if (tmp && tmp->type == PIPE)
@@ -58,7 +56,7 @@ void	arrange_cmd_list(void)
 	}
 	while (tmp && tmp->prev)
 		tmp = tmp->prev;
-	// print_cmd_list();
+	print_cmd_list();
 	g_main.cmd_list = tmp;
 }
 
@@ -67,18 +65,18 @@ void	set_output(t_cmd *cmd)
 	t_cmd	*tmp;
 
 	tmp = cmd;
-	printf("1tmp->name = %s\n", tmp->name);
+	// printf("1tmp->name = %s\n", tmp->name);
+	// while (tmp && tmp->type != WORD)
+		// tmp = tmp->next;
 	while (tmp && tmp->type != WORD)
-		tmp = tmp->next;
-	if (tmp)
 	{
-		printf("2tmp->name = %s\n", tmp->name);
+		printf("here\n");
+		// printf("2tmp->name = %s\n", tmp->name);
 		if (tmp->type == OUTFILE)
 		{
-			if (tmp->fd_out == 1)
-				tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else
-				open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			printf("here2\n");
+			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC,
+					0644);
 			if (tmp->fd_out == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -92,10 +90,8 @@ void	set_output(t_cmd *cmd)
 		}
 		if (tmp->type == APPEND)
 		{
-			if (tmp->fd_out == 1)
-				tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
-			else
-				open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND,
+				644);
 			if (tmp->fd_out == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -107,7 +103,7 @@ void	set_output(t_cmd *cmd)
 				return ;
 			}
 		}
-		// tmp = tmp->prev;
+		tmp = tmp->next;
 	}
 }
 
@@ -136,6 +132,8 @@ void	set_input(t_cmd *cmd)
 		}
 		if (tmp->type == HEREDOC)
 			return ;
+		if (tmp->prev == NULL)
+			break ;
 		tmp = tmp->prev;
 	}
 }
@@ -144,6 +142,7 @@ int	parser(void)
 {
 	// print_cmd_list();
 	arrange_cmd_list();
+	// printf("%s\n", g_main.cmd_list->name);
 	set_output(g_main.cmd_list);
 	// set_input(g_main.cmd_list);
 	// print_cmd_list();

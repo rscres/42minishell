@@ -63,6 +63,9 @@ valgrind: all
 	valgrind --leak-check=full --track-origins=yes --suppressions=supp.supp \
 	--trace-children-skip='*/bin/*,*/sbin/*' --show-leak-kinds=all -q ./$(NAME)
 
+gdb: all
+	gdb --tui ./$(NAME)
+
 run: all
 	./$(NAME)
 

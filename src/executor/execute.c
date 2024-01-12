@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:09:28 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	execute_cmd_list(void)
 	cmd = g_main.cmd_list;
 	while (cmd)
 	{
-		g_main.is_heredoc_running = 1;
+		g_main.is_cmd_running = 1;
 		if (check_if_builtin(cmd->name))
 			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
 		else
@@ -98,7 +98,7 @@ void	execute_cmd_list(void)
 			}
 			ft_safe_free((void **)&path);
 		}
-		g_main.is_heredoc_running = 0;
+		g_main.is_cmd_running = 0;
 		cmd = cmd->next;
 	}
 }
