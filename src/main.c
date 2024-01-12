@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/11 20:01:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:15:34 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	char	*line;
 
 	signal_set();
-	init_global();
+	init_global(env);
 	set_env(g_main.env_var, env);
 	while (1)
 	{

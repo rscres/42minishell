@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 14:23:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:15:39 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_main
 	t_token		*token_list;
 	t_cmd		*cmd_list;
 	t_cmd_info	cmd_info;
+	char		**envp;
 	char		*line;
 	int			open_quote;
 	int			status;
@@ -128,7 +129,7 @@ void	ft_exit2(int status);
 //init.c
 
 void	init_hashtable(t_env **env_var);
-void	init_global(void);
+void	init_global(char **envp);
 
 //SIGNALS---------------------------------------
 //signal.c
