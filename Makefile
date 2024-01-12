@@ -5,27 +5,27 @@ FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
 SRC =	main.c			\
-		signals.c		\
-		hashtable.c		\
-		set_env.c		\
 		init.c			\
-		tokenizer.c		\
-		token_utils.c	\
-		lexer.c			\
-		parser.c		\
-		cmd_list.c		\
-		cmd_list_utils.c\
-		builtin.c		\
-		expand_var.c	\
-		export.c		\
-		exit.c			\
-		echo.c			\
-		cd.c			\
-		heredoc.c		\
-		execute.c
+		signal/signals.c	\
+		lexer/tokenizer.c	\
+		lexer/token_utils.c	\
+		lexer/lexer.c		\
+		parser/parser.c		\
+		cmd_list/hashtable.c\
+		cmd_list/cmd_list.c		\
+		cmd_list/cmd_list_utils.c\
+		builtin/builtin.c		\
+		builtin/set_env.c	\
+		builtin/export.c		\
+		builtin/exit.c			\
+		builtin/echo.c			\
+		builtin/cd.c			\
+		heredoc/heredoc.c		\
+		executor/expand_var.c	\
+		executor/execute.c
 
 OBJ_DIR = obj
-OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
+OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 LIBFT = libft/libft.a
 
@@ -42,6 +42,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(FLAGS) -I./includes/ -g3 -c $< -o $@
 
 $(LIBFT):
