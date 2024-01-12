@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../../includes/shell.h"
 
 void	move_cmd(t_cmd *cmd)
 {
@@ -94,7 +94,6 @@ void	set_output(t_cmd *cmd)
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(tmp->args[0], 2);
 				ft_putstr_fd(": ", 2);
-				// ft_putstr_fd(strerror(errno), 2);
 				ft_putstr_fd("\n", 2);
 				g_main.status = 1;
 				return ;

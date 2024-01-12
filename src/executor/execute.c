@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../../includes/shell.h"
 
 
 char	*check_path(char *name)
@@ -70,4 +70,35 @@ int	check_if_builtin(char *name)
 	return (0);
 }
 
+void exec_cmd(t_cmd *cmd)
+{
+	char	*path;
 
+	if (check_if_builtin(cmd->name))
+		g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+	else {
+		path = check_path(cmd->name);
+		if (!access(cmd->name, F_OK))
+			exec(cmd, cmd->name);
+		else if (path)
+			exec(cmd, path);
+		else {
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd->name, 2);
+			ft_putstr_fd(": command not found\n", 2);
+			g_main.status = 127;
+		}
+		ft_safe_free((void **) &path);
+	}
+}
+void	execute_cmd_list(void)
+{
+	t_cmd	*cmd;
+
+	cmd = g_main.cmd_list;
+	while (cmd && g_main.cmd_info.pipe_count == 0)
+	{
+		exec_cmd(cmd);
+		cmd = cmd->next;
+	}
+}

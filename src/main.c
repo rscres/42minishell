@@ -29,38 +29,6 @@ char	*get_line(void)
 	return (line);
 }
 
-void	execute_cmd_list(void) // incluir PIPE
-{
-	t_cmd	*cmd;
-	char	*path;
-
-	cmd = g_main.cmd_list;
-	while (cmd)
-	{
-		//______adicionar função separada para exec cmd______
-		if (check_if_builtin(cmd->name))
-			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
-		else
-		{
-			path = check_path(cmd->name);
-			if (!access(cmd->name, F_OK))
-				exec(cmd, cmd->name);
-			else if (path)
-				exec(cmd, path);
-			else
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(cmd->name, 2);
-				ft_putstr_fd(": command not found\n", 2);
-				g_main.status = 127;
-			}
-			ft_safe_free((void **)&path);
-			//______adicionar função separada para exec cmd______
-		}
-		cmd = cmd->next;
-	}
-}
-
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
             char **env)
 {
