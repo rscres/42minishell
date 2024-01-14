@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 17:00:20 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/14 15:22:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	move_cmd(t_cmd *cmd)
 		cmd->next = tmp->next;
 	else
 		cmd->next = NULL;
-	// print_cmd_list();
 	tmp->next = cmd;
 	cmd->prev = tmp;
 }
@@ -56,8 +55,6 @@ void	arrange_cmd_list(void)
 	}
 	while (tmp && tmp->prev)
 		tmp = tmp->prev;
-	print_cmd_list();
-	g_main.cmd_list = tmp;
 }
 
 void	set_output(t_cmd *cmd)
@@ -142,7 +139,6 @@ int	parser(void)
 {
 	// print_cmd_list();
 	arrange_cmd_list();
-	// printf("%s\n", g_main.cmd_list->name);
 	set_output(g_main.cmd_list);
 	// set_input(g_main.cmd_list);
 	// print_cmd_list();
