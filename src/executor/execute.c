@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/14 18:07:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ static void	exec(t_cmd *cmd, char *path)
 	}
 	if (pid == 0)
 	{
-		// redir(cmd);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		dup2(cmd->fd_out, STDOUT_FILENO);
+		printf("out: %d\n", cmd->fd_out);
+		if (cmd->fd_in != 0)
+			dup2(cmd->fd_in, STDIN_FILENO);
+		if (cmd->fd_out != 1)
+			dup2(cmd->fd_out, STDOUT_FILENO);
 		if (execve(path, cmd->args, g_main.envp) == -1)
 			ft_putstr_fd("execve error\n", 2);
 		exit(1);
@@ -79,26 +81,30 @@ void	execute_cmd_list(void)
 	cmd = g_main.cmd_list;
 	while (cmd)
 	{
-		g_main.is_cmd_running = 1;
-		if (check_if_builtin(cmd->name))
-			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
-		else
+		if (cmd->type == WORD)
 		{
-			path = check_path(cmd->name);
-			if (!access(cmd->name, F_OK))
-				exec(cmd, cmd->name);
-			else if (path)
-				exec(cmd, path);
+			printf("fd_out: %d\n", cmd->fd_out);
+			g_main.is_cmd_running = 1;
+			if (check_if_builtin(cmd->name))
+				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
 			else
 			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(cmd->name, 2);
-				ft_putstr_fd(": command not found\n", 2);
-				g_main.status = 127;
+				path = check_path(cmd->name);
+				if (!access(cmd->name, F_OK))
+					exec(cmd, cmd->name);
+				else if (path)
+					exec(cmd, path);
+				else
+				{
+					ft_putstr_fd("minishell: ", 2);
+					ft_putstr_fd(cmd->name, 2);
+					ft_putstr_fd(": command not found\n", 2);
+					g_main.status = 127;
+				}
+				ft_safe_free((void **)&path);
 			}
-			ft_safe_free((void **)&path);
+			g_main.is_cmd_running = 0;
 		}
-		g_main.is_cmd_running = 0;
 		cmd = cmd->next;
 	}
 }

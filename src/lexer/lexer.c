@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2023/12/18 14:36:02 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/14 12:50:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,17 @@ char	*remove_quotes(char *str)
 int	lexer(char **str)
 {
 	char	*token;
-	int		expand;
+	// int		expand;
 	// char	*new_str;
 
 	token = tokenizer(*str);
-	expand = 1;
+	// expand = 1;
 	while (token)
 	{
 		add_token(token, get_type(token));
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
-		expand = 1;
+		// expand = 1;
 	}
 	// while (g_main.open_quote)
 	// {

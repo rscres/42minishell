@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/14 15:22:56 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/14 17:56:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,17 @@ void	arrange_cmd_list(void)
 		tmp = tmp->prev;
 }
 
-void	set_output(t_cmd *cmd)
+void	set_output(void)
 {
 	t_cmd	*tmp;
 
-	tmp = cmd;
-	// printf("1tmp->name = %s\n", tmp->name);
+	tmp = g_main.cmd_list;
 	// while (tmp && tmp->type != WORD)
 		// tmp = tmp->next;
-	while (tmp && tmp->type != WORD)
+	while (tmp)
 	{
-		printf("here\n");
-		// printf("2tmp->name = %s\n", tmp->name);
 		if (tmp->type == OUTFILE)
 		{
-			printf("here2\n");
 			tmp->fd_out = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC,
 					0644);
 			if (tmp->fd_out == -1)
@@ -104,43 +100,42 @@ void	set_output(t_cmd *cmd)
 	}
 }
 
-void	set_input(t_cmd *cmd)
-{
-	t_cmd	*tmp;
+// void	set_input(t_cmd *cmd)
+// {
+// 	t_cmd	*tmp;
 
-	tmp = cmd;
-	while (tmp->type != WORD)
-		tmp = tmp->next;
-	while (tmp)
-	{
-		if (tmp->type == INFILE)
-		{
-			tmp->fd_in = open(tmp->args[0], O_RDONLY);
-			if (tmp->fd_in == -1)
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(tmp->args[0], 2);
-				ft_putstr_fd(": ", 2);
-				// ft_putstr_fd(strerror(errno), 2);
-				ft_putstr_fd("\n", 2);
-				g_main.status = 1;
-				return ;
-			}
-		}
-		if (tmp->type == HEREDOC)
-			return ;
-		if (tmp->prev == NULL)
-			break ;
-		tmp = tmp->prev;
-	}
-}
+// 	tmp = *cmd;
+// 	while (tmp->type != WORD)
+// 		tmp = tmp->next;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == INFILE)
+// 		{
+// 			tmp->fd_in = open(tmp->args[0], O_RDONLY);
+// 			if (tmp->fd_in == -1)
+// 			{
+// 				ft_putstr_fd("minishell: ", 2);
+// 				ft_putstr_fd(tmp->args[0], 2);
+// 				ft_putstr_fd(": ", 2);
+// 				// ft_putstr_fd(strerror(errno), 2);
+// 				ft_putstr_fd("\n", 2);
+// 				g_main.status = 1;
+// 				return ;
+// 			}
+// 		}
+// 		if (tmp->type == HEREDOC)
+// 			return ;
+// 		if (tmp->prev == NULL)
+// 			break ;
+// 		tmp = tmp->prev;
+// 	}
+// }
 
 int	parser(void)
 {
-	// print_cmd_list();
 	arrange_cmd_list();
-	set_output(g_main.cmd_list);
+	set_output();
+	printf("fd_out: %d\n", g_main.cmd_list->fd_out);
 	// set_input(g_main.cmd_list);
-	// print_cmd_list();
 	return (0);
 }
