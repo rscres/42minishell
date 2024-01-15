@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:51:33 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 # define TABLE_SIZE 256
@@ -123,7 +124,7 @@ extern t_main	g_main;
 //exit.c
 
 void	ft_exit(char **args, int argc);
-void	ft_exit2(int status);
+void	ft_exit2(void);
 
 //INIT------------------------------------------
 //init.c

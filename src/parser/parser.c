@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 12:46:36 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:56:00 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	fd_error(char *str)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": ", 2);
-	// ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
 	g_main.status = 1;
 }
@@ -96,42 +96,32 @@ void	set_output(void)
 	}
 }
 
-// void	set_input(t_cmd *cmd)
-// {
-// 	t_cmd	*tmp;
+void	set_input(t_cmd *cmd)
+{
+	t_cmd	*tmp;
 
-// 	tmp = *cmd;
-// 	while (tmp->type != WORD)
-// 		tmp = tmp->next;
-// 	while (tmp)
-// 	{
-// 		if (tmp->type == INFILE)
-// 		{
-// 			tmp->fd_in = open(tmp->args[0], O_RDONLY);
-// 			if (tmp->fd_in == -1)
-// 			{
-// 				ft_putstr_fd("minishell: ", 2);
-// 				ft_putstr_fd(tmp->args[0], 2);
-// 				ft_putstr_fd(": ", 2);
-// 				// ft_putstr_fd(strerror(errno), 2);
-// 				ft_putstr_fd("\n", 2);
-// 				g_main.status = 1;
-// 				return ;
-// 			}
-// 		}
-// 		if (tmp->type == HEREDOC)
-// 			return ;
-// 		if (tmp->prev == NULL)
-// 			break ;
-// 		tmp = tmp->prev;
-// 	}
-// }
+	tmp = *cmd;
+	while (tmp)
+	{
+		if (tmp->type == INFILE)
+		{
+			tmp->fd_in = open(tmp->args[0], O_RDONLY);
+			if (tmp->fd_in == -1)
+			{
+				fd_error(tmp->args[0]);
+				return ;
+			}
+		}
+		if (tmp->type == HEREDOC)
+			return ;
+		tmp = tmp->next;
+	}
+}
 
 int	parser(void)
 {
 	arrange_cmd_list();
 	set_output();
-	printf("fd_out: %d\n", g_main.cmd_list->fd_out);
-	// set_input(g_main.cmd_list);
+	set_input(g_main.cmd_list);
 	return (0);
 }
