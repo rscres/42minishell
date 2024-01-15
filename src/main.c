@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:15:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:06:40 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	{
 		line = get_line();
 		if (!line)
-			ft_exit2(g_main.status);
+			ft_exit2();
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;

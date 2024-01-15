@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/14 12:50:08 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:10:09 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,7 @@ int	lexer(char **str)
 		tmp->name = remove_quotes(tmp->name);
 		tmp = tmp->next;
 	}
-	// tmp = g_main.token_list;
-	// while (tmp)
-	// {
-	// 	printf("%s=>", tmp->name);
-	// 	printf("%i\n", tmp->type);
-	// 	tmp = tmp->next;
-	// }
 	create_cmd_list();
-	// parse_tree(); //need to code this
-	// g_main.status = exec_builtin(g_main.cmd_list->name, g_main.cmd_list->args,
-	// 	g_main.cmd_list->argc);
-	// clear_token_list();
-	// clear_cmd_list();
-	//---move this block----
 	ft_safe_free((void **)&token);
 	return (0);
 }

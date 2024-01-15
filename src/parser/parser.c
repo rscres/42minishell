@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 12:56:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:47:25 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,31 +67,42 @@ static void	fd_error(char *str)
 	g_main.status = 1;
 }
 
+static void	check_file(t_cmd *cmd, t_cmd *tmp)
+{
+	int fd;
+
+	fd = 0;
+	if (tmp->type == APPEND)
+		fd = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (tmp->type == OUTFILE)
+		fd = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		fd_error(tmp->args[0]);
+		return ;
+	}
+	if (cmd->outfile)
+		ft_safe_free((void **)&cmd->outfile);
+	cmd->outfile = ft_strjoin_free(getcwd(NULL, 0), "/");
+	cmd->outfile = ft_strjoin_free(cmd->outfile, tmp->args[0]);
+	close(fd);
+}
+
 void	set_output(void)
 {
 	t_cmd	*tmp;
+	t_cmd	*cmd;
 
+	cmd = g_main.cmd_list;
+	while (cmd && cmd->type != WORD)
+		cmd = cmd->next;
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
 		if (tmp->type == OUTFILE)
-		{
-			tmp->fd_out = open(tmp->args[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
-			if (tmp->fd_out == -1)
-			{
-				fd_error(tmp->args[0]);
-				return ;
-			}
-		}
-		if (tmp->type == APPEND)
-		{
-			tmp->fd_out = open(tmp->args[0], O_RDWR | O_CREAT | O_APPEND, 0644);
-			if (tmp->fd_out == -1)
-			{
-				fd_error(tmp->args[0]);
-				return ;
-			}
-		}
+			check_file(cmd, tmp);
+		else if (tmp->type == APPEND)
+			check_file(cmd, tmp);
 		tmp = tmp->next;
 	}
 }
@@ -99,14 +110,15 @@ void	set_output(void)
 void	set_input(t_cmd *cmd)
 {
 	t_cmd	*tmp;
+	int		fd;
 
-	tmp = *cmd;
+	tmp = cmd;
 	while (tmp)
 	{
 		if (tmp->type == INFILE)
 		{
-			tmp->fd_in = open(tmp->args[0], O_RDONLY);
-			if (tmp->fd_in == -1)
+			fd = open(tmp->args[0], O_RDONLY);
+			if (fd == -1)
 			{
 				fd_error(tmp->args[0]);
 				return ;

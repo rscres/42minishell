@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/11 20:17:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:34:01 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void	ft_exit(char **args, int argc)
 	exit(status);
 }
 
-void	ft_exit2(int status)
+void	ft_exit2(void)
 {
 	clear_hashtable(g_main.env_var);
 	clear_cmd_list();
 	clear_token_list();
 	printf("exit\n");
-	exit(adjust_status(status));
+	exit(0);
 }

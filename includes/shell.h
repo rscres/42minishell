@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 12:51:33 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:01:40 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ typedef struct s_cmd
 {
 	char			*name;
 	char			**args;
+	char			*infile;
+	char			*outfile;
 	int				argc;
 	int				redir;
-	int				fd_in;
-	int				fd_out;
+	int				fd[2];
 	int				type;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
