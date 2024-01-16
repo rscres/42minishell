@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 17:01:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 00:21:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	set_fd(t_cmd *cmd)
 	}
 	if (cmd->outfile != NULL)
 	{
-		// if (cmd->type == APPEND)
-			// cmd->fd[1] = open(cmd->outfile, O_WRONLY | O_APPEND, 0644);
-		// else if (cmd->type == OUTFILE)
+		if (cmd->redir[1]== APPEND)
+			cmd->fd[1] = open(cmd->outfile, O_WRONLY | O_APPEND, 0644);
+		else if (cmd->redir[1] == OUTFILE)
 			cmd->fd[1] = open(cmd->outfile, O_WRONLY | O_TRUNC, 0644);
 		dup2(cmd->fd[1], STDOUT_FILENO);
 		close(cmd->fd[1]);

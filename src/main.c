@@ -3,16 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 16:06:40 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 00:10:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
 t_main	g_main;
+
+void	print_ascii(void)
+{
+	int pid = fork();
+	if (pid == 0)
+	{
+		execl("/usr/bin/clear", "clear", NULL);
+		exit(0);
+	}
+	else
+		wait(NULL);
+	ft_putendl_fd("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░  ░░░░░░░  ░░░░░░░", 0);
+	ft_putendl_fd("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
+	ft_putendl_fd("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
+	ft_putendl_fd("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████  ███████  ███████", 0);
+	ft_putendl_fd("█  ████  █        █  ███   █        █  ████  █        █        █        █", 0);
+	ft_putchar_fd('\n', 0);
+}
 
 // char	*get_line(int flag)
 // {
@@ -49,6 +67,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 {
 	char	*line;
 
+	print_ascii();
 	signal_set();
 	init_global(env);
 	set_env(g_main.env_var, env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 16:47:25 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 00:29:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,14 @@ static void	check_file(t_cmd *cmd, t_cmd *tmp)
 	close(fd);
 }
 
+//The function set_output() is called from parser.c
+//It runs through the command list and checks for output redirections
+//If it finds one, it calls check_file() to check if the file exists and is accessible.
+//If the file exists and is accessible, it saves the path of the file in cmd->outfile.
+//It also saves the  current redirection type in cmd->redir[1]
+//redir[0] is used for input redirections
+//redir[1] is used for output redirections
+
 void	set_output(void)
 {
 	t_cmd	*tmp;
@@ -100,9 +108,15 @@ void	set_output(void)
 	while (tmp)
 	{
 		if (tmp->type == OUTFILE)
+		{
 			check_file(cmd, tmp);
+			cmd->redir[1] = OUTFILE;
+		}
 		else if (tmp->type == APPEND)
+		{
 			check_file(cmd, tmp);
+			cmd->redir[1] = APPEND;
+		}
 		tmp = tmp->next;
 	}
 }

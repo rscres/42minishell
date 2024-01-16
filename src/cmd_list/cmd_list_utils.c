@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 16:08:20 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 00:14:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_cmd	*new_cmd(char *name, int type)
 	cmd->name = ft_strdup(name);
 	cmd->args = NULL;
 	cmd->argc = 0;
-	cmd->redir = 0;
+	cmd->redir[0] = 0;
+	cmd->redir[1] = 0;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
 	cmd->type = type;
