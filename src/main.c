@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 00:10:27 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/16 15:04:34 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ t_main	g_main;
 
 void	print_ascii(void)
 {
-	int pid = fork();
+	int	pid;
+
+	pid = fork();
 	if (pid == 0)
 	{
 		execl("/usr/bin/clear", "clear", NULL);
@@ -24,11 +26,16 @@ void	print_ascii(void)
 	}
 	else
 		wait(NULL);
-	ft_putendl_fd("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░  ░░░░░░░  ░░░░░░░", 0);
-	ft_putendl_fd("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
-	ft_putendl_fd("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
-	ft_putendl_fd("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████  ███████  ███████", 0);
-	ft_putendl_fd("█  ████  █        █  ███   █        █  ████  █        █        █        █", 0);
+	ft_putendl_fd("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░\
+		  ░░░░░░░  ░░░░░░░", 0);
+	ft_putendl_fd("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒\
+		  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
+	ft_putendl_fd("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓\
+		  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
+	ft_putendl_fd("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████\
+		  ███████  ███████", 0);
+	ft_putendl_fd("█  ████  █        █  ███   █        █  ████  █        \
+			█        █        █", 0);
 	ft_putchar_fd('\n', 0);
 }
 
@@ -79,7 +86,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;
-			lexer(&line);
+			g_main.status = lexer(&line);
 			parser();
 			execute_cmd_list();
 			clear_token_list();

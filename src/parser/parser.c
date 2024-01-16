@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 00:29:56 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/16 14:17:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	fd_error(char *str)
 
 static void	check_file(t_cmd *cmd, t_cmd *tmp)
 {
-	int fd;
+	int	fd;
 
 	fd = 0;
 	if (tmp->type == APPEND)
@@ -90,9 +90,10 @@ static void	check_file(t_cmd *cmd, t_cmd *tmp)
 
 //The function set_output() is called from parser.c
 //It runs through the command list and checks for output redirections
-//If it finds one, it calls check_file() to check if the file exists and is accessible.
-//If the file exists and is accessible, it saves the path of the file in cmd->outfile.
-//It also saves the  current redirection type in cmd->redir[1]
+//If it finds one, it calls check_file() to check if the file exists 
+//and is accessible. If the file exists and is accessible, it saves 
+//the path of the file in cmd->outfile. It also saves the  current 
+//redirection type in cmd->redir[1]
 //redir[0] is used for input redirections
 //redir[1] is used for output redirections
 
