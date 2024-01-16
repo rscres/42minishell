@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/15 16:10:09 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:58:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,38 @@ char	*remove_quotes(char *str)
 	}
 	ft_safe_free((void **)&str);
 	return (tmp);
+}
+
+static int	check_syntax(void)
+{
+	t_token	*tmp;
+
+	tmp = g_main.token_list;
+	while (tmp)
+	{
+		if (tmp->type == APPEND || tmp->type == HEREDOC
+			|| tmp->type == OUTFILE || tmp->type == INFILE)
+		{
+			if (!tmp->next || tmp->next->type != WORD)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+				ft_putstr_fd(tmp->name, 2);
+				ft_putendl_fd("\'", 2);
+				clear_token_list();
+				return (1);
+			}
+		}
+		if (tmp->type == PIPE && tmp->prev == NULL)
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(tmp->name, 2);
+			ft_putendl_fd("\'", 2);
+			clear_token_list();
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 int	lexer(char **str)
@@ -104,6 +136,8 @@ int	lexer(char **str)
 		tmp->name = remove_quotes(tmp->name);
 		tmp = tmp->next;
 	}
+	if (g_main.token_list && check_syntax())
+		return (2);
 	create_cmd_list();
 	ft_safe_free((void **)&token);
 	return (0);
