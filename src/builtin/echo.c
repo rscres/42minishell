@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 18:45:34 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/23 20:42:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:14:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_echo(char **args, int fd)
 	{
 		if (args[i][0] == '-' && check_n_flag(args[i]))
 		{
-			printf("n_flag\n");
 			n_flag = 1;
 			i++;
 			continue ;
