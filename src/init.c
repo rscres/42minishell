@@ -21,14 +21,14 @@ void	init_hashtable(t_env **env_var)
 		env_var[i++] = NULL;
 }
 
-void ft_pipe_init (void)
+void ig_pipe_init (void)
 {
-	g_main.cmd_info = ft_calloc(1, sizeof(t_cmd_info));
+	g_main.pipe = ft_calloc(1, sizeof(t_pipe_info));
 }
 void	init_global(void)
 {
 	init_hashtable(g_main.env_var);
-	ft_pipe_init();
+	ig_pipe_init();
 	g_main.token_list = NULL;
 	g_main.line = NULL;
 	g_main.open_quote = 0;

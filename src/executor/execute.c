@@ -96,9 +96,11 @@ void	execute_cmd_list(void)
 	t_cmd	*cmd;
 
 	cmd = g_main.cmd_list;
-	while (cmd && g_main.cmd_info.pipe_count == 0)
+	while (cmd && g_main.pipe->pipe_count  == 0)
 	{
 		exec_cmd(cmd);
 		cmd = cmd->next;
 	}
+	if (g_main.pipe->pipe_count != 0)
+		ig_pipe(cmd);
 }

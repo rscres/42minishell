@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../42_minishell/includes/shell.h"
+#include "../../includes/shell.h"
 
 //The update_save function is used to update the static variable save.
 //It is used to save the remaining string after the token has been extracted.

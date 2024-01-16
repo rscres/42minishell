@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../../includes/shell.h"
 
 static int	get_argc(t_token *tmp)
 {
@@ -81,7 +81,7 @@ void	create_cmd_list(void)
 		{
 			cmd_count = 0;
 			add_cmd(new_cmd(tmp->name, tmp->type));
-			g_main.cmd_info->pipe_count += 1;
+			g_main.pipe->pipe_count += 1;
 			tmp = tmp->next;
 		}
 		else

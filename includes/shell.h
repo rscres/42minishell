@@ -51,8 +51,9 @@ typedef enum s_builtin
 	EXIT
 }	t_builtin;
 
-//Structs
-//token list
+
+//--Structs--//
+//Token list
 
 typedef struct s_token
 {
@@ -62,7 +63,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-//command list
+//Command list
 
 typedef struct s_cmd
 {
@@ -77,7 +78,7 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
-//cmd_info
+//Cmd_info
 
 typedef struct s_cmd_info
 {
@@ -87,11 +88,17 @@ typedef struct s_cmd_info
 	int		infile;
 	int		outfile;
 	int		append;
-	int		pipe;
-	int		pipe_count;
 }	t_cmd_info;
 
-//hashtable
+//pipe_info
+
+typedef struct s_pipe_info
+{
+	char	*path;
+	int		linked[2];
+	int		pipe_count;
+} 			t_pipe_info;
+//Hashtable
 
 typedef struct s_env
 {
@@ -107,12 +114,14 @@ typedef struct s_main
 	t_env		*env_var[TABLE_SIZE];
 	t_token		*token_list;
 	t_cmd		*cmd_list;
-	t_cmd_info	cmd_info;
+	t_cmd_info	*cmd_info;
+	t_pipe_info	*pipe;
 	char		*line;
 	int			open_quote;
 	int			status;
 	int			is_heredoc_running;
 }	t_main;
+
 
 //Global variable
 
@@ -179,7 +188,12 @@ int		exec_builtin(char *name, char **args, int argc);
 
 //execute.c
 
+void	exec_cmd(t_cmd *cmd);
 void	execute_cmd_list(void);
+char	*check_path(char *name);
+void	exec(t_cmd *cmd, char *path);
+int		check_if_builtin(char *name);
+void	exec_cmd(t_cmd *cmd);
 
 //BUILTINS--------------------------------------
 //export.c
@@ -215,6 +229,10 @@ int		free_tab(char **tab);
 //heredoc.c
 
 char	*heredoc(char *delimiter);
+
+//PIPE------------------------------------------
+//pipe.c
+void ig_pipe(t_cmd *cmd);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------
