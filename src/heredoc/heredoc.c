@@ -6,13 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 19:46:41 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char	*expand_var_heredoc(char *str)
+static char	*expand_var_heredoc(char *str)
 {
 	int		i;
 
@@ -25,7 +25,7 @@ char	*expand_var_heredoc(char *str)
 	return (str);
 }
 
-void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
+static void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 {
 	ft_safe_free((void **)&heredoc);
 	ft_putstr_fd("heredoc: warning: here-document at line ", 2);
@@ -36,6 +36,18 @@ void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 	g_main.is_cmd_running = 0;
 	g_main.status = 0;
 	return (NULL);
+}
+
+static void	save_heredoc(char *delim, char *heredoc)
+{
+	int		fd;
+
+	fd = open("./heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	write(fd, heredoc, ft_strlen(heredoc) - ft_strlen(delim) - 2);
+	close(fd);
+	// fd = open("./heredoc", O_RDONLY);
+	// dup2(fd, 0);
+	// close(fd);
 }
 
 char	*heredoc(char *delimiter)
@@ -59,6 +71,7 @@ char	*heredoc(char *delimiter)
 			break ;
 		ft_safe_free((void **)&line);
 	}
+	save_heredoc(delimiter, heredoc);
 	ft_safe_free((void **)&line);
 	g_main.line = ft_strjoin_free(g_main.line, "\n");
 	g_main.line = ft_strjoin_free(g_main.line, heredoc);

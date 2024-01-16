@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 00:21:51 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/16 19:39:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	execute_cmd_list(void)
 	cmd = g_main.cmd_list;
 	while (cmd)
 	{
-		if (cmd->type == WORD)
+		if (cmd->type == WORD || cmd->type == HEREDOC)
 		{
 			g_main.is_cmd_running = 1;
 			if (check_if_builtin(cmd->name))
