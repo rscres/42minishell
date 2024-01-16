@@ -6,12 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 15:46:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:39:22 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
-
+#include "shell.h"
 
 char	*check_path(char *name)
 {
@@ -39,7 +38,27 @@ char	*check_path(char *name)
 	return (NULL);
 }
 
-void	exec(t_cmd *cmd, char *path)
+//Need flag to know if output is outfile or append
+static void	set_fd(t_cmd *cmd)
+{
+	if (cmd->infile != NULL)
+	{
+		cmd->fd[0] = open(cmd->infile, O_RDONLY);
+		dup2(cmd->fd[0], STDIN_FILENO);
+		close(cmd->fd[0]);
+	}
+	if (cmd->outfile != NULL)
+	{
+		if (cmd->redir[1]== APPEND)
+			cmd->fd[1] = open(cmd->outfile, O_WRONLY | O_APPEND, 0644);
+		else if (cmd->redir[1] == OUTFILE)
+			cmd->fd[1] = open(cmd->outfile, O_WRONLY | O_TRUNC, 0644);
+		dup2(cmd->fd[1], STDOUT_FILENO);
+		close(cmd->fd[1]);
+	}
+}
+
+static void	exec(t_cmd *cmd, char *path)
 {
 	int		pid;
 
@@ -51,8 +70,8 @@ void	exec(t_cmd *cmd, char *path)
 	}
 	if (pid == 0)
 	{
-		// redir(cmd);
-		if (execve(path, cmd->args, NULL) == -1)
+		set_fd(cmd);
+		if (execve(path, cmd->args, g_main.envp) == -1)
 			ft_putstr_fd("execve error\n", 2);
 		exit(1);
 	}
@@ -65,40 +84,80 @@ int	check_if_builtin(char *name)
 	if (ft_strcmp(name, "echo") == 0 || ft_strcmp(name, "cd") == 0
 		|| ft_strcmp(name, "pwd") == 0 || ft_strcmp(name, "export") == 0
 		|| ft_strcmp(name, "unset") == 0 || ft_strcmp(name, "env") == 0
-		|| ft_strcmp(name, "exit") == 0)
+		|| ft_strcmp(name, "exit") == 0 || ft_strcmp(name, "<<") == 0)
 		return (1);
 	return (0);
 }
 
-void exec_cmd(t_cmd *cmd)
-{
-	char	*path;
+// void exec_cmd(t_cmd *cmd)
+// {
+// 	char	*path;
 
-	if (check_if_builtin(cmd->name))
-		g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
-	else {
-		path = check_path(cmd->name);
-		if (!access(cmd->name, F_OK))
-			exec(cmd, cmd->name);
-		else if (path)
-			exec(cmd, path);
-		else {
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->name, 2);
-			ft_putstr_fd(": command not found\n", 2);
-			g_main.status = 127;
-		}
-		ft_safe_free((void **) &path);
-	}
-}
+// 	g_main.is_cmd_running = 1;
+// 	if (check_if_builtin(cmd->name))
+// 		g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+// 	else {
+// 		path = check_path(cmd->name);
+// 		if (!access(cmd->name, F_OK))
+// 			exec(cmd, cmd->name);
+// 		else if (path)
+// 			exec(cmd, path);
+// 		else {
+// 			ft_putstr_fd("minishell: ", 2);
+// 			ft_putstr_fd(cmd->name, 2);
+// 			ft_putstr_fd(": command not found\n", 2);
+// 			g_main.status = 127;
+// 		}
+// 		ft_safe_free((void **) &path);
+// 	}
+// 	g_main.is_cmd_running = 0;
+// }
+
+// void	execute_cmd_list(void)
+// {
+// 	t_cmd	*cmd;
+
+// 	cmd = g_main.cmd_list;
+// 	while (cmd && g_main.pipe->pipe_count  == 0)
+// 	{
+// 		exec_cmd(cmd);
+// 		cmd = cmd->next;
+// 	}
+// 	if (g_main.pipe->pipe_count != 0)
+// 		ig_pipe(cmd);
+// }
+
 void	execute_cmd_list(void)
 {
 	t_cmd	*cmd;
+	char	*path;
 
 	cmd = g_main.cmd_list;
 	while (cmd && g_main.pipe->pipe_count  == 0)
 	{
-		exec_cmd(cmd);
+		if (cmd->type == WORD)
+		{
+			g_main.is_cmd_running = 1;
+			if (check_if_builtin(cmd->name))
+				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+			else
+			{
+				path = check_path(cmd->name);
+				if (!access(cmd->name, F_OK))
+					exec(cmd, cmd->name);
+				else if (path)
+					exec(cmd, path);
+				else
+				{
+					ft_putstr_fd("minishell: ", 2);
+					ft_putstr_fd(cmd->name, 2);
+					ft_putstr_fd(": command not found\n", 2);
+					g_main.status = 127;
+				}
+				ft_safe_free((void **)&path);
+			}
+			g_main.is_cmd_running = 0;
+		}
 		cmd = cmd->next;
 	}
 	if (g_main.pipe->pipe_count != 0)

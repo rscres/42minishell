@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 14:23:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:16:39 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 # define TABLE_SIZE 256
@@ -69,10 +70,11 @@ typedef struct s_cmd
 {
 	char			*name;
 	char			**args;
+	char			*infile;
+	char			*outfile;
 	int				argc;
-	int				redir;
-	int				fd_in;
-	int				fd_out;
+	int				redir[2];
+	int				fd[2];
 	int				type;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -114,12 +116,12 @@ typedef struct s_main
 	t_env		*env_var[TABLE_SIZE];
 	t_token		*token_list;
 	t_cmd		*cmd_list;
-	t_cmd_info	*cmd_info;
-	t_pipe_info	*pipe;
+	t_cmd_info	cmd_info;
+	char		**envp;
 	char		*line;
 	int			open_quote;
 	int			status;
-	int			is_heredoc_running;
+	int			is_cmd_running;
 }	t_main;
 
 
@@ -131,13 +133,13 @@ extern t_main	g_main;
 //exit.c
 
 void	ft_exit(char **args, int argc);
-void	ft_exit2(int status);
+void	ft_exit2(void);
 
 //INIT------------------------------------------
 //init.c
 
 void	init_hashtable(t_env **env_var);
-void	init_global(void);
+void	init_global(char **envp);
 
 //SIGNALS---------------------------------------
 //signal.c

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 15:12:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:16:44 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,39 +198,3 @@ void	print_hashtable(t_env **env_var)
 		i++;
 	}
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	t_env	*env_var[TABLE_SIZE];
-// 	int		i;
-// 	t_env	*tmp;
-
-// 	i = 0;
-// 	while (i < TABLE_SIZE)
-// 	{
-// 		env_var[i] = NULL;
-// 		i++;
-// 	}
-// 	insert_key(env_var, "PATH", "/bin");
-// 	insert_key(env_var, "BIN", "/usr/bin");
-// 	insert_key(env_var, "LOCAL", "/usr/local/bin");
-// 	insert_key(env_var, "SBIN", "/sbin");
-// 	insert_key(env_var, "PATH", "/usr/sbin");
-// 	insert_key(env_var, "LOCALS", "/usr/local/sbin");
-// 	insert_key(env_var, "X11", "/opt/X11/bin");
-// 	insert_key(env_var, "TEXBIN", "/usr/texbin");
-// 	insert_key(env_var, "MUNKI", "/usr/local/munki");
-// 	insert_key(env_var, "GIT", "/usr/local/git/bin");
-// 	insert_key(env_var, "MYSQL", "/usr/local/mysql/bin");
-// 	print_hashtable(env_var);
-// 	printf("\n");
-// 	// tmp = search(env_var, argv[1]);
-// 	// if (tmp)
-// 	// 	printf("\n%s\n", tmp->value);
-// 	// else
-// 	// 	printf("\n%s\n", "Var not found");
-// 	delete_key(env_var, "SBIN");
-// 	print_hashtable(env_var);
-// 	clear_hashtable(env_var);
-// 	return (0);
-// }

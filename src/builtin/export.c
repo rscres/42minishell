@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/12/18 14:35:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:25:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,8 @@ static int	set_var(char **args)
 				insert_key(g_main.env_var, split[0], split[1]);
 			free_tab(split);
 		}
-		else
-		{
-			if (!ft_isalpha(args[i][0]) || str_isalnum(args[i]) == 0)
-				return (error_msg(args[i]));
-		}
+		else if (!ft_isalpha(args[i][0]) || str_isalnum(args[i]) == 0)
+			return (error_msg(args[i]));
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 13:57:55 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimiter, 2);
 	ft_putstr_fd("')\n", 2);
-	g_main.is_heredoc_running = 0;
+	g_main.is_cmd_running = 0;
 	g_main.status = 0;
 	return (NULL);
 }
@@ -45,7 +45,7 @@ char	*heredoc(char *delimiter)
 	char	*heredoc;
 	int		line_count;
 
-	g_main.is_heredoc_running = 1;
+	g_main.is_cmd_running = 1;
 	heredoc = ft_strdup("");
 	line_count = 0;
 	while (1)
@@ -66,7 +66,6 @@ char	*heredoc(char *delimiter)
 	// g_main.line = ft_strjoin(line, heredoc);
 	// printf("g_main.line: %s\n", g_main.line);
 	heredoc = expand_var_heredoc(heredoc);
-	printf("%s\n", heredoc);
-	g_main.is_heredoc_running = 0;
+	g_main.is_cmd_running = 0;
 	return (heredoc);
 }

@@ -19,14 +19,21 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c\
 CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 NAME = libft.a
-OBJ = $(SRC:.c=.o)
+OBJ_DIR = obj
+OBJ = $(patsubst %,$(OBJ_DIR)/%,$(SRC:.c=.o))
 
-all: $(NAME)
+all: directory $(NAME)
 	
 $(NAME): $(OBJ)
 	@ar -rcs $(NAME) $(OBJ)
 
-%.o: %.c
+directory: $(OBJ_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:

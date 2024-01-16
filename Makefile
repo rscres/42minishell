@@ -67,7 +67,7 @@ valgrind: all
 gdb: all
 	gdb --tui ./$(NAME)
 
-run: all
+rhum: all
 	./$(NAME)
 
 .PHONY: all clean fclean re valgrind gdb run directory
