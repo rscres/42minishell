@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 15:04:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/16 19:29:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	print_ascii(void)
 	pid = fork();
 	if (pid == 0)
 	{
-		execl("/usr/bin/clear", "clear", NULL);
+		execl("/usr/bin/clear", "clear", NULL); //change to execve
 		exit(0);
 	}
 	else
 		wait(NULL);
-	ft_putendl_fd("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░\
-		  ░░░░░░░  ░░░░░░░", 0);
-	ft_putendl_fd("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒\
-		  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
-	ft_putendl_fd("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓\
-		  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
-	ft_putendl_fd("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████\
-		  ███████  ███████", 0);
-	ft_putendl_fd("█  ████  █        █  ███   █        █  ████  █        \
-			█        █        █", 0);
+	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
+	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
+	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
+	ft_putendl_fd("  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
+	ft_putstr("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓");
+	ft_putendl_fd("  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
+	ft_putstr("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████");
+	ft_putendl_fd("  ███████  ███████", 0);
+	ft_putstr("█  ████  █        █  ███   █        █  ████  █        ");
+	ft_putendl_fd("█        █        █", 0);
 	ft_putchar_fd('\n', 0);
 }
 
