@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 19:46:41 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:42:35 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	save_heredoc(char *delim, char *heredoc)
 	int		fd;
 
 	fd = open("./heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	write(fd, heredoc, ft_strlen(heredoc) - ft_strlen(delim) - 2);
+	write(fd, heredoc, ft_strlen(heredoc) - ft_strlen(delim) - 1);
 	close(fd);
 	// fd = open("./heredoc", O_RDONLY);
 	// dup2(fd, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 23:47:38 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:20:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,27 +67,6 @@ static void	fd_error(char *str)
 	g_main.status = 1;
 }
 
-static void	check_infile(t_cmd *cmd, t_cmd *tmp)
-{
-	int	fd;
-
-	fd = 0;
-	if (tmp->type == HEREDOC)
-		fd = open("heredoc", O_RDONLY, 0644);
-	else if (tmp->type == INFILE)
-		fd = open(tmp->args[0], O_RDONLY, 0644);
-	if (fd == -1)
-	{
-		fd_error(tmp->args[0]);
-		return ;
-	}
-	if (cmd->infile)
-		ft_safe_free((void **)&cmd->infile);
-	cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
-	cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
-	close(fd);
-}
-
 static void	check_outfile(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
@@ -143,6 +122,39 @@ void	set_output(void)
 	}
 }
 
+static void	check_infile(t_cmd *cmd, t_cmd *tmp)
+{
+	int	fd;
+
+	fd = 0;
+	if (tmp->type == HEREDOC)
+	{
+		fd = open("heredoc", O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			fd_error("heredoc");
+			return ;
+		}
+	}
+	else if (tmp->type == INFILE)
+	{
+		fd = open(tmp->args[0], O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			fd_error(tmp->args[0]);
+			return ;
+		}
+	}
+	if (cmd->infile)
+		ft_safe_free((void **)&cmd->infile);
+	cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
+	if (tmp->type == HEREDOC)
+		cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
+	else if (tmp->type == INFILE)
+		cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
+	close(fd);
+}
+
 void	set_input(void)
 {
 	t_cmd	*tmp;
@@ -169,10 +181,35 @@ void	set_input(void)
 	}
 }
 
+void	remove_redir(void)
+{
+	t_cmd	*tmp;
+
+	tmp = g_main.cmd_list;
+	while (tmp)
+	{
+		if ((tmp->type == INFILE || tmp->type == OUTFILE || tmp->type == APPEND
+				|| tmp->type == HEREDOC) && tmp->next)
+		{
+			tmp->next->prev = tmp->prev;
+			if (tmp->prev)
+				tmp->prev->next = tmp->next;
+			else
+				g_main.cmd_list = tmp->next;
+			free_tab(tmp->args);
+			ft_safe_free((void **)&tmp->name);
+			ft_safe_free((void **)&tmp);
+		}
+		if (tmp)
+			tmp = tmp->next;
+	}
+}
+
 int	parser(void)
 {
 	arrange_cmd_list();
 	set_output();
 	set_input();
+	remove_redir();
 	return (0);
 }

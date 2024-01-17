@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 15:16:39 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:51:05 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ extern t_main	g_main;
 
 void	ft_exit(char **args, int argc);
 void	ft_exit2(void);
+int		adjust_status(int status);
 
 //INIT------------------------------------------
 //init.c
