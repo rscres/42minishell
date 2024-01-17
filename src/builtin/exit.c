@@ -6,13 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/15 12:34:01 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:50:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	adjust_status(int status)
+int	adjust_status(int status)
 {
 	while (status > 255)
 		status -= 256;

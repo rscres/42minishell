@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 00:09:10 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:21:36 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp)
 	cmd->args = malloc(sizeof(char *) * (get_argc(tmp) + 2));
 	if (get_argc(tmp) > 0)
 		cmd->args[cmd->argc++] = ft_strdup(tmp->prev->name);
-	else if (tmp->prev)
+	else if (tmp && tmp->prev)
 		cmd->args[cmd->argc++] = ft_strdup(tmp->prev->name);
 	while (tmp && tmp->type != PIPE)
 	{
@@ -88,5 +88,4 @@ void	create_cmd_list(void)
 		else
 			tmp = tmp->next;
 	}
-	// print_cmd_list();
 }
