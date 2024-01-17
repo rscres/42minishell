@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 19:39:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 00:07:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,29 @@ void	execute_cmd_list(void)
 {
 	t_cmd	*cmd;
 	char	*path;
+	int		fd;
 
 	cmd = g_main.cmd_list;
+	fd = 0;
 	while (cmd)
 	{
-		if (cmd->type == WORD || cmd->type == HEREDOC)
+		if (cmd->type == WORD)
 		{
+
 			g_main.is_cmd_running = 1;
+			if (cmd->infile)
+				fd = open(cmd->infile, O_RDONLY);
+			if (fd == -1)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(cmd->infile, 2);
+				ft_putstr_fd(": ", 2);
+				ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+				g_main.status = 1;
+				g_main.is_cmd_running = 0;
+				return ;
+			}
 			if (check_if_builtin(cmd->name))
 				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
 			else
@@ -122,4 +138,5 @@ void	execute_cmd_list(void)
 		}
 		cmd = cmd->next;
 	}
+	unlink("heredoc");
 }
