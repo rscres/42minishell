@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 17:20:08 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 00:40:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ static void	check_infile(t_cmd *cmd, t_cmd *tmp)
 	int	fd;
 
 	fd = 0;
+	if (!cmd)
+		return ;
 	if (tmp->type == HEREDOC)
 	{
 		fd = open("heredoc", O_RDONLY, 0644);
@@ -169,13 +171,15 @@ void	set_input(void)
 		if (tmp->type == INFILE)
 		{
 			check_infile(cmd, tmp);
-			cmd->redir[0] = INFILE;
+			if (cmd)
+				cmd->redir[0] = INFILE;
 		}
 		else if (tmp->type == HEREDOC)
 		{
-			heredoc(tmp->args[0]);
+			free(heredoc(tmp->args[0])); //fix this
 			check_infile(cmd, tmp);
-			cmd->redir[0] = HEREDOC;
+			if (cmd)
+				cmd->redir[0] = HEREDOC;
 		}
 		tmp = tmp->next;
 	}
@@ -209,6 +213,7 @@ int	parser(void)
 {
 	arrange_cmd_list();
 	set_output();
+	print_cmd_list();
 	set_input();
 	remove_redir();
 	return (0);

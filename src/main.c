@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 18:10:54 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 00:40:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,12 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		}
 		if (ft_strlen(line) > 0)
 		{
-			g_main.line = ft_strdup(line);
+			g_main.line = line;
 			g_main.status = lexer(&line);
-			clear_token_list();
 			parser();
 			execute_cmd_list();
 			clear_cmd_list();
 			add_history(g_main.line);
-			ft_safe_free((void **)&line);
 		}
 	}
 	return (g_main.status);

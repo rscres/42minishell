@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/16 14:58:52 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 23:31:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int	lexer(char **str)
 	if (g_main.token_list && check_syntax())
 		return (2);
 	create_cmd_list();
+	clear_token_list();
 	ft_safe_free((void **)&token);
 	return (0);
 }
