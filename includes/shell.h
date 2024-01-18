@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 18:07:36 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:35:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,10 @@ int		free_tab(char **tab);
 //heredoc.c
 
 int		heredoc(char *delimiter);
+
+//heredoc_utils.c
+
+char	*name_heredoc(char *str)
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------
