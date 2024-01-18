@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 00:40:12 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 18:24:29 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			clear_cmd_list();
 			add_history(g_main.line);
 		}
+		if (g_main.line)
+			ft_safe_free((void **)&g_main.line);
 	}
 	return (g_main.status);
 }

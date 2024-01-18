@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:49:46 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/30 16:31:45 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:14:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 
 //Joins two strings and frees the first one
-char	*ft_strjoin_free(char const *s1, char const *s2)
+char	*ft_strjoin_free(char *s1, char const *s2)
 {
 	char	*str;
 	size_t	len1;

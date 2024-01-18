@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 23:27:11 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 19:06:37 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ char	*check_path(char *name)
 int	ft_error(char *str, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(strerror(errno), 2);
+	// ft_putstr_fd(str, 2);
+	// ft_putstr_fd(": ", 2);
+	// ft_putendl_fd(strerror(errno), 2);
+	perror(str);
+	printf("errno: %d\n", errno);
 	g_main.is_cmd_running = 0;
 	g_main.status = err;
-	return (errno);
+	return (err);
 }
 
 //Need flag to know if output is outfile or append
@@ -57,7 +59,7 @@ static void	set_fd(t_cmd *cmd)
 		cmd->fd[0] = open(cmd->infile, O_RDONLY);
 		if (cmd->fd[0] == -1)
 		{
-			g_main.status = ft_error(cmd->infile, 1);
+			ft_error(cmd->infile, 1);
 			exit(1);
 		}
 		dup2(cmd->fd[0], STDIN_FILENO);
@@ -117,31 +119,31 @@ void	execute_cmd_list(void)
 	{
 		if (cmd->type == WORD)
 		{
-
 			g_main.is_cmd_running = 1;
 			if (cmd->infile)
-				fd = open(cmd->infile, O_RDONLY);
-			if (fd == -1)
 			{
-				g_main.status = ft_error(cmd->infile, 1);
-				return ;
+				fd = open(cmd->infile, O_RDONLY);
+				if (fd == -1)
+				{
+					ft_error(cmd->infile, 1);
+					return ;
+				}
 			}
 			if (check_if_builtin(cmd->name))
 				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
 			else
 			{
 				path = check_path(cmd->name);
-				if (!access(cmd->name, F_OK))
-					exec(cmd, cmd->name);
-				else if (path)
+				if (!access(path, F_OK))
 					exec(cmd, path);
+				else if (!access(cmd->name, F_OK))
+					exec(cmd, cmd->name); 
 				else
 				{
-					g_main.status = ft_error(cmd->name, 127);
-					// ft_putstr_fd("minishell: ", 2);
-					// ft_putstr_fd(cmd->name, 2);
-					// ft_putstr_fd(": command not found\n", 2);
-					// g_main.status = 127;
+					ft_putstr_fd("minishell: ", 2);
+					ft_putstr_fd(cmd->name, 2);
+					ft_putstr_fd(": command not found\n", 2);
+					g_main.status = 127;
 				}
 				ft_safe_free((void **)&path);
 			}

@@ -38,6 +38,7 @@ $(OBJ_DIR)/%.o: %.c
 
 clean:
 	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_DIR)
 	
 fclean: clean
 	@rm -rf libft.a	

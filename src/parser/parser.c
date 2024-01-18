@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 00:40:50 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 18:50:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void	set_input(void)
 		}
 		else if (tmp->type == HEREDOC)
 		{
-			free(heredoc(tmp->args[0])); //fix this
+			heredoc(tmp->args[0]);
 			check_infile(cmd, tmp);
 			if (cmd)
 				cmd->redir[0] = HEREDOC;
@@ -213,7 +213,6 @@ int	parser(void)
 {
 	arrange_cmd_list();
 	set_output();
-	print_cmd_list();
 	set_input();
 	remove_redir();
 	return (0);
