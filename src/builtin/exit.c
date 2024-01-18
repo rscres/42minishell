@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/17 17:50:51 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 23:21:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	check_if_num(char *arg)
 	int		i;
 
 	i = 0;
-	while (arg[i])
+	while (arg && arg[i])
 	{
 		if (!ft_isdigit(arg[i]) && arg[i] != '-' && arg[i] != '+')
 		{
@@ -54,7 +54,7 @@ void	ft_exit(char **args, int argc)
 		clear_cmd_list();
 		exit(1);
 	}
-	if (args && args[0] == NULL)
+	if (args && args[1] == NULL)
 	{
 		clear_cmd_list();
 		exit(g_main.status);

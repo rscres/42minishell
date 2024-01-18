@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 17:58:02 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/17 22:48:38 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	execute_cmd_list(void)
 
 	cmd = g_main.cmd_list;
 	fd = 0;
+	print_cmd_list();
 	while (cmd)
 	{
 		if (cmd->type == WORD)
