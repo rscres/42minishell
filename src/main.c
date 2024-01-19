@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 16:38:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:39:05 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,21 @@ void	print_ascii(void)
 	pid = fork();
 	if (pid == 0)
 	{
-		execl("/usr/bin/clear", "clear", NULL);
+		execl("/usr/bin/clear", "clear", NULL); //change to execve
 		exit(0);
 	}
 	else
 		wait(NULL);
+	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
+	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
+	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
+	ft_putendl_fd("  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
+	ft_putstr("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓");
+	ft_putendl_fd("  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
+	ft_putstr("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████");
+	ft_putendl_fd("  ███████  ███████", 0);
+	ft_putstr("█  ████  █        █  ███   █        █  ████  █        ");
+	ft_putendl_fd("█        █        █", 0);
 	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
 	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
 	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
@@ -82,18 +92,21 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	{
 		line = get_line();
 		if (!line)
+		{
+			ft_safe_free((void **)&line);
 			ft_exit2();
+		}
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;
 			g_main.status = lexer(&line);
 			parser();
 			execute_cmd_list();
-			clear_token_list();
 			clear_cmd_list();
 			add_history(g_main.line);
 		}
-		ft_safe_free((void **)&line);
+		if (g_main.line)
+			ft_safe_free((void **)&g_main.line);
 	}
 	return (g_main.status);
 }

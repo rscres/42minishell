@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 14:17:52 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 00:01:07 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	fd_error(char *str)
 	g_main.status = 1;
 }
 
-static void	check_file(t_cmd *cmd, t_cmd *tmp)
+static void	check_outfile(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
 
@@ -90,7 +90,7 @@ static void	check_file(t_cmd *cmd, t_cmd *tmp)
 
 //The function set_output() is called from parser.c
 //It runs through the command list and checks for output redirections
-//If it finds one, it calls check_file() to check if the file exists 
+//If it finds one, it calls check_outfile() to check if the file exists 
 //and is accessible. If the file exists and is accessible, it saves 
 //the path of the file in cmd->outfile. It also saves the  current 
 //redirection type in cmd->redir[1]
@@ -110,38 +110,105 @@ void	set_output(void)
 	{
 		if (tmp->type == OUTFILE)
 		{
-			check_file(cmd, tmp);
+			check_outfile(cmd, tmp);
 			cmd->redir[1] = OUTFILE;
 		}
 		else if (tmp->type == APPEND)
 		{
-			check_file(cmd, tmp);
+			check_outfile(cmd, tmp);
 			cmd->redir[1] = APPEND;
 		}
 		tmp = tmp->next;
 	}
 }
 
-void	set_input(t_cmd *cmd)
+static void	check_infile(t_cmd *cmd, t_cmd *tmp)
+{
+	int	fd;
+
+	fd = 0;
+	if (!cmd)
+		return ;
+	if (tmp->type == HEREDOC)
+	{
+		fd = open(tmp->args[0], O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			fd_error("heredoc");
+			return ;
+		}
+	}
+	else if (tmp->type == INFILE)
+	{
+		fd = open(tmp->args[0], O_RDONLY, 0644);
+		if (fd == -1)
+		{
+			fd_error(tmp->args[0]);
+			return ;
+		}
+	}
+	if (cmd->infile)
+		ft_safe_free((void **)&cmd->infile);
+	cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
+	// if (tmp->type == HEREDOC)
+	// 	cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
+	// else if (tmp->type == INFILE)
+		cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
+	close(fd);
+}
+
+void	set_input(void)
 {
 	t_cmd	*tmp;
-	int		fd;
+	t_cmd	*cmd;
+	char	*name;
 
-	tmp = cmd;
+	cmd = g_main.cmd_list;
+	while (cmd && cmd->type != WORD)
+		cmd = cmd->next;
+	tmp = g_main.cmd_list;
 	while (tmp)
 	{
 		if (tmp->type == INFILE)
 		{
-			fd = open(tmp->args[0], O_RDONLY);
-			if (fd == -1)
-			{
-				fd_error(tmp->args[0]);
-				return ;
-			}
+			check_infile(cmd, tmp);
+			if (cmd)
+				cmd->redir[0] = INFILE;
 		}
-		if (tmp->type == HEREDOC)
-			return ;
+		else if (tmp->type == HEREDOC)
+		{
+			name = heredoc(tmp->args[0]);
+			ft_safe_free((void **)&tmp->args[0]);
+			tmp->args[0] = name;
+			check_infile(cmd, tmp);
+			if (cmd)
+				cmd->redir[0] = HEREDOC;
+		}
 		tmp = tmp->next;
+	}
+}
+
+void	remove_redir(void)
+{
+	t_cmd	*tmp;
+
+	tmp = g_main.cmd_list;
+	while (tmp)
+	{
+		if ((tmp->type == INFILE || tmp->type == OUTFILE || tmp->type == APPEND
+				|| tmp->type == HEREDOC) && tmp->next)
+		{
+			tmp->next->prev = tmp->prev;
+			if (tmp->prev)
+				tmp->prev->next = tmp->next;
+			else
+				g_main.cmd_list = tmp->next;
+			free_tab(tmp->args);
+			ft_safe_free((void **)&tmp->name);
+			ft_safe_free((void **)&tmp);
+		}
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
 
@@ -149,6 +216,7 @@ int	parser(void)
 {
 	arrange_cmd_list();
 	set_output();
-	set_input(g_main.cmd_list);
+	set_input();
+	remove_redir();
 	return (0);
 }

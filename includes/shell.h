@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 15:16:39 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:58:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define TABLE_SIZE 256
 # define FALSE 0
 # define TRUE 1
+# define REMOVE 1
+# define NAME 0
 
 typedef enum s_token_type
 {
@@ -126,6 +128,7 @@ extern t_main	g_main;
 
 void	ft_exit(char **args, int argc);
 void	ft_exit2(void);
+int		adjust_status(int status);
 
 //INIT------------------------------------------
 //init.c
@@ -218,6 +221,11 @@ int		free_tab(char **tab);
 //heredoc.c
 
 char	*heredoc(char *delimiter);
+char	*heredoc_files(int flag);
+
+//heredoc_utils.c
+
+int		remove_heredoc(int last);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

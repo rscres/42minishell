@@ -21,6 +21,7 @@ SRC =	main.c			\
 		builtin/echo.c			\
 		builtin/cd.c			\
 		heredoc/heredoc.c		\
+		heredoc/heredoc_utils.c	\
 		executor/expand_var.c	\
 		executor/execute.c
 

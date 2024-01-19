@@ -6,13 +6,13 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:12:58 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char	*expand_var_heredoc(char *str)
+static char	*expand_var_heredoc(char *str)
 {
 	int		i;
 
@@ -25,7 +25,7 @@ char	*expand_var_heredoc(char *str)
 	return (str);
 }
 
-void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
+static char	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 {
 	ft_safe_free((void **)&heredoc);
 	ft_putstr_fd("heredoc: warning: here-document at line ", 2);
@@ -38,31 +38,56 @@ void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
 	return (NULL);
 }
 
-char	*heredoc(char *delimiter)
+static char	*save_heredoc(char *delim, char *heredoc)
 {
-	char	*line;
-	char	*heredoc;
-	int		line_count;
+	int		fd;
+	char	*tmp;
+	char	*name;
 
-	g_main.is_cmd_running = 1;
-	heredoc = ft_strdup("");
+	name = heredoc_files(NAME);
+	tmp = expand_var_heredoc(ft_strdup(heredoc));
+	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	write(fd, tmp, ft_strlen(tmp) - ft_strlen(delim) - 1);
+	close(fd);
+	ft_safe_free((void **)&tmp);
+	return (name);
+}
+
+static char	*heredoc_loop(char *delim, char *heredoc)
+{
+	int		line_count;
+	char	*line;
+
 	line_count = 0;
-	while (1)
+	while (1 && ++line_count)
 	{
-		line_count++;
 		line = readline("> ");
 		if (!line)
-			return (heredoc_error(delimiter, heredoc, line_count));
+			return (heredoc_error(delim, heredoc, line_count));
 		heredoc = ft_strjoin_free(heredoc, line);
 		heredoc = ft_strjoin_free(heredoc, "\n");
-		if (!ft_strcmp(line, delimiter))
+		if (!ft_strcmp(line, delim))
 			break ;
 		ft_safe_free((void **)&line);
 	}
-	ft_safe_free((void **)&line);
+	return (heredoc);
+}
+
+char	*heredoc(char *delimiter)
+{
+	char	*heredoc;
+	char	*name;
+
+	g_main.is_cmd_running = 1;
+	heredoc = ft_strdup("");
+	heredoc = heredoc_loop(delimiter, heredoc);
+	if (!heredoc)
+		return (NULL);
+	name = save_heredoc(delimiter, heredoc);
 	g_main.line = ft_strjoin_free(g_main.line, "\n");
 	g_main.line = ft_strjoin_free(g_main.line, heredoc);
-	heredoc = expand_var_heredoc(heredoc);
+	ft_safe_free((void **)&heredoc);
 	g_main.is_cmd_running = 0;
-	return (heredoc);
+	g_main.status = 0;
+	return (name);
 }
