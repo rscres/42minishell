@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:20:54 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 15:28:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:45:44 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	remove_heredoc(int last)
 	while (i < last)
 	{
 		suffix = create_suffix(i);
-		cur_file = ft_strjoin("heredoc", suffix);
+		cur_file = ft_strjoin("/tmp/heredoc", suffix);
 		ft_safe_free((void **)&suffix);
 		fd = open(cur_file, O_RDONLY);
 		close(fd);
@@ -65,7 +65,7 @@ char	*heredoc_files(int flag)
 		return (NULL);
 	}
 	num = create_suffix(i);
-	name = ft_strjoin("heredoc", num);
+	name = ft_strjoin("/tmp/heredoc", num);
 	ft_safe_free((void **)&num);
 	i++;
 	return (name);

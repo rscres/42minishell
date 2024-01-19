@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 14:58:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:55:30 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	execute_cmd_list(void)
 					ft_error(cmd->infile, 1);
 					return ;
 				}
+				close(fd);
 			}
 			if (check_if_builtin(cmd->name))
 				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);

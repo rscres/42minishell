@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 00:01:07 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:46:13 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,31 +129,19 @@ static void	check_infile(t_cmd *cmd, t_cmd *tmp)
 	fd = 0;
 	if (!cmd)
 		return ;
-	if (tmp->type == HEREDOC)
-	{
-		fd = open(tmp->args[0], O_RDONLY, 0644);
-		if (fd == -1)
-		{
-			fd_error("heredoc");
-			return ;
-		}
-	}
-	else if (tmp->type == INFILE)
-	{
-		fd = open(tmp->args[0], O_RDONLY, 0644);
-		if (fd == -1)
-		{
-			fd_error(tmp->args[0]);
-			return ;
-		}
-	}
+	fd = open(tmp->args[0], O_RDONLY, 0644);
 	if (cmd->infile)
 		ft_safe_free((void **)&cmd->infile);
-	cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
+	if (tmp->type == HEREDOC)
+		cmd->infile = ft_strdup(tmp->args[0]);
+	else
+	{
+		cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
 	// if (tmp->type == HEREDOC)
 	// 	cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
 	// else if (tmp->type == INFILE)
 		cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
+	}
 	close(fd);
 }
 

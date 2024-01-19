@@ -62,7 +62,8 @@ re: fclean all
 
 valgrind: all
 	valgrind --leak-check=full --track-origins=yes --suppressions=supp.supp \
-	--trace-children-skip='*/bin/*,*/sbin/*' --show-leak-kinds=all -q ./$(NAME)
+	--trace-children-skip='*/bin/*,*/sbin/*' --show-leak-kinds=all -q \
+	--track-fds=yes ./$(NAME)
 
 gdb: all
 	gdb --tui ./$(NAME)
