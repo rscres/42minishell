@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 15:12:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:08:24 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 	char	*line;
 
 	line_count = 0;
-	while (1 && ++line_count)
+	while (1 && ++line_count && g_main.signal_received == FALSE)
 	{
 		line = readline("> ");
 		if (!line)
@@ -70,6 +70,7 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 			break ;
 		ft_safe_free((void **)&line);
 	}
+	g_main.signal_received = FALSE;
 	return (heredoc);
 }
 

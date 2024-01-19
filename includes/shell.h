@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 14:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:06:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_main
 	int			open_quote;
 	int			status;
 	int			is_cmd_running;
+	int			signal_received;
 }	t_main;
 
 //Global variable
