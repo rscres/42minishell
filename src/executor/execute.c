@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 23:41:02 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 23:53:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,5 @@ void	execute_cmd_list(void)
 		}
 		cmd = cmd->next;
 	}
-	unlink("heredoc");
+	name_heredoc(REMOVE);
 }

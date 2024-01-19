@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 23:33:09 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/19 00:01:07 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,6 @@ void	set_input(void)
 			name = heredoc(tmp->args[0]);
 			ft_safe_free((void **)&tmp->args[0]);
 			tmp->args[0] = name;
-			printf("cmd->args[0] = %s\n", cmd->args[0]);
 			check_infile(cmd, tmp);
 			if (cmd)
 				cmd->redir[0] = HEREDOC;

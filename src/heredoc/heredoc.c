@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 22:55:54 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 23:53:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ char	*name_heredoc(int reset)
 
 	if (i == 0)
 		i = 1;
-	if (reset)
+	if (reset == REMOVE)
 	{
+		remove_heredoc(i);
 		i = 1;
 		return (NULL);
 	}
@@ -71,7 +72,7 @@ static char	*save_heredoc(char *delim, char *heredoc)
 	char	*tmp;
 	char	*name;
 
-	name = name_heredoc(0);
+	name = name_heredoc(NAME);
 	tmp = expand_var_heredoc(ft_strdup(heredoc));
 	fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	write(fd, tmp, ft_strlen(tmp) - ft_strlen(delim) - 1);
