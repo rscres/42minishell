@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 19:35:37 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:51:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,11 +218,10 @@ int		free_tab(char **tab);
 //HEREDOC---------------------------------------
 //heredoc.c
 
-int		heredoc(char *delimiter);
+char	*heredoc(char *delimiter);
 
 //heredoc_utils.c
 
-char	*name_heredoc(char *str)
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/17 23:14:48 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/18 23:39:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static int	get_argc(t_token *tmp)
 
 void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 {
-	cmd->args = malloc(sizeof(char *) * (get_argc(tmp_tok) + 2));
+	cmd->args = ft_calloc((get_argc(tmp_tok) + 2), sizeof(char *));
 	if (get_argc(tmp_tok) > 0)
 		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->prev->name);
-	else if (!tmp_tok->next)
+	else
 		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->name);
 	while (tmp_tok && tmp_tok->type != PIPE)
 	{

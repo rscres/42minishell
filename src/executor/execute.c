@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 19:06:37 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:41:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ char	*check_path(char *name)
 int	ft_error(char *str, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
-	// ft_putstr_fd(str, 2);
-	// ft_putstr_fd(": ", 2);
-	// ft_putendl_fd(strerror(errno), 2);
 	perror(str);
-	printf("errno: %d\n", errno);
 	g_main.is_cmd_running = 0;
 	g_main.status = err;
 	return (err);

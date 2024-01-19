@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 18:50:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:33:09 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static void	check_infile(t_cmd *cmd, t_cmd *tmp)
 		return ;
 	if (tmp->type == HEREDOC)
 	{
-		fd = open("heredoc", O_RDONLY, 0644);
+		fd = open(tmp->args[0], O_RDONLY, 0644);
 		if (fd == -1)
 		{
 			fd_error("heredoc");
@@ -150,9 +150,9 @@ static void	check_infile(t_cmd *cmd, t_cmd *tmp)
 	if (cmd->infile)
 		ft_safe_free((void **)&cmd->infile);
 	cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
-	if (tmp->type == HEREDOC)
-		cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
-	else if (tmp->type == INFILE)
+	// if (tmp->type == HEREDOC)
+	// 	cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
+	// else if (tmp->type == INFILE)
 		cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
 	close(fd);
 }
@@ -161,6 +161,7 @@ void	set_input(void)
 {
 	t_cmd	*tmp;
 	t_cmd	*cmd;
+	char	*name;
 
 	cmd = g_main.cmd_list;
 	while (cmd && cmd->type != WORD)
@@ -176,7 +177,10 @@ void	set_input(void)
 		}
 		else if (tmp->type == HEREDOC)
 		{
-			heredoc(tmp->args[0]);
+			name = heredoc(tmp->args[0]);
+			ft_safe_free((void **)&tmp->args[0]);
+			tmp->args[0] = name;
+			printf("cmd->args[0] = %s\n", cmd->args[0]);
 			check_infile(cmd, tmp);
 			if (cmd)
 				cmd->redir[0] = HEREDOC;
