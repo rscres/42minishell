@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 16:46:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:24:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	set_output(void)
 	}
 }
 
-static void	check_infile(t_cmd *cmd, t_cmd *tmp)
+static void	save_input_file(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
 
@@ -159,7 +159,7 @@ void	set_input(void)
 	{
 		if (tmp->type == INFILE)
 		{
-			check_infile(cmd, tmp);
+			save_input_file(cmd, tmp);
 			if (cmd)
 				cmd->redir[0] = INFILE;
 		}
@@ -168,7 +168,7 @@ void	set_input(void)
 			name = heredoc(tmp->args[0]);
 			ft_safe_free((void **)&tmp->args[0]);
 			tmp->args[0] = name;
-			check_infile(cmd, tmp);
+			save_input_file(cmd, tmp);
 			if (cmd)
 				cmd->redir[0] = HEREDOC;
 		}

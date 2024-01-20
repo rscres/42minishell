@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 18:08:24 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:22:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static char	*expand_var_heredoc(char *str)
 	return (str);
 }
 
-static char	*heredoc_error(char *delimiter, char *heredoc, int line_count)
+static char	*heredoc_error(char *delimiter, int line_count)
 {
-	ft_safe_free((void **)&heredoc);
 	ft_putstr_fd("heredoc: warning: here-document at line ", 2);
 	ft_putnbr_fd(line_count, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
@@ -63,7 +62,12 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 	{
 		line = readline("> ");
 		if (!line)
-			return (heredoc_error(delim, heredoc, line_count));
+		{
+			heredoc = ft_strjoin_free(heredoc, delim);
+			heredoc = ft_strjoin_free(heredoc, "\n");
+			heredoc_error(delim, line_count);
+			break ;
+		}
 		heredoc = ft_strjoin_free(heredoc, line);
 		heredoc = ft_strjoin_free(heredoc, "\n");
 		if (!ft_strcmp(line, delim))
