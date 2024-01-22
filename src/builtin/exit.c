@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/19 17:25:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:41:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	ft_exit(char **args, int argc)
 		clear_cmd_list();
 		exit(g_main.status);
 	}
+	if (!args)
+		exit(g_main.status);
 	check_if_num(args[1]);
 	status = adjust_status(ft_atoi(args[1]));
 	clear_cmd_list();

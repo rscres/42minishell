@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 16:23:12 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:40:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 		if (!line)
 		{
 			ft_safe_free((void **)&line);
-			ft_exit2();
+			ft_exit(NULL, 0);
 		}
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;
-			g_main.status = lexer(&line);
+			lexer(&line);
 			parser();
 			execute_cmd_list();
 			clear_cmd_list();
