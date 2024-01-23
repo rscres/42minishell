@@ -93,12 +93,18 @@ typedef struct s_cmd_info
 }	t_cmd_info;
 
 //pipe_info
-
+typedef struct s_pipes
+{
+	int				pipes[2];
+	int 			used;
+}					t_pipes;
 typedef struct s_pipe_info
 {
 	char	*path;
-	int		linked[2];
-	int		pipe_count;
+	int		pipe_counter;
+	int 	fd1[2];
+//	t_pipes *fd2;
+//	t_pipes *fd3;
 } 			t_pipe_info;
 //Hashtable
 
@@ -107,7 +113,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}	t_env;cat | si_addr_lsb
 
 //Main
 
@@ -117,6 +123,7 @@ typedef struct s_main
 	t_token		*token_list;
 	t_cmd		*cmd_list;
 	t_cmd_info	cmd_info;
+	t_pipe_info *pipe;
 	char		**envp;
 	char		*line;
 	int			open_quote;
@@ -139,7 +146,7 @@ void	ft_exit2(void);
 //init.c
 
 void	init_hashtable(t_env **env_var);
-void	init_global(char **envp);
+void	init_global(char **env);
 
 //SIGNALS---------------------------------------
 //signal.c

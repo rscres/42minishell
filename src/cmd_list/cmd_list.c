@@ -81,7 +81,7 @@ void	create_cmd_list(void)
 		{
 			cmd_count = 0;
 			add_cmd(new_cmd(tmp->name, tmp->type));
-			g_main.pipe->pipe_count += 1;
+			g_main.pipe->pipe_counter += 1;
 			tmp = tmp->next;
 		}
 		else
