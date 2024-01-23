@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 23:39:36 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:15:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	create_cmd_list(void)
 	cmd_count = 0;
 	while (tmp_tok)
 	{
+		if (tmp_tok && ft_strcmp(tmp_tok->name, "") == 0)
+			tmp_tok = tmp_tok->next;
 		if (tmp_tok->type == WORD && !cmd_count)
 		{
 			cmd_count = 1;
