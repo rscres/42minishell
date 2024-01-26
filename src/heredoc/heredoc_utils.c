@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:20:54 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 16:45:44 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:06:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,24 @@ char	*heredoc_files(int flag)
 	ft_safe_free((void **)&num);
 	i++;
 	return (name);
+}
+
+void	heredoc_exit(int status)
+{
+	clear_hashtable(g_main.env_var);
+	clear_token_list();
+	clear_cmd_list();
+	exit(status);
+}
+
+void	heredoc_signal(int sig)
+{
+	if (sig == SIGINT)
+	{
+		(void)signal;
+		g_main.signal_received = TRUE;
+		g_main.status = 130;
+		close(0);
+		ft_putchar_fd('\n', 1);
+	}
 }

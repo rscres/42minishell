@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/22 22:29:52 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/26 18:09:46 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,14 @@ char	*heredoc_files(int flag);
 //heredoc_utils.c
 
 int		remove_heredoc(int last);
+void	heredoc_signal(int sig);
+void	heredoc_exit(int status);
+
+//heredoc_utils2.c
+
+char	*expand_var_heredoc(char *str);
+char	*heredoc_error(char *delimiter, int line_count);
+char	*save_heredoc(char *delim, char *heredoc);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------
