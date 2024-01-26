@@ -6,11 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/22 15:06:31 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/22 15:56:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include <sys/stat.h>
 
 char	*check_path(char *name)
 {
@@ -122,6 +123,13 @@ int	check_if_builtin(char *name)
 	return (0);
 }
 
+int is_directory(const char *path) {
+    struct stat statbuf;
+    if (stat(path, &statbuf) != 0)
+        return 0;
+    return S_ISDIR(statbuf.st_mode);
+}
+
 void	execute_cmd_list(void)
 {
 	t_cmd	*cmd;
@@ -144,6 +152,14 @@ void	execute_cmd_list(void)
 					return ;
 				}
 				close(fd);
+			}
+			if (is_directory(cmd->name))
+				{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(cmd->name, 2);
+				ft_putstr_fd(": is a directory\n", 2);
+				g_main.status = 126;
+				return ;
 			}
 			if (check_if_builtin(cmd->name))
 				g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/22 22:02:36 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/25 13:16:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			g_main.line = line;
 			lexer(&line);
 			parser();
+			printf("line : %s\n", g_main.line);
 			execute_cmd_list();
 			clear_cmd_list();
 			add_history(g_main.line);

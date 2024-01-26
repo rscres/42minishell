@@ -6,11 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/19 21:24:10 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/22 20:06:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 void	move_cmd(t_cmd *cmd)
 {
@@ -137,10 +139,10 @@ static void	save_input_file(t_cmd *cmd, t_cmd *tmp)
 	else
 	{
 		cmd->infile = ft_strjoin_free(getcwd(NULL, 0), "/");
-	// if (tmp->type == HEREDOC)
-	// 	cmd->infile = ft_strjoin_free(cmd->infile, "heredoc");
-	// else if (tmp->type == INFILE)
-		cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
+		if (tmp->args[0][0] == '.')
+			cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0] + 1);
+		else
+			cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
 	}
 	close(fd);
 }
