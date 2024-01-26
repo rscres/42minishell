@@ -6,85 +6,18 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/26 18:10:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:57:32 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-// #include <termios.h>
-
-// static char *heredoc_loop(char *delim, char *heredoc) {
-//     int line_count;
-//     char *line;
-//     struct termios old_term, new_term;
-
-//     line_count = 0;
-//     rl_catch_signals = 1;
-//     signal(SIGINT, heredoc_signal);
-
-//     // Save the original terminal settings
-//     tcgetattr(STDIN_FILENO, &old_term);
-
-//     // Set the terminal to non-blocking mode
-//     new_term = old_term;
-//     new_term.c_cc[VMIN] = 0;
-//     new_term.c_cc[VTIME] = 0;
-//     tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
-
-//     while (1 && ++line_count && g_main.signal_received == FALSE) {
-//         line = readline("> ");
-//         if (!line) {
-//             heredoc = ft_strjoin_free(heredoc, delim);
-//             heredoc = ft_strjoin_free(heredoc, "\n");
-//             heredoc_error(delim, line_count);
-//             break;
-//         }
-//         heredoc = ft_strjoin_free(heredoc, line);
-//         heredoc = ft_strjoin_free(heredoc, "\n");
-//         if (!ft_strcmp(line, delim))
-//             break;
-//         ft_safe_free((void **)&line);
-//     }
-
-//     // Restore the original terminal settings
-//     tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
-
-//     signal(SIGINT, handler);
-//     g_main.signal_received = FALSE;
-//     rl_catch_signals = 1;
-//     return (heredoc);
-// }
-
-// static char	*heredoc_loop(char *delim, char *heredoc)
-// {
-// 	int		line_count;
-// 	char	*line;
-
-// 	line_count = 0;
-// 	rl_catch_signals = 0;
-// 	signal(SIGINT, heredoc_signal);
-// 	while (1 && ++line_count && g_main.signal_received == FALSE)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 		{
-// 			heredoc = ft_strjoin_free(heredoc, delim);
-// 			heredoc = ft_strjoin_free(heredoc, "\n");
-// 			heredoc_error(delim, line_count);
-// 			break ;
-// 		}
-// 		heredoc = ft_strjoin_free(heredoc, line);
-// 		heredoc = ft_strjoin_free(heredoc, "\n");
-// 		if (!ft_strcmp(line, delim))
-// 			break ;
-// 		ft_safe_free((void **)&line);
-// 	}
-// 	signal(SIGINT, handler);
-// 	g_main.signal_received = FALSE;
-// 	rl_catch_signals = 1;
-// 	return (heredoc);
-// }
+char	*append_to_heredoc(char *heredoc, char *line)
+{
+	heredoc = ft_strjoin_free(heredoc, line);
+	heredoc = ft_strjoin_free(heredoc, "\n");
+	return (heredoc);
+}
 
 static char	*heredoc_loop(char *delim, char *heredoc)
 {
@@ -99,14 +32,12 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 		line = readline("> ");
 		if (!line)
 		{
-			heredoc = ft_strjoin_free(heredoc, delim);
-			heredoc = ft_strjoin_free(heredoc, "\n");
+			heredoc = append_to_heredoc(heredoc, delim);
 			if (g_main.signal_received == FALSE)
 				heredoc_error(delim, line_count);
 			break ;
 		}
-		heredoc = ft_strjoin_free(heredoc, line);
-		heredoc = ft_strjoin_free(heredoc, "\n");
+		heredoc = append_to_heredoc(heredoc, line);
 		if (!ft_strcmp(line, delim))
 			break ;
 		ft_safe_free((void **)&line);
@@ -116,29 +47,10 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 	return (heredoc);
 }
 
-// char	*heredoc(char *delimiter)
-// {
-// 	char	*heredoc;
-// 	char	*name;
-
-// 	g_main.is_cmd_running = 1;
-// 	heredoc = ft_strdup("");
-// 	heredoc = heredoc_loop(delimiter, heredoc);
-// 	if (!heredoc)
-// 		return (NULL);
-// 	name = save_heredoc(delimiter, heredoc);
-// 	g_main.line = ft_strjoin_free(g_main.line, "\n");
-// 	g_main.line = ft_strjoin_free(g_main.line, heredoc);
-// 	ft_safe_free((void **)&heredoc);
-// 	g_main.is_cmd_running = 0;
-// 	g_main.status = 0;
-// 	return (name);
-// }
-
 static void	child_heredoc(int pipefd[2], char *delimiter)
 {
 	char	*heredoc;
-	// This is the child process
+
 	close(pipefd[0]); // Close unused read end
 	heredoc = ft_strdup("");
 	heredoc = heredoc_loop(delimiter, heredoc);
@@ -155,7 +67,7 @@ static char	*parent_heredoc(int pipefd[2], pid_t pid, char *delimiter)
 	char	*name;
 	char	buffer[4096];
 	char	*heredoc;
-	// This is the parent process
+
 	close(pipefd[1]); // Close unused write end
 	wait(&pid); // Wait for the child process to finish
 	read(pipefd[0], buffer, sizeof(buffer)); // Read heredoc from pipe

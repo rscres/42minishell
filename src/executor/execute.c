@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/22 15:56:43 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/26 18:53:01 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	execute_cmd_list(void)
 				close(fd);
 			}
 			if (is_directory(cmd->name))
-				{
+			{
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(cmd->name, 2);
 				ft_putstr_fd(": is a directory\n", 2);
