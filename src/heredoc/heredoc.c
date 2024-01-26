@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/25 17:33:27 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/26 16:52:45 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*save_heredoc(char *delim, char *heredoc)
 	return (name);
 }
 
-void		heredoc_signal(int sig)
+void	heredoc_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -62,6 +62,7 @@ void		heredoc_signal(int sig)
 		// ft_putendl_fd("", 1);
 		close(0);
 		// rl_replace_line("", 0);
+		ft_putchar_fd('\n', 1);
 	}
 }
 
@@ -143,7 +144,7 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 {
 	int		line_count;
 	char	*line;
-	
+
 	line_count = 0;
 	signal(SIGINT, heredoc_signal);
 	while (1)
@@ -188,74 +189,63 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 // 	return (name);
 // }
 
+void	heredoc_exit(void)
+{
+	clear_hashtable(g_main.env_var);
+	clear_token_list();
+	clear_cmd_list();
+	exit(EXIT_SUCCESS);
+}
+
 char	*heredoc(char *delimiter)
 {
-    char	*heredoc;
-    char	*name;
-    // pid_t	pid;
+	char	*heredoc;
+	char	*name;
+	int		pipefd[2];
+	pid_t	pid;
 
-    // pid = fork();
-	// name = NULL;
-    // if (pid < 0)
-    // {
-    //     perror("fork failed");
-    //     exit(EXIT_FAILURE);
-    // }
-    // g_main.is_cmd_running = 1;
-	// heredoc = ft_strdup("");
-    // if (pid == 0)
-    // {
-    //     // This is the child process
-    //     heredoc = heredoc_loop(delimiter, heredoc);
-	// 	// printf("heredoc : %s\n", heredoc);
-    //     if (!heredoc)
-    //         exit(EXIT_FAILURE);
-    //     exit(EXIT_SUCCESS);
-    // }
-    // else
-    // {
-    //     // This is the parent process
-    //     // Wait for the child process to finish
-    //     wait(NULL);
-    // }
-	int pipefd[2];
-
-	if (pipe(pipefd) == -1) {
+	name = NULL;
+	signal(SIGINT, SIG_IGN);
+	if (pipe(pipefd) == -1)
+	{
 		perror("pipe failed");
 		exit(EXIT_FAILURE);
 	}
-
-	pid_t pid = fork();
-	if (pid < 0) {
+	pid = fork();
+	if (pid < 0)
+	{
 		perror("fork failed");
 		exit(EXIT_FAILURE);
 	}
-
-	if (pid == 0) {
+	if (pid == 0)
+	{
 		// This is the child process
 		close(pipefd[0]); // Close unused read end
+		heredoc = ft_strdup("");
 		heredoc = heredoc_loop(delimiter, heredoc);
 		if (!heredoc)
 			exit(EXIT_FAILURE);
 		write(pipefd[1], heredoc, strlen(heredoc) + 1); // Write heredoc to pipe
 		close(pipefd[1]); // Close write end
-		exit(EXIT_SUCCESS);
-	} else {
+		free(heredoc);
+		heredoc_exit();
+	}
+	else
+	{
 		// This is the parent process
 		close(pipefd[1]); // Close unused write end
 		char buffer[4096];
+		wait(&pid); // Wait for the child process to finish
 		read(pipefd[0], buffer, sizeof(buffer)); // Read heredoc from pipe
 		heredoc = strdup(buffer);
 		close(pipefd[0]); // Close read end
-		wait(NULL); // Wait for the child process to finish
+		name = save_heredoc(delimiter, heredoc);
+		g_main.line = ft_strjoin_free(g_main.line, "\n");
+		g_main.line = ft_strjoin_free(g_main.line, heredoc);
+		ft_safe_free((void **)&heredoc);
+		g_main.is_cmd_running = 0;
+		g_main.status = 0;
 	}
-	name = save_heredoc(delimiter, heredoc);
-	printf("name : %s\n", name);
-	printf("heredoc : %s\n", heredoc);
-	g_main.line = ft_strjoin_free(g_main.line, "\n");
-	g_main.line = ft_strjoin_free(g_main.line, heredoc);
-	ft_safe_free((void **)&heredoc);
-	g_main.is_cmd_running = 0;
-	g_main.status = 0;
-    return (name);
+	signal(SIGINT, handler);
+	return (name);
 }
