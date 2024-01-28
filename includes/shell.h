@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/26 18:09:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 14:28:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	print_cmd_list(void); //test function
 //expand_var.c
 
 char	*expand_var(char *name);
-char	*expand_var2(char *str, int i);
+char	*expand_var2(char *str, int *i);
 
 //parser.c
 
