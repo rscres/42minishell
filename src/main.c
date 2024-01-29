@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 16:38:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:13:49 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_ascii(void)
 	pid = fork();
 	if (pid == 0)
 	{
-		execl("/usr/bin/clear", "clear", NULL);
+		execl("/usr/bin/clear", "clear", NULL); // modify to execv //
 		exit(0);
 	}
 	else
@@ -76,6 +76,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	signal_set();
 	init_global(env);
 	set_env(g_main.env_var, env);
+	while (369)
 	while (369)
 	{
 		line = get_line();

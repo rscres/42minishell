@@ -58,7 +58,7 @@ static void	set_fd(t_cmd *cmd)
 	}
 }
 
-static void	exec(t_cmd *cmd, char *path)
+void	exec(t_cmd *cmd, char *path)
 {
 	int		pid;
 
@@ -133,7 +133,7 @@ void	execute_cmd_list(void)
 	char	*path;
 
 	cmd = g_main.cmd_list;
-	while (cmd && g_main.pipe->pipe_count  == 0)
+	while (cmd && g_main.pipe->pipe_counter  == 0)
 	{
 		if (cmd->type == WORD)
 		{
@@ -160,6 +160,8 @@ void	execute_cmd_list(void)
 		}
 		cmd = cmd->next;
 	}
-	if (g_main.pipe->pipe_count != 0)
+	printf("\n\n > %d <\n\n", g_main.pipe->pipe_counter);
+	if (g_main.pipe->pipe_counter != 0) {
 		ig_pipe(cmd);
+	}
 }

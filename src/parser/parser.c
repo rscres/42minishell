@@ -41,7 +41,7 @@ void	arrange_cmd_list(void)
 
 	tmp = g_main.cmd_list;
 	move = TRUE;
-	g_main.pipe->pipe_count = 0;
+	g_main.pipe->pipe_counter = 0;
 	while (tmp && tmp->next)
 	{
 		if (tmp->type == WORD && tmp->next->type != PIPE && move)
@@ -53,7 +53,7 @@ void	arrange_cmd_list(void)
 		tmp = tmp->next;
 		if (tmp && tmp->type == PIPE)
 		{
-			g_main.pipe->pipe_count++;
+			g_main.pipe->pipe_counter++;
 			move = TRUE;
 		}
 	}
