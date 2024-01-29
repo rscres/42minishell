@@ -6,11 +6,37 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 01:17:32 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/29 01:24:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+char	**save_table_to_array(void)
+{
+	char	**array;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	array = malloc((TABLE_SIZE + 1) * sizeof(char *));
+	if (!array)
+		return (NULL);
+	while (i < TABLE_SIZE)
+	{
+		while (g_main.env_var[i] && g_main.env_var[i]->key)
+		{
+			array[j] = ft_strjoin(g_main.env_var[i]->key, "=");
+			array[j] = ft_strjoin(array[j], g_main.env_var[i]->value);
+			j++;
+			g_main.env_var[i] = g_main.env_var[i]->next;
+		}
+		i++;
+	}
+	array[j] = NULL;
+	return (array);
+}
 
 //needs rework to print in alphabetical order
 static void	print_vars(void)
@@ -54,8 +80,6 @@ static int	error_msg(char *str)
 	return (1);
 }
 
-
-//
 static int	set_var(char **args)
 {
 	char	**split;
@@ -66,7 +90,7 @@ static int	set_var(char **args)
 	{
 		if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
 		{
-			split = ft_split(args[i], '=');
+			split = ft_split(args[i], '='); //remove ft_split, needs rework for "A='b=c=d' cases"
 			if (!split[0] || !str_isalnum(split[0]))
 				return (error_msg(split[0]));
 			if (!split[1])
