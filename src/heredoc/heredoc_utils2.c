@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 18:08:53 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/26 18:09:20 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 18:59:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char	*expand_var_heredoc(char *str)
 	int		i;
 
 	i = -1;
-	while (str[++i])
+	while (++i < (int)ft_strlen(str) && str[i])
 	{
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ')
-			str = expand_var2(str, i);
+			str = expand_var2(str, &i);
 	}
 	return (str);
 }

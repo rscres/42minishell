@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 14:41:59 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/28 22:11:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ char	*expand_var2(char *str, int *i)
 {
 	char	*value;
 	char	*var;
+	int		empty;
 
+	empty = 0;
 	if (str[*i + 1] == '?')
 	{
 		var = ft_strdup("?");
@@ -81,14 +83,23 @@ char	*expand_var2(char *str, int *i)
 	else
 	{
 		var = get_var_name((const char *)str + *i);
-		value = ft_strdup("");
 		if (search(g_main.env_var, var))
-			value = search(g_main.env_var, var)->value;
+			value = ft_strdup(search(g_main.env_var, var)->value);
+		else
+		{
+			value = ft_strdup("");
+			empty = 1;
+		}
 	}
 	str = insert_value(str, value, ft_strlen(var) + 1, *i);
+	if (empty == 0)
+		*i = *i + ft_strlen(value) - 1;
+	else
+		*i = ft_strlen(str) - ft_strlen(var) - 1;
+	if (*i == 0)
+		*i = -1;
 	ft_safe_free((void **)&var);
 	ft_safe_free((void **)&value);
-	*i = ft_strlen(str);
 	return (str);
 }
 

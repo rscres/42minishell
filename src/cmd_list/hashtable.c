@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 12:16:44 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:10:45 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void	clear_hashtable(t_env **env_var)
 			while (tmp)
 			{
 				next = tmp->next;
-				free(tmp->key);
-				free(tmp->value);
-				free(tmp);
+				ft_safe_free((void **)&tmp->key);
+				ft_safe_free((void **)&tmp->value);
+				ft_safe_free((void **)&tmp);
 				tmp = next;
 			}
 		}
