@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/23 12:15:06 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/28 23:14:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->name);
 	while (tmp_tok && tmp_tok->type != PIPE)
 	{
-		if (tmp_tok->type == WORD && tmp_tok->prev && tmp_tok->prev->type != INFILE
-			&& tmp_tok->prev->type != OUTFILE && tmp_tok->prev->type != APPEND
-			&& tmp_tok->prev->type != HEREDOC)
+		if (tmp_tok->type == WORD && tmp_tok->prev
+			&& tmp_tok->prev->type != INFILE && tmp_tok->prev->type != OUTFILE
+			&& tmp_tok->prev->type != APPEND && tmp_tok->prev->type != HEREDOC)
 		{
 			cmd->args[cmd->argc] = ft_strdup(tmp_tok->name);
 			cmd->argc++;
@@ -60,7 +60,10 @@ void	create_cmd_list(void)
 	while (tmp_tok)
 	{
 		if (tmp_tok && ft_strcmp(tmp_tok->name, "") == 0)
+		{
 			tmp_tok = tmp_tok->next;
+			continue ;
+		}
 		if (tmp_tok->type == WORD && !cmd_count)
 		{
 			cmd_count = 1;

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/22 20:06:13 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/28 16:13:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	set_output(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
+		if (tmp->type == WORD)
+			cmd = tmp;
 		if (tmp->type == OUTFILE)
 		{
 			check_outfile(cmd, tmp);
@@ -159,6 +161,8 @@ void	set_input(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
+		if (tmp->type == WORD)
+			cmd = tmp;
 		if (tmp->type == INFILE)
 		{
 			save_input_file(cmd, tmp);

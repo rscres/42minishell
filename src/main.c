@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/26 15:38:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 23:15:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ char	*get_line(void)
 		line[ft_strlen(line) - 1] = '\0';
 		line = ft_strjoin(line, readline("> "));
 	}
-	// if (line)
-	// 	add_history(line);
 	return (line);
 }
 
