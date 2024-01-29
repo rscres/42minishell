@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 16:53:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 01:17:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ static void	print_vars(void)
 	i = 0;
 	while (i < TABLE_SIZE)
 	{
-		if (g_main.env_var[i] && g_main.env_var[i]->key)
+		while (g_main.env_var[i] && g_main.env_var[i]->key)
 		{
 			ft_putstr_fd("declare -x ", 0);
 			ft_putstr_fd(g_main.env_var[i]->key, 0);
 			ft_putchar_fd('=', 0);
 			ft_putendl_fd(g_main.env_var[i]->value, 0);
+			g_main.env_var[i] = g_main.env_var[i]->next;
 		}
 		i++;
 	}
