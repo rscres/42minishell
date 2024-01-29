@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/18 18:14:53 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:58:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int			ft_abs(int x);
 void		ft_swap(int *a, int *b);
 void		ft_safe_free(void **ptr);
 void		*ft_ternary(int condition, void *a, void *b);
+void		ft_merge_sort(int len, char **arr);
 
 // Printf functions
 //FLAGS

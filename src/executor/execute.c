@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/26 18:53:01 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:46:06 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	execute_cmd_list(void)
 				if (!access(path, F_OK))
 					exec(cmd, path);
 				else if (!access(cmd->name, F_OK))
-					exec(cmd, cmd->name); 
+					exec(cmd, cmd->name);
 				else
 				{
 					ft_putstr_fd("minishell: ", 2);
