@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 11:46:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:20:16 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,21 @@ static void	set_fd(t_cmd *cmd)
 	}
 }
 
+static void	sigquit(int sig)
+{
+	(void)sig;
+	if (g_main.is_cmd_running)
+	{
+		ft_putstr_fd("Quit: 3\n", 1);
+		g_main.status = 131;
+	}
+	else
+	{
+		ft_putstr_fd("\b\b  \b\b", 1);
+		g_main.status = 130;
+	}
+}
+
 void	sigquit(int sig)
 {
 	(void)sig;
@@ -88,7 +103,7 @@ void	sigquit(int sig)
 	}
 }
 
-static void	exec(t_cmd *cmd, char *path)
+void	exec(t_cmd *cmd, char *path)
 {
 	int		pid;
 
@@ -138,7 +153,7 @@ void	execute_cmd_list(void)
 
 	cmd = g_main.cmd_list;
 	fd = 0;
-	while (cmd)
+	while (cmd && g_main.pipe->pipe_counter  == 0)
 	{
 		if (cmd->type == WORD)
 		{
@@ -182,6 +197,10 @@ void	execute_cmd_list(void)
 			g_main.is_cmd_running = 0;
 		}
 		cmd = cmd->next;
+	}
+	printf("\n\n > %d <\n\n", g_main.pipe->pipe_counter);
+	if (g_main.pipe->pipe_counter != 0) {
+		ig_pipe(cmd);
 	}
 	heredoc_files(REMOVE);
 }

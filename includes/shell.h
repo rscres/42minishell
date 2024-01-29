@@ -54,8 +54,9 @@ typedef enum s_builtin
 	EXIT
 }	t_builtin;
 
-//Structs
-//token list
+
+//--Structs--//
+//Token list
 
 typedef struct s_token
 {
@@ -65,7 +66,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-//command list
+//Command list
 
 typedef struct s_cmd
 {
@@ -81,7 +82,7 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
-//cmd_info
+//Cmd_info
 
 typedef struct s_cmd_info
 {
@@ -91,18 +92,30 @@ typedef struct s_cmd_info
 	int		infile;
 	int		outfile;
 	int		append;
-	int		pipe;
-	int		pipe_count;
 }	t_cmd_info;
 
-//hashtable
+//pipe_info
+typedef struct s_pipes
+{
+	int				pipes[2];
+	int				used;
+}					t_pipes;
+typedef struct s_pipe_info
+{
+	char	*path;
+	int		pipe_counter;
+	int		fd1[2];
+//	t_pipes *fd2;
+//	t_pipes *fd3;
+} 			t_pipe_info;
+//Hashtable
 
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}	t_env;cat | si_addr_lsb
 
 //Main
 
@@ -112,6 +125,7 @@ typedef struct s_main
 	t_token		*token_list;
 	t_cmd		*cmd_list;
 	t_cmd_info	cmd_info;
+	t_pipe_info *pipe;
 	char		**envp;
 	char		*line;
 	int			open_quote;
@@ -119,6 +133,7 @@ typedef struct s_main
 	int			is_cmd_running;
 	int			signal_received;
 }	t_main;
+
 
 //Global variable
 
@@ -135,7 +150,7 @@ int		adjust_status(int status);
 //init.c
 
 void	init_hashtable(t_env **env_var);
-void	init_global(char **envp);
+void	init_global(char **env);
 
 //SIGNALS---------------------------------------
 //signal.c
@@ -187,7 +202,12 @@ int		exec_builtin(char *name, char **args, int argc);
 
 //execute.c
 
+void	exec_cmd(t_cmd *cmd);
 void	execute_cmd_list(void);
+char	*check_path(char *name);
+void	exec(t_cmd *cmd, char *path);
+int		check_if_builtin(char *name);
+void	exec_cmd(t_cmd *cmd);
 
 //BUILTINS--------------------------------------
 //export.c
@@ -236,6 +256,10 @@ void	heredoc_exit(int status);
 char	*expand_var_heredoc(char *str);
 char	*heredoc_error(char *delimiter, int line_count);
 char	*save_heredoc(char *delim, char *heredoc);
+
+//PIPE------------------------------------------
+//pipe.c
+void ig_pipe(t_cmd *cmd);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

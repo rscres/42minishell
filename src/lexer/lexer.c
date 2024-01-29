@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/28 22:11:25 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/29 16:20:38 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	lexer(char **str)
 		add_token(token, get_type(token));
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
-		// expand = 1;
+		//expand = 1;
 	}
 	// while (g_main.open_quote)
 	// {
@@ -125,12 +125,11 @@ int	lexer(char **str)
 	if (g_main.open_quote)
 	{
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
-		g_main.open_quote = 0;
+        g_main.open_quote = 0;
 		clear_token_list();
 		g_main.status = 1;
 		return (1);
 	}
-	//---move this block----
 	t_token	*tmp = g_main.token_list;
 	while (tmp)
 	{

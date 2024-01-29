@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 23:14:49 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/29 16:08:32 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../../includes/shell.h"
 
 static int	get_argc(t_token *tmp)
 {
@@ -89,6 +89,7 @@ void	create_cmd_list(void)
 		{
 			cmd_count = 0;
 			add_cmd(new_cmd(tmp_tok->name, tmp_tok->type));
+			g_main.pipe->pipe_counter += 1;
 			tmp_tok = tmp_tok->next;
 		}
 		else

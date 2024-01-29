@@ -6,11 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 13:45:57 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:18:55 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../includes/shell.h"
 
 t_main	g_main;
 
@@ -68,7 +68,7 @@ char	*get_line(void)
 }
 
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
-	char **env)
+            char **env)
 {
 	char	*line;
 
@@ -76,7 +76,8 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	signal_set();
 	init_global(env);
 	set_env(g_main.env_var, env);
-	while (1)
+	while (369)
+	while (369)
 	{
 		g_main.signal_received = FALSE;
 		line = get_line();
