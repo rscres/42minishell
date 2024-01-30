@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/29 16:20:38 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:54:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ char	*remove_quotes(char *str)
 	return (tmp);
 }
 
+int	syntax_error(char *str)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("\'", 2);
+	clear_token_list();
+	g_main.status = 2;
+	return (1);
+}
+
 static int	check_syntax(void)
 {
 	t_token	*tmp;
@@ -67,24 +77,31 @@ static int	check_syntax(void)
 			|| tmp->type == OUTFILE || tmp->type == INFILE)
 		{
 			if (!tmp->next || tmp->next->type != WORD)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-				ft_putstr_fd(tmp->name, 2);
-				ft_putendl_fd("\'", 2);
-				clear_token_list();
-				return (1);
-			}
+				return (syntax_error(tmp->name));
 		}
 		if (tmp->type == PIPE && (tmp->prev == NULL
-			|| (tmp->next && tmp->next->type == PIPE)))
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(tmp->name, 2);
-			ft_putendl_fd("\'", 2);
-			clear_token_list();
-			return (1);
-		}
+				|| (tmp->next && tmp->next->type == PIPE)))
+			return (syntax_error(tmp->name));
 		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	check_and_clear(void)
+{
+	t_token	*tmp;
+
+	tmp = g_main.token_list;
+	while (tmp)
+	{
+		tmp->name = expand_var(tmp->name);
+		tmp->name = remove_quotes(tmp->name);
+		tmp = tmp->next;
+	}
+	if (g_main.token_list && check_syntax())
+	{
+		g_main.status = 2;
+		return (2);
 	}
 	return (0);
 }
@@ -92,17 +109,14 @@ static int	check_syntax(void)
 int	lexer(char **str)
 {
 	char	*token;
-	// int		expand;
 	// char	*new_str;
 
 	token = tokenizer(*str);
-	// expand = 1;
 	while (token)
 	{
 		add_token(token, get_type(token));
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
-		//expand = 1;
 	}
 	// while (g_main.open_quote)
 	// {
@@ -125,23 +139,13 @@ int	lexer(char **str)
 	if (g_main.open_quote)
 	{
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
-        g_main.open_quote = 0;
+		g_main.open_quote = 0;
 		clear_token_list();
 		g_main.status = 1;
 		return (1);
 	}
-	t_token	*tmp = g_main.token_list;
-	while (tmp)
-	{
-		tmp->name = expand_var(tmp->name);
-		tmp->name = remove_quotes(tmp->name);
-		tmp = tmp->next;
-	}
-	if (g_main.token_list && check_syntax())
-	{
-		g_main.status = 2;
-		return (2);
-	}
+	if (check_and_clear())
+		return (1);
 	create_cmd_list();
 	clear_token_list();
 	ft_safe_free((void **)&token);

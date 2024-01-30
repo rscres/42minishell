@@ -100,6 +100,7 @@ typedef struct s_pipes
 	int				pipes[2];
 	int				used;
 }					t_pipes;
+
 typedef struct s_pipe_info
 {
 	char	*path;
@@ -115,7 +116,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;cat | si_addr_lsb
+}	t_env;
 
 //Main
 
@@ -198,7 +199,7 @@ int		parser(void);
 //EXEC------------------------------------------
 //builtin.c
 
-int		exec_builtin(char *name, char **args, int argc);
+int		exec_builtin(t_cmd *cmd);
 
 //execute.c
 
@@ -207,7 +208,7 @@ void	execute_cmd_list(void);
 char	*check_path(char *name);
 void	exec(t_cmd *cmd, char *path);
 int		check_if_builtin(char *name);
-void	exec_cmd(t_cmd *cmd);
+void	set_fd(t_cmd *cmd);
 
 //BUILTINS--------------------------------------
 //export.c

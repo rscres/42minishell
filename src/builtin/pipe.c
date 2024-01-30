@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/01/09 11:20:13 by igenial          ###   ########.fr       */
+/*   Updated: 2024/01/29 17:33:03 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		close(g_main.pipe->fd1[1]);
 		close(fd);
 		if (check_if_builtin(cmd->name)) {
-			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+			g_main.status = exec_builtin(cmd);
 		}
 		else
 		{

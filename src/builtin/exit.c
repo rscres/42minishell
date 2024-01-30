@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/29 16:06:19 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:32:34 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	ft_exit(char **args, int argc)
 		exit(g_main.status);
 	}
 	if (!args)
+	{
+		clear_cmd_list();
 		exit(g_main.status);
+	}
 	check_if_num(args[1]);
 	status = adjust_status(ft_atoi(args[1]));
 	clear_cmd_list();

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 16:08:32 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:01:40 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_argc(t_token *tmp)
 	{
 		if (tmp->type == WORD && tmp->prev && tmp->prev->type != INFILE
 			&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
-			&& tmp->prev->type != HEREDOC)
+			&& tmp->prev->type != HEREDOC )
 			i++;
 		tmp = tmp->next;
 	}
@@ -31,7 +31,7 @@ static int	get_argc(t_token *tmp)
 void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 {
 	cmd->args = ft_calloc((get_argc(tmp_tok) + 2), sizeof(char *));
-	if (get_argc(tmp_tok) > 0)
+	if (get_argc(tmp_tok) > 1)
 		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->prev->name);
 	else
 		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->name);

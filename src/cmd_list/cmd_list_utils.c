@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 16:07:31 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 19:19:13 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_cmd	*new_cmd(char *name, int type)
 	cmd->argc = 0;
 	cmd->redir[0] = 0;
 	cmd->redir[1] = 0;
+	cmd->fd[0] = 0;
+	cmd->fd[1] = 1;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
 	cmd->type = type;
@@ -58,7 +60,7 @@ void	clear_cmd_list(void)
 		tmp = g_main.cmd_list;
 		g_main.cmd_list = g_main.cmd_list->next;
 		i = 0;
-		while (tmp->args && tmp->args[i])
+		while (tmp && tmp->args && tmp->args[i])
 		{
 			ft_safe_free((void **)&tmp->args[i]);
 			i++;
