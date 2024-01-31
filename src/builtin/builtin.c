@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/30 19:23:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/31 00:19:58 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,23 @@ int	ft_env(void)
 	return (0);
 }
 
+void	backup_fd(int backup[2])
+{
+	backup[0] = dup(0);
+	backup[1] = dup(1);
+}
+
+void	restore_fd(int backup[2])
+{
+	dup2(backup[0], 0);
+	dup2(backup[1], 1);
+}
+
 int	exec_builtin(t_cmd *cmd)
 {
 	int	backup[2];
 
-	backup[0] = dup(0);
-	backup[1] = dup(1);
+	backup_fd(backup);
 	set_fd(cmd);
 	if (!ft_strcmp(cmd->name, "echo"))
 		g_main.status = (ft_echo(cmd->args + 1, 1));
@@ -67,7 +78,6 @@ int	exec_builtin(t_cmd *cmd)
 		ft_exit(cmd->args, cmd->argc);
 	else if (!ft_strcmp(cmd->name, "<<"))
 		heredoc(cmd->args[0]);
-	dup2(backup[0], 0);
-	dup2(backup[1], 1);
+	restore_fd(backup);
 	return (0);
 }
