@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/31 00:38:12 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/31 16:37:42 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	lexer(char **str)
 		*str = ft_strjoin_free(*str, new_str);
 		ft_safe_free((void **)&new_str);
 	}
-	g_main.line = ft_strjoin_free(g_main.line, *str);
+	g_main.line = *str;
 	if (g_main.open_quote)
 	{
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
