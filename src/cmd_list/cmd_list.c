@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/31 00:46:23 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/31 18:19:25 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_argc(t_token *tmp)
 	{
 		if (tmp->type == WORD && tmp->prev && tmp->prev->type != INFILE
 			&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
-			&& tmp->prev->type != HEREDOC )
+			&& tmp->prev->type != HEREDOC)
 			i++;
 		tmp = tmp->next;
 	}
@@ -31,10 +31,9 @@ static int	get_argc(t_token *tmp)
 void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 {
 	cmd->args = ft_calloc((get_argc(tmp_tok) + 2), sizeof(char *));
-	if (get_argc(tmp_tok) > 1)
-		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->prev->name);
-	else
-		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->name);
+	cmd->args[cmd->argc] = ft_strdup(tmp_tok->name);
+	cmd->argc++;
+	tmp_tok = tmp_tok->next;
 	while (tmp_tok && tmp_tok->type != PIPE)
 	{
 		if (tmp_tok->type == WORD && tmp_tok->prev
@@ -47,6 +46,18 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 		tmp_tok = tmp_tok->next;
 	}
 	cmd->args[cmd->argc] = NULL;
+}
+
+void	new_redir(t_cmd **cmd, t_token **tmp_tok)
+{
+	*cmd = new_cmd((*tmp_tok)->name, (*tmp_tok)->type);
+	*tmp_tok = (*tmp_tok)->next;
+	(*cmd)->args = malloc(sizeof(char *) * 2);
+	(*cmd)->args[0] = ft_strdup((*tmp_tok)->name);
+	(*cmd)->args[1] = NULL;
+	(*cmd)->argc++;
+	add_cmd(*cmd);
+	*tmp_tok = (*tmp_tok)->next;
 }
 
 void	create_cmd_list(void)
@@ -68,22 +79,13 @@ void	create_cmd_list(void)
 		{
 			cmd_count = 1;
 			cmd = new_cmd(tmp_tok->name, tmp_tok->type);
-			if (tmp_tok->next)
-				tmp_tok = tmp_tok->next;
 			create_arg_list(cmd, tmp_tok);
 			add_cmd(cmd);
 		}
 		else if (tmp_tok->type == INFILE || tmp_tok->type == OUTFILE
 			|| tmp_tok->type == APPEND || tmp_tok->type == HEREDOC)
 		{
-			cmd = new_cmd(tmp_tok->name, tmp_tok->type);
-			tmp_tok = tmp_tok->next;
-			cmd->args = malloc(sizeof(char *) * 2);
-			cmd->args[0] = ft_strdup(tmp_tok->name);
-			cmd->args[1] = NULL;
-			cmd->argc++;
-			add_cmd(cmd);
-			tmp_tok = tmp_tok->next;
+			new_redir(&cmd, &tmp_tok);
 		}
 		else if (tmp_tok->type == PIPE)
 		{
