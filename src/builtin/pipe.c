@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/01/29 17:33:03 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:18:49 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("\n\n__ M recebe %s__\n\n", cmd->name);
+		// printf("\n\n__ M recebe %s__\n\n", cmd->name);
 		dup2(fd, STDIN_FILENO);
 		if (g_main.pipe->pipe_counter)
 			dup2(g_main.pipe->fd1[1], STDOUT_FILENO);

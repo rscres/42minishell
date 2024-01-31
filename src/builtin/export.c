@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/30 13:49:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:19:56 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	**save_table_to_array(void)
 static void	print_vars(void)
 {
 	char	**array;
+	char	*tmp[2];
 	int		i;
 
 	i = 0;
@@ -53,10 +54,22 @@ static void	print_vars(void)
 	ft_merge_sort(ft_arrlen(array), array);
 	while (array[i])
 	{
+		tmp[1] = ft_strchr(array[i], '=');
+		tmp[0] = ft_strndup(array[i], ft_strlen(array[i])
+				- ft_strlen(tmp[1]));
 		ft_putstr_fd("declare -x ", 0);
-		ft_putendl_fd(array[i], 0);
+		ft_putstr_fd(tmp[0], 0);
+		if (tmp[1])
+		{
+			ft_putstr_fd("=\"", 0);
+			ft_putstr_fd(tmp[1] + 1, 0);
+			ft_putstr_fd("\"", 0);
+		}
+		ft_putchar_fd('\n', 0);
+		ft_safe_free((void **)&tmp[0]);
 		i++;
 	}
+	free_tab(array);
 }
 
 static int	is_valid_char(char *str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/31 00:19:58 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/31 16:20:47 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,17 @@ void	backup_fd(int backup[2])
 void	restore_fd(int backup[2])
 {
 	dup2(backup[0], 0);
+	close(backup[0]);
 	dup2(backup[1], 1);
+	close(backup[1]);
+}
+
+void	prep_exit(t_cmd *cmd, int backup[2])
+{
+	restore_fd(backup);
+	close(0);
+	close(1);
+	ft_exit(cmd->args, cmd->argc);
 }
 
 int	exec_builtin(t_cmd *cmd)
@@ -69,13 +79,13 @@ int	exec_builtin(t_cmd *cmd)
 	else if (!ft_strcmp(cmd->name, "pwd"))
 		g_main.status = (ft_pwd());
 	else if (!ft_strcmp(cmd->name, "export"))
-		g_main.status = (ft_export(cmd->args + 1, cmd->argc));
+		g_main.status = (ft_export(cmd->args, cmd->argc));
 	else if (!ft_strcmp(cmd->name, "unset"))
 		g_main.status = (ft_unset(cmd->args + 1));
 	else if (!ft_strcmp(cmd->name, "env"))
 		g_main.status = (ft_env());
 	else if (!ft_strcmp(cmd->name, "exit"))
-		ft_exit(cmd->args, cmd->argc);
+		prep_exit(cmd, backup);
 	else if (!ft_strcmp(cmd->name, "<<"))
 		heredoc(cmd->args[0]);
 	restore_fd(backup);

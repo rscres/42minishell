@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/29 17:32:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:27:55 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ static void	check_if_num(char *arg)
 	}
 }
 
-//needs rework
+static void	too_many_args(void)
+{
+	ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	clear_cmd_list();
+	exit(1);
+}
+
 void	ft_exit(char **args, int argc)
 {
 	int		status;
@@ -49,17 +55,8 @@ void	ft_exit(char **args, int argc)
 	clear_token_list();
 	printf("exit\n");
 	if (argc > 2)
-	{	
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		clear_cmd_list();
-		exit(1);
-	}
-	if (args && args[1] == NULL)
-	{
-		clear_cmd_list();
-		exit(g_main.status);
-	}
-	if (!args)
+		too_many_args();
+	if ((args && args[1] == NULL) || !args)
 	{
 		clear_cmd_list();
 		exit(g_main.status);

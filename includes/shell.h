@@ -126,7 +126,7 @@ typedef struct s_main
 	t_token		*token_list;
 	t_cmd		*cmd_list;
 	t_cmd_info	cmd_info;
-	t_pipe_info *pipe;
+	t_pipe_info	*pipe;
 	char		**envp;
 	char		*line;
 	int			open_quote;
