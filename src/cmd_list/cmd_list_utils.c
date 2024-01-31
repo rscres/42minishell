@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 19:19:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/30 23:44:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	print_cmd_list(void)
 			i++;
 		}
 		printf("argc = %i\n", tmp->argc);
+		printf("infile = %s\n", tmp->infile);
+		printf("outfile = %s\n", tmp->outfile);
 		tmp = tmp->next;
 	}
 }
