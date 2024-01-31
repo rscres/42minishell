@@ -17,6 +17,7 @@ void ig_last_born(t_cmd *cmd);
 void ig_open_linked(void);
 void ig_middle_born(t_cmd *cmd, int fd);
 //int *ig_define_pipe(int *fd);
+void ig_pipe_executer(t_cmd *cmd, int fd);
 void ig_middle_pipes(t_cmd *cmd);
 void ig_edge_pipes(t_cmd *cmd);
 
@@ -25,20 +26,34 @@ void ig_pipe(t_cmd *cmd)
 	int fd_read;
 
 	fd_read = dup(STDIN_FILENO);
-	while (g_main.pipe->pipe_counter + 1) {
-		pipe(g_main.pipe->fd1);
-		g_main.pipe->path = check_path(cmd->name);
-		ig_middle_born(cmd, fd_read);
-		dup2(g_main.pipe->fd1[0], fd_read);
-		close(g_main.pipe->fd1[0]);
-		close(g_main.pipe->fd1[1]);
+	while (g_main.pipe->pipe_counter + 1)
+	{
+		if (cmd->type == WORD)
+		{
+			//ig_pipe_executer(cmd, fd_read);
+			pipe(g_main.pipe->fd1);
+			g_main.pipe->path = check_path(cmd->name);
+			ig_middle_born(cmd, fd_read);
+			dup2(g_main.pipe->fd1[0], fd_read);
+			close(g_main.pipe->fd1[0]);
+			close(g_main.pipe->fd1[1]);
+			g_main.pipe->pipe_counter--;
+		}
 		cmd = cmd->next;
-		while (cmd->type != WORD && cmd)
-			cmd = cmd->next;
-		g_main.pipe->pipe_counter--;
 	}
 	close(fd_read);
 }
+void ig_pipe_executer(t_cmd *cmd, int fd)
+{
+
+	pipe(g_main.pipe->fd1);
+	g_main.pipe->path = check_path(cmd->name);
+	ig_middle_born(cmd, fd);
+	dup2(g_main.pipe->fd1[0], fd);
+	close(g_main.pipe->fd1[0]);
+	close(g_main.pipe->fd1[1]);
+}
+
 //void ig_first_born(t_cmd *cmd)
 //{
 //	pid_t pid;
