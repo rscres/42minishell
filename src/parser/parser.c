@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 16:13:04 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/01 15:12:13 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	arrange_cmd_list(void)
 
 	tmp = g_main.cmd_list;
 	move = TRUE;
+	g_main.pipe->pipe_counter = 0;
 	while (tmp && tmp->next)
 	{
 		if (tmp->type == WORD && tmp->next->type != PIPE && move)
@@ -53,7 +54,10 @@ void	arrange_cmd_list(void)
 		}
 		tmp = tmp->next;
 		if (tmp && tmp->type == PIPE)
+		{
+			g_main.pipe->pipe_counter++;
 			move = TRUE;
+		}
 	}
 	while (tmp && tmp->prev)
 		tmp = tmp->prev;
@@ -110,8 +114,13 @@ void	set_output(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-			cmd = tmp;
+		if (tmp->type == WORD && tmp->next)
+		{
+			cmd = tmp->next;
+			while (cmd && cmd->type != WORD)
+				cmd = cmd->next;
+			tmp = tmp->next;
+		}
 		if (tmp->type == OUTFILE)
 		{
 			check_outfile(cmd, tmp);
@@ -161,8 +170,13 @@ void	set_input(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-			cmd = tmp;
+		if (tmp->type == WORD && tmp->next)
+		{
+			cmd = tmp->next;
+			while (cmd && cmd->type != WORD)
+				cmd = cmd->next;
+			tmp = tmp->next;
+		}
 		if (tmp->type == INFILE)
 		{
 			save_input_file(cmd, tmp);

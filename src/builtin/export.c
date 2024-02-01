@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 13:45:20 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:34:48 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	**save_table_to_array(void)
 	return (array);
 }
 
-//needs rework to print in alphabetical order
 static void	print_vars(void)
 {
 	char	**array;

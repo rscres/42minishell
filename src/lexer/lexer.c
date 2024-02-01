@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/28 22:11:25 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/01 15:06:58 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ char	*remove_quotes(char *str)
 	return (tmp);
 }
 
+int	syntax_error(char *str)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("\'", 2);
+	clear_token_list();
+	g_main.status = 2;
+	return (1);
+}
+
 static int	check_syntax(void)
 {
 	t_token	*tmp;
@@ -67,71 +77,21 @@ static int	check_syntax(void)
 			|| tmp->type == OUTFILE || tmp->type == INFILE)
 		{
 			if (!tmp->next || tmp->next->type != WORD)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-				ft_putstr_fd(tmp->name, 2);
-				ft_putendl_fd("\'", 2);
-				clear_token_list();
-				return (1);
-			}
+				return (syntax_error(tmp->name));
 		}
 		if (tmp->type == PIPE && (tmp->prev == NULL
-			|| (tmp->next && tmp->next->type == PIPE)))
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(tmp->name, 2);
-			ft_putendl_fd("\'", 2);
-			clear_token_list();
-			return (1);
-		}
+				|| (tmp->next && tmp->next->type == PIPE)))
+			return (syntax_error(tmp->name));
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	lexer(char **str)
+int	check_and_clear(void)
 {
-	char	*token;
-	// int		expand;
-	// char	*new_str;
+	t_token	*tmp;
 
-	token = tokenizer(*str);
-	// expand = 1;
-	while (token)
-	{
-		add_token(token, get_type(token));
-		ft_safe_free((void **)&token);
-		token = tokenizer(NULL);
-		// expand = 1;
-	}
-	// while (g_main.open_quote)
-	// {
-	// 	if (g_main.open_quote == 1)
-	// 		heredoc("\'");
-	// 	else if (g_main.open_quote == 2)
-	// 		heredoc("eof");
-		// new_str = readline("> ");
-		// token = tokenizer(new_str);
-		// while (token)
-		// {
-		// 	add_token(token, get_type(token), expand);
-		// 	ft_safe_free((void **)token);
-		// 	token = tokenizer(NULL);
-		// }
-		// *str = ft_strjoin(*str, "\n");
-		// *str = ft_strjoin(*str, new_str);
-		// ft_safe_free((void **)&new_str);
-	// }
-	if (g_main.open_quote)
-	{
-		ft_putstr_fd("Error: unclosed quotes\n", 2);
-		g_main.open_quote = 0;
-		clear_token_list();
-		g_main.status = 1;
-		return (1);
-	}
-	//---move this block----
-	t_token	*tmp = g_main.token_list;
+	tmp = g_main.token_list;
 	while (tmp)
 	{
 		tmp->name = expand_var(tmp->name);
@@ -143,6 +103,46 @@ int	lexer(char **str)
 		g_main.status = 2;
 		return (2);
 	}
+	return (0);
+}
+
+int	lexer(char **str)
+{
+	char	*token;
+	char	*new_str;
+
+	token = tokenizer(*str);
+	while (token)
+	{
+		add_token(token, get_type(token));
+		ft_safe_free((void **)&token);
+		token = tokenizer(NULL);
+	}
+	while (g_main.open_quote)
+	{
+		new_str = readline("> ");
+		token = tokenizer(new_str);
+		while (token)
+		{
+			add_token(token, get_type(token));
+			ft_safe_free((void **)&token);
+			token = tokenizer(NULL);
+		}
+		*str = ft_strjoin_free(*str, "\n");
+		*str = ft_strjoin_free(*str, new_str);
+		ft_safe_free((void **)&new_str);
+	}
+	g_main.line = *str;
+	if (g_main.open_quote)
+	{
+		ft_putstr_fd("Error: unclosed quotes\n", 2);
+		g_main.open_quote = 0;
+		clear_token_list();
+		g_main.status = 1;
+		return (1);
+	}
+	if (check_and_clear())
+		return (1);
 	create_cmd_list();
 	clear_token_list();
 	ft_safe_free((void **)&token);
