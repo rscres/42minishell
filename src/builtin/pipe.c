@@ -118,6 +118,8 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		}
 		exit(1);
 	}
+	else
+		waitpid(pid, &g_main.status, 0);
 }
 
 void ig_open_linked(void)

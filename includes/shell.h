@@ -93,18 +93,12 @@ typedef struct s_cmd_info
 }	t_cmd_info;
 
 //pipe_info
-typedef struct s_pipes
-{
-	int				pipes[2];
-	int 			used;
-}					t_pipes;
+
 typedef struct s_pipe_info
 {
 	char	*path;
 	int		pipe_counter;
 	int 	fd1[2];
-//	t_pipes *fd2;
-//	t_pipes *fd3;
 } 			t_pipe_info;
 //Hashtable
 
