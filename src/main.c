@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/29 14:13:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/01 13:34:27 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +14,16 @@
 
 t_main	g_main;
 
-void	print_ascii(void)
+void	print_ascii(char **env)
 {
-	int	pid;
+	int		pid;
+	char	*argv[1];
 
 	pid = fork();
 	if (pid == 0)
 	{
-		execl("/usr/bin/clear", "clear", NULL); // modify to execv //
+		argv[0] = NULL;
+		execve("/usr/bin/clear", argv, env);
 		exit(0);
 	}
 	else
@@ -40,19 +41,6 @@ void	print_ascii(void)
 	ft_putchar_fd('\n', 0);
 }
 
-// char	*get_line(int flag)
-// {
-// 	char	*line;
-
-// 	if (flag == 1)
-// 		line = readline("> ");
-// 	else
-// 		line = readline("minishell$ ");
-// 	if (line)
-// 		add_history(line);
-// 	return (line);
-// }
-
 char	*get_line(void)
 {
 	char	*line;
@@ -68,133 +56,39 @@ char	*get_line(void)
 	return (line);
 }
 
-int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
-            char **env)
+void	init_shell(char **env)
 {
-	char	*line;
-
-	print_ascii();
+	print_ascii(env);
 	signal_set();
 	init_global(env);
 	set_env(g_main.env_var, env);
-	while (369)
-	while (369)
-	{
-		line = get_line();
-		if (!line)
-			ft_exit2();
-		if (ft_strlen(line) > 0)
-		{
-			g_main.line = line;
-			g_main.status = lexer(&line);
-			parser();
-			execute_cmd_list();
-			clear_token_list();
-			clear_cmd_list();
-			add_history(g_main.line);
-		}
-		ft_safe_free((void **)&line);
-	}
-	return (g_main.status);
-}
-=======
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 16:38:43 by rseelaen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "shell.h"
-
-t_main	g_main;
-
-void	print_ascii(void)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		execl("/usr/bin/clear", "clear", NULL); // modify to execv //
-		exit(0);
-	}
-	else
-		wait(NULL);
-	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
-	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
-	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
-	ft_putendl_fd("  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
-	ft_putstr("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓");
-	ft_putendl_fd("  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
-	ft_putstr("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████");
-	ft_putendl_fd("  ███████  ███████", 0);
-	ft_putstr("█  ████  █        █  ███   █        █  ████  █        ");
-	ft_putendl_fd("█        █        █", 0);
-	ft_putchar_fd('\n', 0);
-}
-
-// char	*get_line(int flag)
-// {
-// 	char	*line;
-
-// 	if (flag == 1)
-// 		line = readline("> ");
-// 	else
-// 		line = readline("minishell$ ");
-// 	if (line)
-// 		add_history(line);
-// 	return (line);
-// }
-
-char	*get_line(void)
-{
-	char	*line;
-
-	line = readline("msh$ ");
-	if (!line)
-		return (NULL);
-	while (ft_strlen(line) > 0 && line[ft_strlen(line) - 1] == '\\')
-	{
-		line[ft_strlen(line) - 1] = '\0';
-		line = ft_strjoin(line, readline("> "));
-	}
-	// if (line)
-	// 	add_history(line);
-	return (line);
 }
 
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
-	char **env)
+			char **env)
 {
 	char	*line;
 
-	print_ascii();
-	signal_set();
-	init_global(env);
-	set_env(g_main.env_var, env);
-	while (369)
+	init_shell(env);
+	while (1)
 	{
+		g_main.signal_received = FALSE;
 		line = get_line();
 		if (!line)
-			ft_exit2();
+		{
+			ft_safe_free((void **)&line);
+			ft_exit(NULL, 0);
+		}
 		if (ft_strlen(line) > 0)
 		{
 			g_main.line = line;
-			g_main.status = lexer(&line);
+			lexer(&line);
 			parser();
 			execute_cmd_list();
-			clear_token_list();
-			clear_cmd_list();
 			add_history(g_main.line);
 		}
-		ft_safe_free((void **)&line);
+		if (g_main.line)
+			ft_safe_free((void **)&g_main.line);
 	}
 	return (g_main.status);
 }
->>>>>>> 20a7706e9c708a2d97c7b4ee2620ff0f59f71744
