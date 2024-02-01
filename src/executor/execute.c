@@ -12,6 +12,13 @@
 
 #include "shell.h"
 
+void	heredoc_exit()
+{
+	exit()
+	clear_token_list();
+	clear_cmd_list();
+}
+
 char	*check_path(char *name)
 {
 	char		*path;
@@ -163,5 +170,6 @@ void	execute_cmd_list(void)
 	printf("\n\n > %d <\n\n", g_main.pipe->pipe_counter);
 	if (g_main.pipe->pipe_counter != 0) {
 		ig_pipe(cmd);
+		heredoc_exit();
 	}
 }
