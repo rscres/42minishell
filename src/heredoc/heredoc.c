@@ -6,63 +6,105 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/12 15:58:43 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:57:32 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-char	*expand_var_heredoc(char *str)
+char	*append_to_heredoc(char *heredoc, char *line)
 {
-	int		i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ')
-			str = expand_var2(str, i);
-	}
-	return (str);
+	heredoc = ft_strjoin_free(heredoc, line);
+	heredoc = ft_strjoin_free(heredoc, "\n");
+	return (heredoc);
 }
 
-void	*heredoc_error(char *delimiter, char *heredoc, int line_count)
+static char	*heredoc_loop(char *delim, char *heredoc)
 {
-	ft_safe_free((void **)&heredoc);
-	ft_putstr_fd("heredoc: warning: here-document at line ", 2);
-	ft_putnbr_fd(line_count, 2);
-	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-	ft_putstr_fd(delimiter, 2);
-	ft_putstr_fd("')\n", 2);
-	g_main.is_cmd_running = 0;
-	g_main.status = 0;
-	return (NULL);
-}
-
-char	*heredoc(char *delimiter)
-{
-	char	*line;
-	char	*heredoc;
 	int		line_count;
+	char	*line;
 
-	g_main.is_cmd_running = 1;
-	heredoc = ft_strdup("");
 	line_count = 0;
+	signal(SIGINT, heredoc_signal);
 	while (1)
 	{
 		line_count++;
 		line = readline("> ");
 		if (!line)
-			return (heredoc_error(delimiter, heredoc, line_count));
-		heredoc = ft_strjoin_free(heredoc, line);
-		heredoc = ft_strjoin_free(heredoc, "\n");
-		if (!ft_strcmp(line, delimiter))
+		{
+			heredoc = append_to_heredoc(heredoc, delim);
+			if (g_main.signal_received == FALSE)
+				heredoc_error(delim, line_count);
+			break ;
+		}
+		heredoc = append_to_heredoc(heredoc, line);
+		if (!ft_strcmp(line, delim))
 			break ;
 		ft_safe_free((void **)&line);
 	}
-	ft_safe_free((void **)&line);
+	signal(SIGINT, handler);
+	g_main.signal_received = FALSE;
+	return (heredoc);
+}
+
+static void	child_heredoc(int pipefd[2], char *delimiter)
+{
+	char	*heredoc;
+
+	close(pipefd[0]); // Close unused read end
+	heredoc = ft_strdup("");
+	heredoc = heredoc_loop(delimiter, heredoc);
+	if (!heredoc)
+		heredoc_exit(EXIT_FAILURE);
+	write(pipefd[1], heredoc, strlen(heredoc) + 1); // Write heredoc to pipe
+	close(pipefd[1]); // Close write end
+	free(heredoc);
+	heredoc_exit(EXIT_SUCCESS);
+}
+
+static char	*parent_heredoc(int pipefd[2], pid_t pid, char *delimiter)
+{
+	char	*name;
+	char	buffer[4096];
+	char	*heredoc;
+
+	close(pipefd[1]); // Close unused write end
+	wait(&pid); // Wait for the child process to finish
+	read(pipefd[0], buffer, sizeof(buffer)); // Read heredoc from pipe
+	heredoc = strdup(buffer);
+	close(pipefd[0]); // Close read end
+	name = save_heredoc(delimiter, heredoc);
 	g_main.line = ft_strjoin_free(g_main.line, "\n");
 	g_main.line = ft_strjoin_free(g_main.line, heredoc);
-	heredoc = expand_var_heredoc(heredoc);
+	ft_safe_free((void **)&heredoc);
 	g_main.is_cmd_running = 0;
-	return (heredoc);
+	g_main.status = 0;
+	return (name);
+}
+
+char	*heredoc(char *delimiter)
+{
+	char	*name;
+	int		pipefd[2];
+	pid_t	pid;
+
+	name = NULL;
+	signal(SIGINT, SIG_IGN);
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe failed");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork failed");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+		child_heredoc(pipefd, delimiter);
+	else
+		name = parent_heredoc(pipefd, pid, delimiter);
+	signal(SIGINT, handler);
+	return (name);
 }

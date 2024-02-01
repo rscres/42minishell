@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 00:22:06 by renato           ###   ########.fr       */
+/*   Updated: 2024/01/19 18:06:32 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void	init_global(char **envp)
 	g_main.envp = envp;
 	g_main.open_quote = 0;
 	g_main.status = 0;
-	g_main.is_cmd_running = 0;
+	g_main.is_cmd_running = FALSE;
+	g_main.signal_received = FALSE;
 }

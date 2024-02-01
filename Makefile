@@ -4,24 +4,26 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
-SRC =	main.c			\
-		init.c			\
-		signal/signals.c	\
-		lexer/tokenizer.c	\
-		lexer/token_utils.c	\
-		lexer/lexer.c		\
-		parser/parser.c		\
-		cmd_list/hashtable.c\
-		cmd_list/cmd_list.c		\
-		cmd_list/cmd_list_utils.c\
-		builtin/builtin.c		\
-		builtin/set_env.c	\
-		builtin/export.c		\
-		builtin/exit.c			\
-		builtin/echo.c			\
-		builtin/cd.c			\
-		heredoc/heredoc.c		\
-		executor/expand_var.c	\
+SRC =	main.c						\
+		init.c						\
+		signal/signals.c			\
+		lexer/tokenizer.c			\
+		lexer/token_utils.c			\
+		lexer/lexer.c				\
+		parser/parser.c				\
+		cmd_list/hashtable.c		\
+		cmd_list/cmd_list.c			\
+		cmd_list/cmd_list_utils.c	\
+		builtin/builtin.c			\
+		builtin/set_env.c			\
+		builtin/export.c			\
+		builtin/exit.c				\
+		builtin/echo.c				\
+		builtin/cd.c				\
+		heredoc/heredoc.c			\
+		heredoc/heredoc_utils.c		\
+		heredoc/heredoc_utils2.c	\
+		executor/expand_var.c		\
 		executor/execute.c
 
 OBJ_DIR = obj
@@ -61,7 +63,8 @@ re: fclean all
 
 valgrind: all
 	valgrind --leak-check=full --track-origins=yes --suppressions=supp.supp \
-	--trace-children-skip='*/bin/*,*/sbin/*' --show-leak-kinds=all -q ./$(NAME)
+	--trace-children-skip='*/bin/*,*/sbin/*' --show-leak-kinds=all -q \
+	--track-fds=yes ./$(NAME)
 
 gdb: all
 	gdb --tui ./$(NAME)

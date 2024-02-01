@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:05:47 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 17:53:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:58:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char		*ft_strrchr(const char *str, int c);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strjoin_free(char const *s1, char const *s2);
+char		*ft_strjoin_free(char *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
@@ -102,6 +102,7 @@ int			ft_abs(int x);
 void		ft_swap(int *a, int *b);
 void		ft_safe_free(void **ptr);
 void		*ft_ternary(int condition, void *a, void *b);
+void		ft_merge_sort(int len, char **arr);
 
 // Printf functions
 //FLAGS

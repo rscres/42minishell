@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/11/28 13:59:33 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:11:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,38 @@ static char	*insert_value(char *str, char *value, int name_len, int pos)
 	return (tmp);
 }
 
-char	*expand_var2(char *str, int i)
+char	*expand_var2(char *str, int *i)
 {
 	char	*value;
 	char	*var;
+	int		empty;
 
-	if (str[i + 1] == '?')
+	empty = 0;
+	if (str[*i + 1] == '?')
 	{
 		var = ft_strdup("?");
 		value = ft_itoa(g_main.status);
 	}
 	else
 	{
-		var = get_var_name((const char *)str + i);
-		value = NULL;
+		var = get_var_name((const char *)str + *i);
 		if (search(g_main.env_var, var))
-			value = search(g_main.env_var, var)->value;
+			value = ft_strdup(search(g_main.env_var, var)->value);
+		else
+		{
+			value = ft_strdup("");
+			empty = 1;
+		}
 	}
-	str = insert_value(str, value, ft_strlen(var) + 1, i);
+	str = insert_value(str, value, ft_strlen(var) + 1, *i);
+	if (empty == 0)
+		*i = *i + ft_strlen(value) - 1;
+	else
+		*i = ft_strlen(str) - ft_strlen(var) - 1;
+	if (*i == 0)
+		*i = -1;
 	ft_safe_free((void **)&var);
+	ft_safe_free((void **)&value);
 	return (str);
 }
 
@@ -95,11 +108,11 @@ char	*expand_var(char *str)
 	int		quote;
 	int		i;
 
-	i = -1;
 	if (!ft_strchr(str, '$'))
 		return (str);
+	i = -1;
 	quote = 0;
-	while (str[++i])
+	while ((size_t)++i < ft_strlen(str) && str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			quote = check_quote(quote, str[i]);
@@ -107,7 +120,7 @@ char	*expand_var(char *str)
 			i++;
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != '\"'
 			&& str[i + 1] != ' ')
-			str = expand_var2(str, i);
+			str = expand_var2(str, &i);
 	}
 	return (str);
 }

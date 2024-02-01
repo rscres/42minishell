@@ -6,39 +6,69 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/15 16:53:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:45:20 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+char	**save_table_to_array(void)
+{
+	t_env	*tmp;
+	char	**array;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	array = malloc((TABLE_SIZE + 1) * sizeof(char *));
+	if (!array)
+		return (NULL);
+	while (i < TABLE_SIZE)
+	{
+		tmp = g_main.env_var[i];
+		while (tmp && tmp->key)
+		{
+			array[j] = ft_strjoin(tmp->key, "=");
+			array[j] = ft_strjoin(array[j], tmp->value);
+			j++;
+			tmp = tmp->next;
+		}
+		i++;
+	}
+	array[j] = NULL;
+	return (array);
+}
+
 //needs rework to print in alphabetical order
 static void	print_vars(void)
 {
-	int	i;
+	char	**array;
+	int		i;
 
 	i = 0;
-	while (i < TABLE_SIZE)
+	array = save_table_to_array();
+	if (!array)
+		return ;
+	ft_merge_sort(ft_arrlen(array), array);
+	while (array[i])
 	{
-		if (g_main.env_var[i] && g_main.env_var[i]->key)
-		{
-			ft_putstr_fd("declare -x ", 0);
-			ft_putstr_fd(g_main.env_var[i]->key, 0);
-			ft_putchar_fd('=', 0);
-			ft_putendl_fd(g_main.env_var[i]->value, 0);
-		}
+		ft_putstr_fd("declare -x ", 0);
+		ft_putendl_fd(array[i], 0);
 		i++;
 	}
 }
 
-static int	str_isalnum(char *str)
+static int	is_valid_char(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_isalnum(str[i]))
+		if (i == 0 && !ft_isalpha(str[i]) && str[i] != '_')
+			return (0);
+		else if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
@@ -53,8 +83,6 @@ static int	error_msg(char *str)
 	return (1);
 }
 
-
-//
 static int	set_var(char **args)
 {
 	char	**split;
@@ -65,8 +93,8 @@ static int	set_var(char **args)
 	{
 		if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
 		{
-			split = ft_split(args[i], '=');
-			if (!split[0] || !str_isalnum(split[0]))
+			split = ft_split(args[i], '='); //remove ft_split, needs rework for "A='b=c=d' cases"
+			if (!split[0] || !is_valid_char(split[0]))
 				return (error_msg(split[0]));
 			if (!split[1])
 				split[1] = ft_strdup("");
@@ -76,8 +104,15 @@ static int	set_var(char **args)
 				insert_key(g_main.env_var, split[0], split[1]);
 			free_tab(split);
 		}
-		else if (!ft_isalpha(args[i][0]) || str_isalnum(args[i]) == 0)
+		else if (!ft_isalpha(args[i][0]) || is_valid_char(args[i]) == 0)
 			return (error_msg(args[i]));
+		else
+		{
+			if (search(g_main.env_var, args[i]))
+				update_key(g_main.env_var, args[i], NULL);
+			else
+				insert_key(g_main.env_var, args[i], NULL);
+		}
 		i++;
 	}
 	return (0);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/15 12:34:01 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:41:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	adjust_status(int status)
+int	adjust_status(int status)
 {
 	while (status > 255)
 		status -= 256;
@@ -26,7 +26,7 @@ static void	check_if_num(char *arg)
 	int		i;
 
 	i = 0;
-	while (arg[i])
+	while (arg && arg[i])
 	{
 		if (!ft_isdigit(arg[i]) && arg[i] != '-' && arg[i] != '+')
 		{
@@ -54,11 +54,13 @@ void	ft_exit(char **args, int argc)
 		clear_cmd_list();
 		exit(1);
 	}
-	if (args && args[0] == NULL)
+	if (args && args[1] == NULL)
 	{
 		clear_cmd_list();
 		exit(g_main.status);
 	}
+	if (!args)
+		exit(g_main.status);
 	check_if_num(args[1]);
 	status = adjust_status(ft_atoi(args[1]));
 	clear_cmd_list();

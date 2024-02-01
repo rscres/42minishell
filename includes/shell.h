@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:46:07 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/16 15:16:39 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 14:28:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define TABLE_SIZE 256
 # define FALSE 0
 # define TRUE 1
+# define REMOVE 1
+# define NAME 0
 
 typedef enum s_token_type
 {
@@ -115,6 +117,7 @@ typedef struct s_main
 	int			open_quote;
 	int			status;
 	int			is_cmd_running;
+	int			signal_received;
 }	t_main;
 
 //Global variable
@@ -126,6 +129,7 @@ extern t_main	g_main;
 
 void	ft_exit(char **args, int argc);
 void	ft_exit2(void);
+int		adjust_status(int status);
 
 //INIT------------------------------------------
 //init.c
@@ -137,6 +141,7 @@ void	init_global(char **envp);
 //signal.c
 
 int		signal_set(void);
+void	handler(int sig);
 
 //PARSER----------------------------------------
 //lexer.c
@@ -169,7 +174,7 @@ void	print_cmd_list(void); //test function
 //expand_var.c
 
 char	*expand_var(char *name);
-char	*expand_var2(char *str, int i);
+char	*expand_var2(char *str, int *i);
 
 //parser.c
 
@@ -218,6 +223,19 @@ int		free_tab(char **tab);
 //heredoc.c
 
 char	*heredoc(char *delimiter);
+char	*heredoc_files(int flag);
+
+//heredoc_utils.c
+
+int		remove_heredoc(int last);
+void	heredoc_signal(int sig);
+void	heredoc_exit(int status);
+
+//heredoc_utils2.c
+
+char	*expand_var_heredoc(char *str);
+char	*heredoc_error(char *delimiter, int line_count);
+char	*save_heredoc(char *delim, char *heredoc);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

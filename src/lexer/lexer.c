@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/01/16 14:58:52 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:11:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static int	check_syntax(void)
 				return (1);
 			}
 		}
-		if (tmp->type == PIPE && tmp->prev == NULL)
+		if (tmp->type == PIPE && (tmp->prev == NULL
+			|| (tmp->next && tmp->next->type == PIPE)))
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 			ft_putstr_fd(tmp->name, 2);
@@ -126,6 +127,7 @@ int	lexer(char **str)
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
 		g_main.open_quote = 0;
 		clear_token_list();
+		g_main.status = 1;
 		return (1);
 	}
 	//---move this block----
@@ -137,8 +139,12 @@ int	lexer(char **str)
 		tmp = tmp->next;
 	}
 	if (g_main.token_list && check_syntax())
+	{
+		g_main.status = 2;
 		return (2);
+	}
 	create_cmd_list();
+	clear_token_list();
 	ft_safe_free((void **)&token);
 	return (0);
 }
