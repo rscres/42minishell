@@ -113,8 +113,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;cat | si_addr_lsb
-
+}	                t_env;
 //Main
 
 typedef struct s_main
