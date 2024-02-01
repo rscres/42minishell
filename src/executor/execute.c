@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 14:48:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:25:59 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	*check_path(char *name)
 	return (NULL);
 }
 
-int	ft_error(char *str, int err)
+int	ft_error(char *str, char *msg, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
-	perror(str);
-	g_main.is_cmd_running = 0;
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
 	if (msg)
 		ft_putendl_fd(msg, 2);
 	else
@@ -53,14 +53,14 @@ int	ft_error(char *str, int err)
 }
 
 //Need flag to know if output is outfile or append
-static void	set_fd(t_cmd *cmd)
+void	set_fd(t_cmd *cmd)
 {
 	if (cmd->infile != NULL)
 	{
 		cmd->fd[0] = open(cmd->infile, O_RDONLY);
 		if (cmd->fd[0] == -1)
 		{
-			ft_error(cmd->infile, 1);
+			ft_error(cmd->infile, NULL, 1);
 			exit(1);
 		}
 		dup2(cmd->fd[0], STDIN_FILENO);
@@ -127,11 +127,13 @@ int	check_if_builtin(char *name)
 	return (0);
 }
 
-int is_directory(const char *path) {
-    struct stat statbuf;
-    if (stat(path, &statbuf) != 0)
-        return 0;
-    return S_ISDIR(statbuf.st_mode);
+int is_directory(const char *path) //need refactoring
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
 }
 
 void	execute_cmd_list(void)
@@ -142,7 +144,7 @@ void	execute_cmd_list(void)
 
 	cmd = g_main.cmd_list;
 	fd = 0;
-	while (cmd && g_main.pipe->pipe_counter  == 0)
+	while (cmd && g_main.pipe->pipe_counter == 0)
 	{
 		if (cmd->type == WORD)
 		{
@@ -152,7 +154,7 @@ void	execute_cmd_list(void)
 				fd = open(cmd->infile, O_RDONLY);
 				if (fd == -1)
 				{
-					ft_error(cmd->infile, NULL,1);
+					ft_error(cmd->infile, NULL, 1);
 					return ;
 				}
 				close(fd);
@@ -179,10 +181,9 @@ void	execute_cmd_list(void)
 		}
 		cmd = cmd->next;
 	}
-	printf("\n\n > %d <\n\n", g_main.pipe->pipe_counter);
-	if (g_main.pipe->pipe_counter != 0) {
+	// printf("\n\n > %d <\n\n", g_main.pipe->pipe_counter);
+	if (g_main.pipe->pipe_counter != 0)
 		ig_pipe(cmd);
-	}
 	heredoc_files(REMOVE);
 	clear_cmd_list();
 }

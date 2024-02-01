@@ -101,7 +101,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("\n\n__ M recebe %s__\n\n", cmd->name);
+		// printf("\n\n__ M recebe %s__\n\n", cmd->name);
 		dup2(fd, STDIN_FILENO);
 		if (g_main.pipe->pipe_counter)
 			dup2(g_main.pipe->fd1[1], STDOUT_FILENO);
@@ -109,7 +109,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		close(g_main.pipe->fd1[1]);
 		close(fd);
 		if (check_if_builtin(cmd->name)) {
-			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+			g_main.status = exec_builtin(cmd);
 		}
 		else
 		{
@@ -118,6 +118,8 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		}
 		exit(1);
 	}
+	else
+		waitpid(pid, &g_main.status, 0);
 }
 
 void ig_open_linked(void)

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 14:41:04 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:16:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 	cmd->args[cmd->argc] = ft_strdup(tmp_tok->name);
 	cmd->argc++;
 	tmp_tok = tmp_tok->next;
-	while (tmp_tok && tmp->type != PIPE)
+	while (tmp_tok && tmp_tok->type != PIPE)
 	{
 		if (tmp_tok->type == WORD && tmp_tok->prev
 			&& tmp_tok->prev->type != INFILE && tmp_tok->prev->type != OUTFILE
