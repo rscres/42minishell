@@ -11,13 +11,18 @@ SRC =	main.c						\
 		lexer/token_utils.c			\
 		lexer/lexer.c				\
 		parser/parser.c				\
+		parser/parser_utils.c		\
 		cmd_list/hashtable.c		\
 		cmd_list/cmd_list.c			\
 		cmd_list/cmd_list_utils.c	\
 		builtin/builtin.c			\
-		builtin/set_env.c			\
+		builtin/pwd.c				\
+		builtin/unset.c				\
+		builtin/env.c				\
 		builtin/export.c			\
+		builtin/export_print.c		\
 		builtin/exit.c				\
+		builtin/pipe.c				\
 		builtin/echo.c				\
 		builtin/cd.c				\
 		heredoc/heredoc.c			\
@@ -72,4 +77,4 @@ gdb: all
 rhum: all
 	./$(NAME)
 
-.PHONY: all clean fclean re directory
+.PHONY: all clean fclean re valgrind gdb run directory

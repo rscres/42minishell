@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
@@ -54,8 +56,9 @@ typedef enum s_builtin
 	EXIT
 }	t_builtin;
 
-//Structs
-//token list
+
+//--Structs--//
+//Token list
 
 typedef struct s_token
 {
@@ -65,7 +68,7 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-//command list
+//Command list
 
 typedef struct s_cmd
 {
@@ -81,7 +84,7 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
-//cmd_info
+//Cmd_info
 
 typedef struct s_cmd_info
 {
@@ -91,18 +94,25 @@ typedef struct s_cmd_info
 	int		infile;
 	int		outfile;
 	int		append;
-	int		pipe;
-	int		pipe_count;
 }	t_cmd_info;
 
-//hashtable
+//pipe_info
+
+typedef struct s_pipe_info
+{
+	char	*path;
+	int		pipe_counter;
+	int 	fd1[2];
+} 			t_pipe_info;
+
+//Hashtable
 
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	t_env;
+}	                t_env;
 
 //Main
 
@@ -112,6 +122,7 @@ typedef struct s_main
 	t_token		*token_list;
 	t_cmd		*cmd_list;
 	t_cmd_info	cmd_info;
+	t_pipe_info *pipe;
 	char		**envp;
 	char		*line;
 	int			open_quote;
@@ -128,14 +139,13 @@ extern t_main	g_main;
 //exit.c
 
 void	ft_exit(char **args, int argc);
-void	ft_exit2(void);
 int		adjust_status(int status);
 
 //INIT------------------------------------------
 //init.c
 
 void	init_hashtable(t_env **env_var);
-void	init_global(char **envp);
+void	init_global(char **env);
 
 //SIGNALS---------------------------------------
 //signal.c
@@ -180,19 +190,36 @@ char	*expand_var2(char *str, int *i);
 
 int		parser(void);
 
+//parser_utils.c
+
+void	arrange_cmd_list(void);
+void	fd_error(char *str);
+void	remove_redir(void);
+
 //EXEC------------------------------------------
 //builtin.c
 
-int		exec_builtin(char *name, char **args, int argc);
+int		exec_builtin(t_cmd *cmd);
 
 //execute.c
 
+void	exec_cmd(t_cmd *cmd);
 void	execute_cmd_list(void);
+char	*check_path(char *name);
+void	exec(t_cmd *cmd, char *path);
+int		check_if_builtin(char *name);
+void	set_fd(t_cmd *cmd);
 
 //BUILTINS--------------------------------------
 //export.c
 
 int		ft_export(char **args, int argc);
+char	**split_var(char *var);
+
+//export_print.c
+
+char	**save_table_to_array(void);
+void	print_vars(void);
 
 //echo.c
 
@@ -201,6 +228,21 @@ int		ft_echo(char **args, int fd);
 //cd.c
 
 int		ft_cd(char **args);
+
+//unset.c
+
+int		ft_unset(char **args);
+
+//pwd.c
+
+int		ft_pwd(void);
+
+//ENV-------------------------------------------
+//set_env.c
+
+int		set_env(t_env **env_var, char **env);
+int		free_tab(char **tab);
+int		ft_env(void);
 
 //HASHTABLE-------------------------------------
 //hashtable.c
@@ -212,12 +254,6 @@ char	*search_value(t_env **env_var, char *key);
 void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);
-
-//ENV-------------------------------------------
-//set_env.c
-
-int		set_env(t_env **env_var, char **env);
-int		free_tab(char **tab);
 
 //HEREDOC---------------------------------------
 //heredoc.c
@@ -236,6 +272,10 @@ void	heredoc_exit(int status);
 char	*expand_var_heredoc(char *str);
 char	*heredoc_error(char *delimiter, int line_count);
 char	*save_heredoc(char *delim, char *heredoc);
+
+//PIPE------------------------------------------
+//pipe.c
+void ig_pipe(t_cmd *cmd);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

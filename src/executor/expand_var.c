@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 22:11:08 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/01 14:51:00 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*get_var_name(const char *str)
 		start++;
 	end = start + 1;
 	while (str[end] && !ft_iswhitespace(str[end]) && str[end] != '$'
-		&& ft_isalnum(str[end]))
+		&& ft_isalnum(str[end])) //change to is_valid_var_char
 		end++;
 	if (start != end)
 		var = ft_strndup((str + start), end - start);

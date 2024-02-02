@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 23:14:49 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/02 00:30:41 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "../../includes/shell.h"
 
 static int	get_argc(t_token *tmp)
 {
@@ -31,10 +31,9 @@ static int	get_argc(t_token *tmp)
 void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 {
 	cmd->args = ft_calloc((get_argc(tmp_tok) + 2), sizeof(char *));
-	if (get_argc(tmp_tok) > 0)
-		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->prev->name);
-	else
-		cmd->args[cmd->argc++] = ft_strdup(tmp_tok->name);
+	cmd->args[cmd->argc] = ft_strdup(tmp_tok->name);
+	cmd->argc++;
+	tmp_tok = tmp_tok->next;
 	while (tmp_tok && tmp_tok->type != PIPE)
 	{
 		if (tmp_tok->type == WORD && tmp_tok->prev
@@ -47,6 +46,35 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 		tmp_tok = tmp_tok->next;
 	}
 	cmd->args[cmd->argc] = NULL;
+}
+
+void	create_redir(t_cmd **cmd, t_token **tmp_tok)
+{
+	*cmd = new_cmd((*tmp_tok)->name, (*tmp_tok)->type);
+	*tmp_tok = (*tmp_tok)->next;
+	(*cmd)->args = malloc(sizeof(char *) * 2);
+	(*cmd)->args[0] = ft_strdup((*tmp_tok)->name);
+	(*cmd)->args[1] = NULL;
+	(*cmd)->argc++;
+	add_cmd(*cmd);
+	*tmp_tok = (*tmp_tok)->next;
+}
+
+void	create_pipe(t_cmd **cmd, t_token **tmp_tok, int *cmd_count)
+{
+	*cmd_count = 0;
+	*cmd = new_cmd((*tmp_tok)->name, (*tmp_tok)->type);
+	add_cmd(*cmd);
+	g_main.pipe->pipe_counter += 1;
+	*tmp_tok = (*tmp_tok)->next;
+}
+
+void	create_cmd(t_cmd **cmd, t_token **tmp_tok, int *cmd_count)
+{
+	*cmd_count = 1;
+	*cmd = new_cmd((*tmp_tok)->name, (*tmp_tok)->type);
+	create_arg_list(*cmd, *tmp_tok);
+	add_cmd(*cmd);
 }
 
 void	create_cmd_list(void)
@@ -65,32 +93,12 @@ void	create_cmd_list(void)
 			continue ;
 		}
 		if (tmp_tok->type == WORD && !cmd_count)
-		{
-			cmd_count = 1;
-			cmd = new_cmd(tmp_tok->name, tmp_tok->type);
-			if (tmp_tok->next)
-				tmp_tok = tmp_tok->next;
-			create_arg_list(cmd, tmp_tok);
-			add_cmd(cmd);
-		}
+			create_cmd(&cmd, &tmp_tok, &cmd_count);
 		else if (tmp_tok->type == INFILE || tmp_tok->type == OUTFILE
 			|| tmp_tok->type == APPEND || tmp_tok->type == HEREDOC)
-		{
-			cmd = new_cmd(tmp_tok->name, tmp_tok->type);
-			tmp_tok = tmp_tok->next;
-			cmd->args = malloc(sizeof(char *) * 2);
-			cmd->args[0] = ft_strdup(tmp_tok->name);
-			cmd->args[1] = NULL;
-			cmd->argc++;
-			add_cmd(cmd);
-			tmp_tok = tmp_tok->next;
-		}
+			create_redir(&cmd, &tmp_tok);
 		else if (tmp_tok->type == PIPE)
-		{
-			cmd_count = 0;
-			add_cmd(new_cmd(tmp_tok->name, tmp_tok->type));
-			tmp_tok = tmp_tok->next;
-		}
+			create_pipe(&cmd, &tmp_tok, &cmd_count);
 		else
 			tmp_tok = tmp_tok->next;
 	}
