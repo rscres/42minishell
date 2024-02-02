@@ -96,12 +96,6 @@ typedef struct s_cmd_info
 
 //pipe_info
 
-typedef struct s_pipes
-{
-	int				pipes[2];
-	int 			used;
-}					t_pipes;
-
 typedef struct s_pipe_info
 {
 	char	*path;
