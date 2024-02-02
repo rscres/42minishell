@@ -235,7 +235,7 @@ int		ft_unset(char **args);
 
 //pwd.c
 
-int		ft_pwd(void);
+int		ft_pwd(int fd);
 
 //ENV-------------------------------------------
 //set_env.c
@@ -275,7 +275,8 @@ char	*save_heredoc(char *delim, char *heredoc);
 
 //PIPE------------------------------------------
 //pipe.c
-void ig_pipe(t_cmd *cmd);
+
+void	ig_pipe(t_cmd *cmd);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

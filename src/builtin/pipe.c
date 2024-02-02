@@ -21,7 +21,11 @@ void ig_pipe_executer(t_cmd *cmd, int fd);
 void ig_middle_pipes(t_cmd *cmd);
 void ig_edge_pipes(t_cmd *cmd);
 
-
+void	ig_close_linked(void)
+{
+	close(g_main.pipe->fd1[0]); // Close reading end of the pipe
+	close(g_main.pipe->fd1[1]); // Close writing end of the pipe
+}
 
 void ig_pipe(t_cmd *cmd)
 {
@@ -44,6 +48,13 @@ void ig_pipe(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	close(fd_read);
+	int i = 0;
+	while (i < g_main.pipe->pipe_counter)
+	{
+		waitpid(-1, &g_main.status, 0);
+		i++;
+	}
+	ig_close_linked();
 	clear_cmd_list();
 }
 void ig_pipe_executer(t_cmd *cmd, int fd)
@@ -102,7 +113,7 @@ void ig_pipe_executer(t_cmd *cmd, int fd)
 
 void ig_middle_born(t_cmd *cmd, int fd)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
@@ -121,13 +132,15 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		}
 		else
 		{
+			set_fd(cmd);
 			execve(g_main.pipe->path, cmd->args, g_main.envp);
 			ft_putstr_fd("execve error\n", 2);
 		}
+		ig_close_linked();
 		exit(1);
 	}
-	else
-		waitpid(pid, &g_main.status, 0);
+	// else
+	// 	// waitpid(pid, &g_main.status, 0);
 }
 
 void ig_open_linked(void)
