@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/01 14:31:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 00:18:48 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,18 @@ static void	update_pwd(void)
 
 int	ft_cd(char **args)
 {
-	if (g_main.cmd_list->argc <= 1)
-	{
-		args[1] = search(g_main.env_var, "HOME")->value;
-	}
+	int		ret;
+
 	if (g_main.cmd_list->argc > 2)
 	{
 		ft_putendl_fd("cd: too many arguments", 2);
 		return (1);
 	}
-	if (chdir(args[1]) != 0)
+	if (g_main.cmd_list->argc <= 1)
+		ret = chdir(search(g_main.env_var, "HOME")->value);
+	else if (g_main.cmd_list->argc == 2)
+		ret = chdir(args[1]);
+	if (ret != 0)
 	{
 		perror("cd");
 		return (1);

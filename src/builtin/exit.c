@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/01 14:32:33 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 00:10:37 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ static void	check_if_num(char *arg)
 	}
 }
 
+static void	too_many_args(void)
+{
+	ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	clear_cmd_list();
+	exit(1);
+}
+
 //needs rework
 void	ft_exit(char **args, int argc)
 {
@@ -47,13 +54,11 @@ void	ft_exit(char **args, int argc)
 
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
+	ft_safe_free((void**)&g_main.pipe->path); // leaks
+	ft_safe_free((void**)&g_main.pipe); // leaks
 	printf("exit\n");
 	if (argc > 2)
-	{	
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		clear_cmd_list();
-		exit(1);
-	}
+		too_many_args();
 	if ((args && args[1] == NULL) || !args)
 	{
 		clear_cmd_list();
