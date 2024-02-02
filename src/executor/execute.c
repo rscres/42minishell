@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 12:27:51 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/02 14:47:18 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,8 @@ void	execute_cmd_list(void)
 			}
 			path = check_path(cmd->name);
 			if (check_if_builtin(cmd->name))
-			{
-				// ft_safe_free((void **)&path);
 				exec_builtin(cmd);
-			}
-			else if (!access(path, F_OK))
+			else if (path && !access(path, F_OK))
 				exec(cmd, path);
 			else if (!access(cmd->name, F_OK))
 				exec(cmd, cmd->name);
