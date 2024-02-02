@@ -3,46 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/01 15:47:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:51:14 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
-
-int	ft_pwd(void)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	ft_putstr(cwd);
-	ft_putchar('\n');
-	ft_safe_free((void **)&cwd);
-	return (0);
-}
-
-int	ft_unset(char **args)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 0;
-	while (args[i])
-	{
-		delete_key(g_main.env_var, args[i]);
-		i++;
-	}
-	return (ret);
-}
-
-int	ft_env(void)
-{
-	print_hashtable(g_main.env_var);
-	return (0);
-}
+#include "shell.h"
 
 void	backup_fd(int backup[2])
 {

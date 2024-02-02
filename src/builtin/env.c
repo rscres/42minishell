@@ -39,3 +39,9 @@ int	set_env(t_env **env_var, char **env)
 	}
 	return (1);
 }
+
+int	ft_env(void)
+{
+	print_hashtable(g_main.env_var);
+	return (0);
+}

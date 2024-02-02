@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 00:10:37 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/02 01:47:09 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	too_many_args(void)
 	exit(1);
 }
 
-//needs rework
 void	ft_exit(char **args, int argc)
 {
 	int		status;
@@ -68,13 +67,4 @@ void	ft_exit(char **args, int argc)
 	status = adjust_status(ft_atoi(args[1]));
 	clear_cmd_list();
 	exit(status);
-}
-
-void	ft_exit2(void)
-{
-	clear_hashtable(g_main.env_var);
-	clear_cmd_list();
-	clear_token_list();
-	printf("exit\n");
-	exit(0);
 }

@@ -4,27 +4,30 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
-SRC =	main.c									\
-		init.c									\
-		signal/signals.c					\
-		lexer/tokenizer.c					\
-		lexer/token_utils.c					\
-		lexer/lexer.c						\
-		parser/parser.c						\
-		cmd_list/hashtable.c				\
-		cmd_list/cmd_list.c				\
-		cmd_list/cmd_list_utils.c		\
-		builtin/builtin.c				\
-		builtin/set_env.c					\
-		builtin/export.c				\
-		builtin/exit.c					\
+SRC =	main.c						\
+		init.c						\
+		signal/signals.c			\
+		lexer/tokenizer.c			\
+		lexer/token_utils.c			\
+		lexer/lexer.c				\
+		parser/parser.c				\
+		cmd_list/hashtable.c		\
+		cmd_list/cmd_list.c			\
+		cmd_list/cmd_list_utils.c	\
+		builtin/builtin.c			\
+		builtin/pwd.c				\
+		builtin/unset.c				\
+		builtin/env.c				\
+		builtin/export.c			\
+		builtin/export_print.c		\
+		builtin/exit.c				\
 		builtin/pipe.c				\
-		builtin/echo.c					\
-		builtin/cd.c					\
-		heredoc/heredoc.c				\
+		builtin/echo.c				\
+		builtin/cd.c				\
+		heredoc/heredoc.c			\
 		heredoc/heredoc_utils.c		\
 		heredoc/heredoc_utils2.c	\
-		executor/expand_var.c			\
+		executor/expand_var.c		\
 		executor/execute.c
 
 OBJ_DIR = obj

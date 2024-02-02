@@ -143,7 +143,6 @@ extern t_main	g_main;
 //exit.c
 
 void	ft_exit(char **args, int argc);
-void	ft_exit2(void);
 int		adjust_status(int status);
 
 //INIT------------------------------------------
@@ -215,6 +214,11 @@ void	set_fd(t_cmd *cmd);
 int		ft_export(char **args, int argc);
 char	**split_var(char *var);
 
+//export_print.c
+
+char	**save_table_to_array(void);
+void	print_vars(void);
+
 //echo.c
 
 int		ft_echo(char **args, int fd);
@@ -222,6 +226,21 @@ int		ft_echo(char **args, int fd);
 //cd.c
 
 int		ft_cd(char **args);
+
+//unset.c
+
+int		ft_unset(char **args);
+
+//pwd.c
+
+int		ft_pwd(void);
+
+//ENV-------------------------------------------
+//set_env.c
+
+int		set_env(t_env **env_var, char **env);
+int		free_tab(char **tab);
+int		ft_env(void);
 
 //HASHTABLE-------------------------------------
 //hashtable.c
@@ -233,12 +252,6 @@ char	*search_value(t_env **env_var, char *key);
 void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);
-
-//ENV-------------------------------------------
-//set_env.c
-
-int		set_env(t_env **env_var, char **env);
-int		free_tab(char **tab);
 
 //HEREDOC---------------------------------------
 //heredoc.c
