@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 14:08:50 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:05:53 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	ft_cd(char **args)
 		ret = chdir(args[1]);
 	if (ret != 0)
 	{
-		perror("cd");
+		if (search(g_main.env_var, "HOME") == NULL)
+			ft_putendl_fd("cd: HOME not set", 2);
+		else
+			perror("cd");
 		return (1);
 	}
 	update_pwd();
