@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
@@ -187,6 +189,12 @@ char	*expand_var2(char *str, int *i);
 //parser.c
 
 int		parser(void);
+
+//parser_utils.c
+
+void	arrange_cmd_list(void);
+void	fd_error(char *str);
+void	remove_redir(void);
 
 //EXEC------------------------------------------
 //builtin.c

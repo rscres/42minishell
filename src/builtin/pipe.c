@@ -99,6 +99,7 @@ void ig_pipe_executer(t_cmd *cmd, int fd)
 //	}
 //
 //}
+
 void ig_middle_born(t_cmd *cmd, int fd)
 {
 	pid_t pid;
@@ -114,7 +115,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		close(g_main.pipe->fd1[1]);
 		close(fd);
 		if (check_if_builtin(cmd->name)) {
-			g_main.status = exec_builtin(cmd->name, cmd->args, cmd->argc);
+			g_main.status = exec_builtin(cmd);
 			clear_cmd_list();
 			clear_hashtable(g_main.env_var);
 		}
@@ -131,9 +132,8 @@ void ig_middle_born(t_cmd *cmd, int fd)
 
 void ig_open_linked(void)
 {
-		pipe(g_main.pipe->fd1);
+	pipe(g_main.pipe->fd1);
 }
-
 
 //int *ig_define_pipe(int *fd)
 //{
@@ -174,5 +174,3 @@ void ig_open_linked(void)
 //			ig_last_born(cmd);
 //	}
 //}
-
-

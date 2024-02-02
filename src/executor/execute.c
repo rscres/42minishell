@@ -6,19 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 12:24:13 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/02 12:27:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include <sys/stat.h>
-
-void	heredoc_exit()
-{
-	exit();
-	clear_token_list();
-	clear_cmd_list();
-}
 
 char	*check_path(char *name)
 {
@@ -192,7 +185,7 @@ void	execute_cmd_list(void)
 	if (g_main.pipe->pipe_counter != 0)
 	{	
 		ig_pipe(cmd);
-		heredoc_exit();
+		heredoc_exit(g_main.status);
 	}
 	heredoc_files(REMOVE);
 	clear_cmd_list();

@@ -11,6 +11,7 @@ SRC =	main.c						\
 		lexer/token_utils.c			\
 		lexer/lexer.c				\
 		parser/parser.c				\
+		parser/parser_utils.c		\
 		cmd_list/hashtable.c		\
 		cmd_list/cmd_list.c			\
 		cmd_list/cmd_list_utils.c	\
