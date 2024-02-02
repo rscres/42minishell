@@ -24,7 +24,7 @@ static void	update_pwd(void)
 
 int	ft_cd(char **args)
 {
-	int		ret;
+	int		ret = 0;
 
 	if (g_main.cmd_list->argc > 2)
 	{

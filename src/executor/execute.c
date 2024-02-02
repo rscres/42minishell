@@ -185,7 +185,6 @@ void	execute_cmd_list(void)
 	if (g_main.pipe->pipe_counter != 0)
 	{	
 		ig_pipe(cmd);
-		heredoc_exit(g_main.status);
 	}
 	heredoc_files(REMOVE);
 	clear_cmd_list();

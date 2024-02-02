@@ -116,8 +116,11 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		close(fd);
 		if (check_if_builtin(cmd->name)) {
 			g_main.status = exec_builtin(cmd);
-			clear_cmd_list();
 			clear_hashtable(g_main.env_var);
+			clear_token_list();
+			clear_cmd_list();
+			ft_safe_free((void**)&g_main.pipe->path); // leaks
+			ft_safe_free((void**)&g_main.pipe); // leaks
 		}
 		else
 		{
