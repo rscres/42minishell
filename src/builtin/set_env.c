@@ -31,7 +31,7 @@ int	set_env(t_env **env_var, char **env)
 	i = 0;
 	while (env[i])
 	{
-		arg = ft_split(env[i], '=');
+		arg = split_var(env[i]);
 		if (arg[0] && arg[1])
 			insert_key(env_var, arg[0], arg[1]);
 		free_tab(arg);

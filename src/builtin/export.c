@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 15:40:49 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 01:34:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**save_table_to_array(void)
 		while (tmp && tmp->key)
 		{
 			array[j] = ft_strjoin(tmp->key, "=");
-			array[j] = ft_strjoin(array[j], tmp->value);
+			array[j] = ft_strjoin_free(array[j], tmp->value);
 			j++;
 			tmp = tmp->next;
 		}
@@ -95,21 +95,42 @@ static int	error_msg(char *str)
 	return (1);
 }
 
+char	**split_var(char *var)
+{
+	char **split;
+
+	split = ft_calloc(3, sizeof(char *));
+	if (!split)
+		return (NULL);
+	if (ft_strchr(var, '=') && var[ft_strlen(var) - 1] != '=')
+	{
+		split[0] = ft_strndup(var, ft_strchr(var, '=') - var);
+		split[1] = ft_strdup(ft_strchr(var, '=') + 1);
+	}
+	else
+	{
+		if (var[ft_strlen(var) - 1] == '=')
+			split[0] = ft_strndup(var, ft_strlen(var) - 1);
+		else
+			split[0] = ft_strdup(var);
+		split[1] = ft_strdup("");
+	}
+	return (split);
+}
+
 static int	set_var(char **args)
 {
 	char	**split;
 	int		i;
 
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
+		if ((ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1) || is_valid_char(args[i]))
 		{
-			split = ft_split(args[i], '='); //remove ft_split, needs rework for "A='b=c=d' cases"
+			split = split_var(args[i]);
 			if (!split[0] || !is_valid_char(split[0]))
 				return (error_msg(split[0]));
-			if (!split[1])
-				split[1] = ft_strdup("");
 			if (search(g_main.env_var, split[0]))
 				update_key(g_main.env_var, split[0], split[1]);
 			else
@@ -118,13 +139,6 @@ static int	set_var(char **args)
 		}
 		else if (!ft_isalpha(args[i][0]) || is_valid_char(args[i]) == 0)
 			return (error_msg(args[i]));
-		else
-		{
-			if (search(g_main.env_var, args[i]))
-				update_key(g_main.env_var, args[i], NULL);
-			else
-				insert_key(g_main.env_var, args[i], NULL);
-		}
 		i++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 14:42:20 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 00:57:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	insert_key(t_env **env_var, char *key, char *value)
 	t_env	*tmp;
 
 	i = hash(key);
+	if (!value)
+		value = "";
 	if (env_var[i] == NULL)
 	{
 		env_var[i] = (t_env *)malloc(sizeof(t_env));
-		env_var[i]->key = strdup(key);
-		env_var[i]->value = strdup(value);
+		env_var[i]->key = ft_strdup(key);
+		env_var[i]->value = ft_strdup(value);
 		env_var[i]->next = NULL;
 	}
 	else
@@ -56,8 +58,8 @@ void	insert_key(t_env **env_var, char *key, char *value)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = (t_env *)malloc(sizeof(t_env));
-		tmp->next->key = strdup(key);
-		tmp->next->value = strdup(value);
+		tmp->next->key = ft_strdup(key);
+		tmp->next->value = ft_strdup(value);
 		tmp->next->next = NULL;
 	}
 }
@@ -75,7 +77,7 @@ void	delete_key(t_env **env_var, char *key)
 		while (tmp)
 		{
 			next = tmp->next;
-			if (strcmp(tmp->key, key) == 0)
+			if (ft_strcmp(tmp->key, key) == 0)
 			{
 				free(tmp->key);
 				free(tmp->value);
@@ -124,7 +126,7 @@ t_env	*search(t_env **env_var, char *key)
 		tmp = env_var[i];
 		while (tmp)
 		{
-			if (strcmp(tmp->key, key) == 0)
+			if (ft_strcmp(tmp->key, key) == 0)
 				return (tmp);
 			tmp = tmp->next;
 		}
@@ -143,7 +145,7 @@ char	*search_value(t_env **env_var, char *key)
 		tmp = env_var[i];
 		while (tmp)
 		{
-			if (strcmp(tmp->key, key) == 0)
+			if (ft_strcmp(tmp->key, key) == 0)
 				return (tmp->value);
 			tmp = tmp->next;
 		}
@@ -157,6 +159,8 @@ int	update_key(t_env **env_var, char *key, char *value)
 	t_env	*tmp;
 
 	i = hash(key);
+	if (!value)
+		value = "";
 	if (env_var[i])
 	{
 		tmp = env_var[i];
@@ -165,7 +169,7 @@ int	update_key(t_env **env_var, char *key, char *value)
 			if (strcmp(tmp->key, key) == 0)
 			{
 				free(tmp->value);
-				tmp->value = strdup(value);
+				tmp->value = ft_strdup(value);
 				return (1);
 			}
 			tmp = tmp->next;

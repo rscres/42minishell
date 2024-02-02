@@ -213,6 +213,7 @@ void	set_fd(t_cmd *cmd);
 //export.c
 
 int		ft_export(char **args, int argc);
+char	**split_var(char *var);
 
 //echo.c
 
