@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 14:20:44 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 22:06:45 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ static int	set_var(char **args)
 	return (0);
 }
 
-int	ft_export(char **args, int argc)
+int	ft_export(char **args, int argc, int fd)
 {
 	if (argc < 2)
-		print_vars();
+		print_vars(fd);
 	else
 		return (set_var(args));
 	return (0);

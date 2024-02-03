@@ -213,13 +213,13 @@ void	set_fd(t_cmd *cmd);
 //BUILTINS--------------------------------------
 //export.c
 
-int		ft_export(char **args, int argc);
+int		ft_export(char **args, int argc, int fd);
 char	**split_var(char *var);
 
 //export_print.c
 
 char	**save_table_to_array(void);
-void	print_vars(void);
+void	print_vars(int fd);
 
 //echo.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 01:44:21 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 15:03:57 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 22:05:37 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ char	**save_table_to_array(void)
 	return (array);
 }
 
-void	print(char **tmp)
+void	print(char **tmp, int fd)
 {
-	ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(tmp[0], 1);
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(tmp[0], fd);
 	if (tmp[1])
 	{
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(tmp[1] + 1, 1);
-		ft_putstr_fd("\"", 1);
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(tmp[1] + 1, fd);
+		ft_putstr_fd("\"", fd);
 	}
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', fd);
 }
 
-void	print_vars(void)
+void	print_vars(int fd)
 {
 	char	**array;
 	char	**tmp;
@@ -70,7 +70,7 @@ void	print_vars(void)
 		tmp[1] = ft_strchr(array[i], '=');
 		tmp[0] = ft_strndup(array[i], ft_strlen(array[i])
 				- ft_strlen(tmp[1]));
-		print(tmp);
+		print(tmp, fd);
 		ft_safe_free((void **)&tmp[0]);
 	}
 	free_tab(array);

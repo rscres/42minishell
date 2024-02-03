@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 18:14:46 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/02 22:06:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	exec_builtin(t_cmd *cmd)
 	else if (!ft_strcmp(cmd->name, "pwd"))
 		g_main.status = (ft_pwd(cmd->fd[1]));
 	else if (!ft_strcmp(cmd->name, "export"))
-		g_main.status = (ft_export(cmd->args, cmd->argc));
+		g_main.status = (ft_export(cmd->args, cmd->argc, cmd->fd[1]));
 	else if (!ft_strcmp(cmd->name, "unset"))
 		g_main.status = (ft_unset(cmd->args + 1));
 	else if (!ft_strcmp(cmd->name, "env"))
