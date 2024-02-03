@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 18:19:39 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/03 01:43:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*check_path(char *name)
 		ft_safe_free((void **)&path);
 	}
 	free_tab(paths);
-	return (NULL);
+	return (ft_strdup(name));
 }
 
 int	ft_error(char *str, char *msg, int err)
@@ -169,8 +169,6 @@ void	execute_cmd_list(void)
 				exec_builtin(cmd);
 			else if (path && !access(path, F_OK))
 				exec(cmd, path);
-			else if (!access(cmd->name, F_OK))
-				exec(cmd, cmd->name);
 			else
 				ft_error(cmd->name, "command not found", 127);
 			ft_safe_free((void **)&path);
