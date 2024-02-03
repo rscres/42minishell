@@ -12,6 +12,9 @@
 
 #include "shell.h"
 
+int ig_check_pipe(t_token *token);
+void ig_check_open(char *token, char **str);
+
 int	get_type(char *str)
 {
 	if (!ft_strcmp(str, ">>"))
@@ -109,7 +112,6 @@ int	check_and_clear(void)
 int	lexer(char **str)
 {
 	char	*token;
-	char	*new_str;
 
 	token = tokenizer(*str);
 	while (token)
@@ -118,20 +120,7 @@ int	lexer(char **str)
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
 	}
-	while (g_main.open_quote)
-	{
-		new_str = readline("> ");
-		token = tokenizer(new_str);
-		while (token)
-		{
-			add_token(token, get_type(token));
-			ft_safe_free((void **)&token);
-			token = tokenizer(NULL);
-		}
-		*str = ft_strjoin_free(*str, "\n");
-		*str = ft_strjoin_free(*str, new_str);
-		ft_safe_free((void **)&new_str);
-	}
+	ig_check_open(token,str);
 	g_main.line = *str;
 	if (g_main.open_quote)
 	{
@@ -147,4 +136,39 @@ int	lexer(char **str)
 	clear_token_list();
 	ft_safe_free((void **)&token);
 	return (0);
+}
+
+int ig_check_pipe(t_token *token)
+{
+	while(token->next)
+		token = token->next;
+	if(token->type == PIPE && token->prev)
+		return (1);
+	return(0);
+}
+
+void ig_check_open(char *token, char **str)
+{
+	int		quote;
+	char	*new_str;
+
+	while (g_main.open_quote || ig_check_pipe(g_main.token_list))
+	{
+
+		quote = g_main.open_quote;
+		new_str = readline("> ");
+		token = tokenizer(new_str);
+		while (token)
+		{
+			add_token(token, get_type(token));
+			ft_safe_free((void **)&token);
+			token = tokenizer(NULL);
+		}
+		if(quote)
+			*str = ft_strjoin_free(*str, "\n");
+		else
+			*str = ft_strjoin_free(*str, " ");
+		*str = ft_strjoin_free(*str, new_str);
+		ft_safe_free((void **)&new_str);
+	}
 }

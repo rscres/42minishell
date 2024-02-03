@@ -41,20 +41,20 @@ void	print_ascii(char **env)
 	ft_putchar_fd('\n', 0);
 }
 
-char	*get_line(void)
-{
-	char	*line;
-
-	line = readline("msh$ ");
-	if (!line)
-		return (NULL);
-	while (ft_strlen(line) > 0 && line[ft_strlen(line) - 1] == '\\')
-	{
-		line[ft_strlen(line) - 1] = '\0';
-		line = ft_strjoin(line, readline("> "));
-	}
-	return (line);
-}
+//char	*get_line(void)
+//{
+//	char	*line;
+//
+//	line = readline("$> ");
+//	if (!line)
+//		return (NULL);
+////	while (ft_strlen(line) > 0 && line[ft_strlen(line) - 1] == '\\')
+////	{
+////		line[ft_strlen(line) - 1] = '\0';
+////		line = ft_strjoin(line, readline("> "));
+////	}
+//	return (line);
+//}
 
 void	init_shell(char **env)
 {
@@ -73,7 +73,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	while (1)
 	{
 		g_main.signal_received = FALSE;
-		line = get_line();
+		line = readline("$> ");
 		if (!line)
 		{
 			ft_safe_free((void **)&line);
