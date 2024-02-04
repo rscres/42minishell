@@ -84,18 +84,6 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }	t_cmd;
 
-//Cmd_info
-
-typedef struct s_cmd_info
-{
-	char	*path;
-	int		heredoc;
-	int		heredoc_count;
-	int		infile;
-	int		outfile;
-	int		append;
-}	t_cmd_info;
-
 //pipe_info
 
 typedef struct s_pipe_info
@@ -121,7 +109,6 @@ typedef struct s_main
 	t_env		*env_var[TABLE_SIZE];
 	t_token		*token_list;
 	t_cmd		*cmd_list;
-	t_cmd_info	cmd_info;
 	t_pipe_info *pipe;
 	char		**envp;
 	char		*line;
@@ -152,6 +139,7 @@ void	init_global(char **env);
 
 int		signal_set(void);
 void	handler(int sig);
+void	sigquit(int sig);
 
 //PARSER----------------------------------------
 //lexer.c
@@ -205,10 +193,15 @@ int		exec_builtin(t_cmd *cmd);
 
 void	exec_cmd(t_cmd *cmd);
 void	execute_cmd_list(void);
-char	*check_path(char *name);
 void	exec(t_cmd *cmd, char *path);
-int		check_if_builtin(char *name);
 void	set_fd(t_cmd *cmd);
+
+//executor_utils.c
+
+int		file_dir_check(t_cmd *cmd);
+int 	is_directory(const char *path);
+int		check_if_builtin(char *name);
+char	*check_path(char *name);
 
 //BUILTINS--------------------------------------
 //export.c
@@ -277,6 +270,11 @@ char	*save_heredoc(char *delim, char *heredoc);
 //pipe.c
 
 void	ig_pipe(t_cmd *cmd);
+
+//ERROR-----------------------------------------
+//error.c
+
+int		ft_error(char *str, char *msg, int err);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 01:46:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 01:47:09 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 00:56:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	adjust_status(int status)
 {
 	while (status > 255)
-		status -= 256;
+		status -= 255; //maybe change back to 256
 	while (status < 0)
-		status += 256;
+		status += 255;
 	return (status);
 }
 

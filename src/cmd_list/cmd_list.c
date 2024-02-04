@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 00:30:41 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/03 23:36:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	create_pipe(t_cmd **cmd, t_token **tmp_tok, int *cmd_count)
 	*cmd_count = 0;
 	*cmd = new_cmd((*tmp_tok)->name, (*tmp_tok)->type);
 	add_cmd(*cmd);
-	g_main.pipe->pipe_counter += 1;
 	*tmp_tok = (*tmp_tok)->next;
 }
 

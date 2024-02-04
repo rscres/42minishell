@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:35:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 15:12:34 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/04 00:41:34 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+void	sigquit(int sig)
+{
+	(void)sig;
+	if (g_main.is_cmd_running)
+	{
+		ft_putstr_fd("Quit: 3\n", 1);
+		g_main.status = 131;
+	}
+	else
+	{
+		ft_putstr_fd("\b\b  \b\b", 1);
+		g_main.status = 130;
+	}
+}
 
 void	handler(int sig)
 {
@@ -22,6 +37,7 @@ void	handler(int sig)
 		rl_replace_line("", 0);
 		if (!g_main.is_cmd_running)
 			rl_redisplay();
+		g_main.status = 130;
 	}
 }
 

@@ -29,7 +29,9 @@ SRC =	main.c						\
 		heredoc/heredoc_utils.c		\
 		heredoc/heredoc_utils2.c	\
 		executor/expand_var.c		\
-		executor/execute.c
+		executor/execute.c			\
+		executor/execute_utils.c	\
+		error/error.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))

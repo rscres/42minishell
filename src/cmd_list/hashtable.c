@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 00:57:01 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/03 23:41:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,28 @@ void	insert_key(t_env **env_var, char *key, char *value)
 void	delete_key(t_env **env_var, char *key)
 {
 	int		i;
-	t_env	*tmp;
-	t_env	*next;
+	t_env	*current;
+	t_env	*hold;
 
 	i = hash(key);
-	if (env_var[i])
+	current = env_var[i];
+	hold = NULL;
+	if (search(env_var, key)) //can remove this
 	{
-		tmp = env_var[i];
-		while (tmp)
+		while (current != NULL && strcmp(current->key, key) != 0)
 		{
-			next = tmp->next;
-			if (ft_strcmp(tmp->key, key) == 0)
-			{
-				free(tmp->key);
-				free(tmp->value);
-				free(tmp);
-				env_var[i] = next;
-				break ;
-			}
-			tmp = next;
+			hold = current;
+			current = current->next;
 		}
+		if (current == NULL)
+			return;
+		if (hold == NULL)
+			env_var[i] = current->next;
+		else
+			hold->next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 01:44:21 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 22:05:37 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/03 19:35:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print(char **tmp, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-void	print_vars(int fd)
+void	print_vars(int fd) //export breaking when passed with pipe
 {
 	char	**array;
 	char	**tmp;
@@ -61,7 +61,7 @@ void	print_vars(int fd)
 
 	i = -1;
 	array = save_table_to_array();
-	tmp = ft_calloc(2, sizeof(char *));
+	tmp = malloc(sizeof(char *) * 2);
 	if (!array)
 		return ;
 	ft_merge_sort(ft_arrlen(array), array);
@@ -73,5 +73,7 @@ void	print_vars(int fd)
 		print(tmp, fd);
 		ft_safe_free((void **)&tmp[0]);
 	}
+	tmp[1] = NULL;
+	ft_safe_free((void **)&tmp);
 	free_tab(array);
 }
