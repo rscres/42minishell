@@ -36,7 +36,7 @@ char	*check_path(char *name)
 		ft_safe_free((void **)&path);
 	}
 	free_tab(paths);
-	return (NULL);
+	return (ft_strdup(name));
 }
 
 int	ft_error(char *str, char *msg, int err)
