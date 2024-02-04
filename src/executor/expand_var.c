@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 14:51:00 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/04 00:53:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*expand_var2(char *str, int *i)
 	if (str[*i + 1] == '?')
 	{
 		var = ft_strdup("?");
-		value = ft_itoa(g_main.status);
+		value = ft_itoa(adjust_status(g_main.status));
 	}
 	else
 	{
