@@ -6,19 +6,25 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 00:19:22 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 01:28:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	update_pwd(void)
+static void	update_pwd(char *backup)
 {
 	char	*dir;
 
 	dir = getcwd(NULL, 0);
-	update_key(g_main.env_var, "OLDPWD", search(g_main.env_var, "PWD")->value);
-	update_key(g_main.env_var, "PWD", dir);
+	if (!search(g_main.env_var, "OLDPWD"))
+		insert_key(g_main.env_var, "OLDPWD", backup);
+	else
+		update_key(g_main.env_var, "OLDPWD", search_value(g_main.env_var, "PWD"));
+	if (!search(g_main.env_var, "PWD"))
+		insert_key(g_main.env_var, "PWD", dir);
+	else
+		update_key(g_main.env_var, "PWD", dir);
 	ft_safe_free((void **)&dir);
 }
 
@@ -35,7 +41,9 @@ char	*get_home(void)
 int	ft_cd(char **args)
 {
 	int		ret;
+	char	*oldpwd;
 
+	oldpwd = getcwd(NULL, 0);
 	ret = 0;
 	if (g_main.cmd_list->argc > 2)
 	{
@@ -54,6 +62,7 @@ int	ft_cd(char **args)
 			perror("cd");
 		return (1);
 	}
-	update_pwd();
+	update_pwd(oldpwd);
+	ft_safe_free((void **)&oldpwd);
 	return (0);
 }

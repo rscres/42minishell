@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 01:44:21 by renato            #+#    #+#             */
-/*   Updated: 2024/02/03 19:35:39 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 01:12:34 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	print(char **tmp, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-void	print_vars(int fd) //export breaking when passed with pipe
+void	print_vars(int fd)
 {
 	char	**array;
 	char	**tmp;
