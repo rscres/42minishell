@@ -131,8 +131,8 @@ int		adjust_status(int status);
 //INIT------------------------------------------
 //init.c
 
-void	init_hashtable(t_env **env_var);
 void	init_global(char **env);
+void	init_shell(char **env);
 
 //SIGNALS---------------------------------------
 //signal.c
@@ -244,6 +244,9 @@ int		hash(char *key);
 int		update_key(t_env **env_var, char *key, char *value);
 t_env	*search(t_env **env_var, char *key);
 char	*search_value(t_env **env_var, char *key);
+
+//hashtable_utils.c
+
 void	clear_hashtable(t_env **env_var);
 void	delete_key(t_env **env_var, char *key);
 void	insert_key(t_env **env_var, char *key, char *value);

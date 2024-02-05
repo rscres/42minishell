@@ -6,25 +6,25 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/02 22:06:22 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 16:08:54 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	backup_fd(int backup[2])
-{
-	backup[0] = dup(0);
-	backup[1] = dup(1);
-}
+// void	backup_fd(int backup[2])
+// {
+// 	backup[0] = dup(0);
+// 	backup[1] = dup(1);
+// }
 
-void	restore_fd(int backup[2])
-{
-	dup2(backup[0], 0);
-	close(backup[0]);
-	dup2(backup[1], 1);
-	close(backup[1]);
-}
+// void	restore_fd(int backup[2])
+// {
+// 	dup2(backup[0], 0);
+// 	close(backup[0]);
+// 	dup2(backup[1], 1);
+// 	close(backup[1]);
+// }
 
 // void	prep_exit(t_cmd *cmd, int backup[2])
 // {
@@ -74,10 +74,6 @@ int	set_fd_out(t_cmd *cmd)
 
 int	exec_builtin(t_cmd *cmd)
 {
-	// int	backup[2];
-
-	// backup_fd(backup);
-	// set_fd(cmd);
 	int fd_set[2];
 
 	fd_set[0] = set_fd_in(cmd);
@@ -96,13 +92,11 @@ int	exec_builtin(t_cmd *cmd)
 		g_main.status = (ft_env());
 	else if (!ft_strcmp(cmd->name, "exit"))
 		ft_exit(cmd->args, cmd->argc);
-		// prep_exit(cmd, backup);
 	else if (!ft_strcmp(cmd->name, "<<"))
 		heredoc(cmd->args[0]);
 	if (fd_set[0] == 0)
 		close(cmd->fd[0]);
 	if (fd_set[1] == 0)
 		close(cmd->fd[1]);
-	// restore_fd(backup);
 	return (0);
 }

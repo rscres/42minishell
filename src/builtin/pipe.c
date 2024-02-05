@@ -92,9 +92,12 @@ void ig_middle_born(t_cmd *cmd, int fd)
 			set_fd(cmd);
 			execve(g_main.pipe->path, cmd->args, g_main.envp);
 			ft_putstr_fd("execve error\n", 2);
+			clear_cmd_list();
+			clear_hashtable(g_main.env_var);
 		}
 		ig_close_linked();
 		ft_safe_free((void **)&g_main.pipe->path);
+		ft_safe_free((void **)&g_main.pipe);
 		exit(1);
 	}
 }

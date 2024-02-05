@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/04 00:53:03 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 20:59:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ char	*expand_var2(char *str, int *i)
 {
 	char	*value;
 	char	*var;
-	int		empty;
 
-	empty = 0;
 	if (str[*i + 1] == '?')
 	{
 		var = ft_strdup("?");
@@ -86,16 +84,10 @@ char	*expand_var2(char *str, int *i)
 		if (search(g_main.env_var, var))
 			value = ft_strdup(search(g_main.env_var, var)->value);
 		else
-		{
 			value = ft_strdup("");
-			empty = 1;
-		}
 	}
 	str = insert_value(str, value, ft_strlen(var) + 1, *i);
-	if (empty == 0)
-		*i = *i + ft_strlen(value) - 1;
-	else
-		*i = ft_strlen(str) - ft_strlen(var) - 1;
+	*i = *i + ft_strlen(value) - 1;
 	if (*i == 0)
 		*i = -1;
 	ft_safe_free((void **)&var);
@@ -114,6 +106,7 @@ char	*expand_var(char *str)
 	quote = 0;
 	while ((size_t)++i < ft_strlen(str) && str[i])
 	{
+		printf("str[i] = %c\n", str[i]);
 		if (str[i] == '\'' || str[i] == '\"')
 			quote = check_quote(quote, str[i]);
 		while (str[i] && str[i] != '\'' && quote == 1)

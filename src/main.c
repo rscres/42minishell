@@ -3,43 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/01 14:26:22 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/04 14:26:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
 t_main	g_main;
-
-void	print_ascii(char **env)
-{
-	int		pid;
-	char	*argv[1];
-
-	pid = fork();
-	if (pid == 0)
-	{
-		argv[0] = NULL;
-		execve("/usr/bin/clear", argv, env);
-		exit(0);
-	}
-	else
-		wait(NULL);
-	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
-	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
-	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
-	ft_putendl_fd("  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
-	ft_putstr("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓");
-	ft_putendl_fd("  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
-	ft_putstr("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████");
-	ft_putendl_fd("  ███████  ███████", 0);
-	ft_putstr("█  ████  █        █  ███   █        █  ████  █        ");
-	ft_putendl_fd("█        █        █", 0);
-	ft_putchar_fd('\n', 0);
-}
 
 char	*get_line(void)
 {
@@ -54,14 +27,6 @@ char	*get_line(void)
 		line = ft_strjoin(line, readline("> "));
 	}
 	return (line);
-}
-
-void	init_shell(char **env)
-{
-	print_ascii(env);
-	signal_set();
-	init_global(env);
-	set_env(g_main.env_var, env);
 }
 
 int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,

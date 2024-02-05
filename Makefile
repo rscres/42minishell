@@ -13,6 +13,7 @@ SRC =	main.c						\
 		parser/parser.c				\
 		parser/parser_utils.c		\
 		cmd_list/hashtable.c		\
+		cmd_list/hashtable_utils.c	\
 		cmd_list/cmd_list.c			\
 		cmd_list/cmd_list_utils.c	\
 		builtin/builtin.c			\

@@ -12,7 +12,35 @@
 
 #include "../includes/shell.h"
 
-void	init_hashtable(t_env **env_var)
+void	print_ascii(char **env)
+{
+	int		pid;
+	char	*argv[1];
+
+	pid = fork();
+	if (pid == 0)
+	{
+		argv[0] = NULL;
+		execve("/usr/bin/clear", argv, env);
+		exit(0);
+	}
+	else
+		wait(NULL);
+	ft_putstr("░  ░░░░  ░        ░   ░░░  ░        ░  ░░░░  ░        ░");
+	ft_putendl_fd("  ░░░░░░░  ░░░░░░░", 0);
+	ft_putstr("▒   ▒▒   ▒▒▒▒  ▒▒▒▒    ▒▒  ▒▒▒▒  ▒▒▒▒  ▒▒▒▒  ▒  ▒▒▒▒▒▒▒");
+	ft_putendl_fd("  ▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒", 0);
+	ft_putstr("▓        ▓▓▓▓  ▓▓▓▓  ▓  ▓  ▓▓▓▓  ▓▓▓▓        ▓      ▓▓▓");
+	ft_putendl_fd("  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓", 0);
+	ft_putstr("█  █  █  ████  ████  ██    ████  ████  ████  █  ███████");
+	ft_putendl_fd("  ███████  ███████", 0);
+	ft_putstr("█  ████  █        █  ███   █        █  ████  █        ");
+	ft_putendl_fd("█        █        █", 0);
+	ft_putchar_fd('\n', 0);
+}
+
+
+static void	init_hashtable(t_env **env_var)
 {
 	int	i;
 
@@ -37,4 +65,12 @@ void	init_global(char **envp)
 	g_main.status = 0;
 	g_main.is_cmd_running = FALSE;
 	g_main.signal_received = FALSE;
+}
+
+void	init_shell(char **env)
+{
+	print_ascii(env);
+	signal_set();
+	init_global(env);
+	set_env(g_main.env_var, env);
 }

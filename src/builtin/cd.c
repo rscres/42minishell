@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 01:28:19 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/04 12:41:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_cd(char **args)
 			ft_putendl_fd("cd: HOME not set", 2);
 		else
 			perror("cd");
+		ft_safe_free((void **)&oldpwd);
 		return (1);
 	}
 	update_pwd(oldpwd);
