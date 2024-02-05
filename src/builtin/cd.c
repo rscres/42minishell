@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 12:41:25 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 20:18:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_home(void)
 
 int	ft_cd(char **args)
 {
-	int		ret;
+	int		ret = 0;
 	char	*oldpwd;
 
 	oldpwd = getcwd(NULL, 0);

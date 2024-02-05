@@ -12,11 +12,7 @@
 
 #include "../../includes/shell.h"
 
-void ig_first_born(t_cmd *cmd);
-void ig_last_born(t_cmd *cmd);
-void ig_open_linked(void);
 void ig_middle_born(t_cmd *cmd, int fd);
-//int *ig_define_pipe(int *fd);
 void ig_pipe_executer(t_cmd *cmd, int fd);
 void ig_middle_pipes(t_cmd *cmd);
 void ig_edge_pipes(t_cmd *cmd);
@@ -52,6 +48,7 @@ void ig_pipe(t_cmd *cmd)
 	ig_close_linked();
 	clear_cmd_list();
 }
+
 void ig_pipe_executer(t_cmd *cmd, int fd)
 {
 	char *tmp;
@@ -81,7 +78,6 @@ void ig_middle_born(t_cmd *cmd, int fd)
 		if (check_if_builtin(cmd->name))
 		{
 			g_main.status = exec_builtin(cmd);
-			clear_cmd_list();
 			clear_hashtable(g_main.env_var);
 			ft_safe_free((void **)&g_main.pipe->path);
 			ft_safe_free((void **)&g_main.pipe);
