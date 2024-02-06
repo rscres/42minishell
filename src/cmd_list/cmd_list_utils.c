@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 16:39:40 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:00:38 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,22 @@ void	clear_cmd_list(void)
 	}
 }
 
+int	get_argc(t_token *tmp)
+{
+	int		i;
+
+	i = 0;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == WORD && tmp->prev && tmp->prev->type != INFILE
+			&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
+			&& tmp->prev->type != HEREDOC)
+			i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
 //------------------TEST FUNCTIONS------------------//
 //------------------TEST FUNCTIONS------------------//
 void	print_cmd_list(void)
@@ -91,6 +107,8 @@ void	print_cmd_list(void)
 			i++;
 		}
 		printf("argc = %i\n", tmp->argc);
+		printf("redir[0] = %i\n", tmp->redir[0]);
+		printf("redir[1] = %i\n", tmp->redir[1]);
 		tmp = tmp->next;
 	}
 }

@@ -59,7 +59,6 @@ static void	set_var(int *i, int *pos, int *begin)
 	*begin = 0;
 }
 
-
 //Split a string with the character c
 char	**ft_split(char const *s, char c)
 {

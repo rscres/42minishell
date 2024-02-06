@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 00:38:29 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 00:40:00 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:29:57 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_if_builtin(char *name)
 	return (0);
 }
 
-int is_directory(const char *path) //need refactoring
+int	is_directory(const char *path) //need refactoring
 {
 	struct stat	statbuf;
 

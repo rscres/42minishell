@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 16:09:27 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 21:14:14 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:28:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	delete_key(t_env **env_var, char *key)
 		current = current->next;
 	}
 	if (current == NULL)
-		return;
+		return ;
 	if (hold == NULL)
 		env_var[i] = current->next;
 	else

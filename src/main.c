@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 20:18:56 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 20:21:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 	while (1)
 	{
 		g_main.signal_received = FALSE;
-		line = readline("$> ");
+		line = get_line();
 		if (!line)
 		{
 			ft_safe_free((void **)&line);

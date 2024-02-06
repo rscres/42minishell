@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 20:19:49 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:30:44 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	execute_cmd_list(void)
 		return ;
 	if (g_main.pipe->pipe_counter == 0)
 		simple_command(cmd);
-	if (g_main.pipe->pipe_counter != 0)	
+	if (g_main.pipe->pipe_counter != 0)
 		ig_pipe(cmd);
 	heredoc_files(REMOVE);
 	clear_cmd_list();

@@ -6,27 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/03 23:36:00 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:28:54 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
-
-static int	get_argc(t_token *tmp)
-{
-	int		i;
-
-	i = 0;
-	while (tmp && tmp->type != PIPE)
-	{
-		if (tmp->type == WORD && tmp->prev && tmp->prev->type != INFILE
-			&& tmp->prev->type != OUTFILE && tmp->prev->type != APPEND
-			&& tmp->prev->type != HEREDOC)
-			i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
+#include "shell.h"
 
 void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 {

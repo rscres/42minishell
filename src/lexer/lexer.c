@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/01 15:06:58 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:34:31 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int ig_check_pipe(t_token *token);
-void ig_check_open(char *token, char **str);
 
 int	get_type(char *str)
 {
@@ -34,7 +31,7 @@ int	get_type(char *str)
 	return (WORD);
 }
 
-char	*remove_quotes(char *str)
+static char	*remove_quotes(char *str)
 {
 	int		i;
 	int		j;
@@ -59,16 +56,6 @@ char	*remove_quotes(char *str)
 	return (tmp);
 }
 
-int	syntax_error(char *str)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	ft_putstr_fd(str, 2);
-	ft_putendl_fd("\'", 2);
-	clear_token_list();
-	g_main.status = 2;
-	return (1);
-}
-
 static int	check_syntax(void)
 {
 	t_token	*tmp;
@@ -90,7 +77,7 @@ static int	check_syntax(void)
 	return (0);
 }
 
-int	check_and_clear(void)
+static int	check_and_clear(void)
 {
 	t_token	*tmp;
 
@@ -120,7 +107,7 @@ int	lexer(char **str)
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
 	}
-	ig_check_open(token,str);
+	ig_check_open(token, str);
 	g_main.line = *str;
 	if (g_main.open_quote)
 	{
@@ -136,39 +123,4 @@ int	lexer(char **str)
 	clear_token_list();
 	ft_safe_free((void **)&token);
 	return (0);
-}
-
-int ig_check_pipe(t_token *token)
-{
-	while(token->next)
-		token = token->next;
-	if(token->type == PIPE && token->prev)
-		return (1);
-	return(0);
-}
-
-void ig_check_open(char *token, char **str)
-{
-	int		quote;
-	char	*new_str;
-
-	while (g_main.open_quote || ig_check_pipe(g_main.token_list))
-	{
-
-		quote = g_main.open_quote;
-		new_str = readline("> ");
-		token = tokenizer(new_str);
-		while (token)
-		{
-			add_token(token, get_type(token));
-			ft_safe_free((void **)&token);
-			token = tokenizer(NULL);
-		}
-		if(quote)
-			*str = ft_strjoin_free(*str, "\n");
-		else
-			*str = ft_strjoin_free(*str, " ");
-		*str = ft_strjoin_free(*str, new_str);
-		ft_safe_free((void **)&new_str);
-	}
 }

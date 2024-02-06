@@ -10,8 +10,10 @@ SRC =	main.c						\
 		lexer/tokenizer.c			\
 		lexer/token_utils.c			\
 		lexer/lexer.c				\
+		lexer/lexer_utils.c			\
 		parser/parser.c				\
 		parser/parser_utils.c		\
+		parser/parser_utils2.c		\
 		cmd_list/hashtable.c		\
 		cmd_list/hashtable_utils.c	\
 		cmd_list/cmd_list.c			\

@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 21:25:08 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 22:06:45 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:51:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static int	is_valid_char(char *str)
+int	is_valid_char(char *str)
 {
 	int	i;
 
@@ -67,7 +67,8 @@ static int	set_var(char **args)
 	i = 1;
 	while (args[i])
 	{
-		if ((ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1) || is_valid_char(args[i]))
+		if ((ft_strchr(args[i], '=') && ft_strlen(args[i]) > 1)
+			|| is_valid_char(args[i]))
 		{
 			split = split_var(args[i]);
 			if (!split[0] || !is_valid_char(split[0]))

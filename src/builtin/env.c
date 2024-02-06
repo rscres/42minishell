@@ -18,8 +18,8 @@ int	free_tab(char **tab)
 
 	i = 0;
 	while (tab[i])
-		ft_safe_free((void**)&tab[i++]);
-	ft_safe_free((void**)&tab);
+		ft_safe_free((void **)&tab[i++]);
+	ft_safe_free((void **)&tab);
 	return (i);
 }
 

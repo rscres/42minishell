@@ -39,7 +39,6 @@ void	print_ascii(char **env)
 	ft_putchar_fd('\n', 0);
 }
 
-
 static void	init_hashtable(t_env **env_var)
 {
 	int	i;
@@ -49,7 +48,7 @@ static void	init_hashtable(t_env **env_var)
 		env_var[i++] = NULL;
 }
 
-void ig_pipe_init (void)
+void	ig_pipe_init(void)
 {
 	g_main.pipe = ft_calloc(1, sizeof(t_pipe_info));
 }

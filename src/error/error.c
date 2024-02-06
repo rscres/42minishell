@@ -12,15 +12,6 @@
 
 #include "shell.h"
 
-// void	ft_error(char *str, int err)
-// {
-// 	ft_putstr_fd("minishell: ", 2);
-// 	ft_putstr_fd(str, 2);
-// 	ft_putstr_fd(": ", 2);
-// 	ft_putendl_fd(strerror(errno), 2);
-// 	g_main.status = err;
-// }
-
 int	ft_error(char *str, char *msg, int err)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -32,4 +23,14 @@ int	ft_error(char *str, char *msg, int err)
 		ft_putendl_fd(strerror(errno), 2);
 	g_main.status = err;
 	return (err);
+}
+
+int	syntax_error(char *str)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("\'", 2);
+	clear_token_list();
+	g_main.status = 2;
+	return (1);
 }

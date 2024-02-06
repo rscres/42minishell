@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
+#include "shell.h"
 
-void ig_middle_born(t_cmd *cmd, int fd);
-void ig_pipe_executer(t_cmd *cmd, int fd);
-void ig_middle_pipes(t_cmd *cmd);
-void ig_edge_pipes(t_cmd *cmd);
+void	ig_middle_born(t_cmd *cmd, int fd);
+void	ig_pipe_executer(t_cmd *cmd, int fd);
+void	ig_middle_pipes(t_cmd *cmd);
+void	ig_edge_pipes(t_cmd *cmd);
 
 void	ig_close_linked(void)
 {
@@ -23,11 +23,13 @@ void	ig_close_linked(void)
 	close(g_main.pipe->fd1[1]); // Close writing end of the pipe
 }
 
-void ig_pipe(t_cmd *cmd)
+void	ig_pipe(t_cmd *cmd)
 {
-	int fd_read;
-	int counter = g_main.pipe->pipe_counter;
+	int	fd_read;
+	int	counter;
+	int	i;
 
+	counter = g_main.pipe->pipe_counter;
 	fd_read = dup(STDIN_FILENO);
 	while (g_main.pipe->pipe_counter + 1)
 	{
@@ -39,7 +41,7 @@ void ig_pipe(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	close(fd_read);
-	int i = 0;
+	i = 0;
 	while (i < counter + 1)
 	{
 		waitpid(-1, &g_main.status, 0);
@@ -49,9 +51,10 @@ void ig_pipe(t_cmd *cmd)
 	clear_cmd_list();
 }
 
-void ig_pipe_executer(t_cmd *cmd, int fd)
+void	ig_pipe_executer(t_cmd *cmd, int fd)
 {
-	char *tmp;
+	char	*tmp;
+
 	pipe(g_main.pipe->fd1);
 	tmp = g_main.pipe->path;
 	g_main.pipe->path = check_path(cmd->name);
@@ -62,7 +65,7 @@ void ig_pipe_executer(t_cmd *cmd, int fd)
 	close(g_main.pipe->fd1[1]);
 }
 
-void ig_middle_born(t_cmd *cmd, int fd)
+void	ig_middle_born(t_cmd *cmd, int fd)
 {
 	pid_t	pid;
 
@@ -98,7 +101,7 @@ void ig_middle_born(t_cmd *cmd, int fd)
 	}
 }
 
-void ig_open_linked(void)
+void	ig_open_linked(void)
 {
 	pipe(g_main.pipe->fd1);
 }

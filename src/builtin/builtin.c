@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 16:08:54 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:14:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	set_fd_out(t_cmd *cmd)
 
 int	exec_builtin(t_cmd *cmd)
 {
-	int fd_set[2];
+	int	fd_set[2];
 
 	fd_set[0] = set_fd_in(cmd);
 	fd_set[1] = set_fd_out(cmd);

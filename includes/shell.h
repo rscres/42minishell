@@ -56,7 +56,6 @@ typedef enum s_builtin
 	EXIT
 }	t_builtin;
 
-
 //--Structs--//
 //Token list
 
@@ -90,8 +89,8 @@ typedef struct s_pipe_info
 {
 	char	*path;
 	int		pipe_counter;
-	int 	fd1[2];
-} 			t_pipe_info;
+	int		fd1[2];
+}	t_pipe_info;
 
 //Hashtable
 
@@ -100,7 +99,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
-}	                t_env;
+}	t_env;
 
 //Main
 
@@ -109,7 +108,7 @@ typedef struct s_main
 	t_env		*env_var[TABLE_SIZE];
 	t_token		*token_list;
 	t_cmd		*cmd_list;
-	t_pipe_info *pipe;
+	t_pipe_info	*pipe;
 	char		**envp;
 	char		*line;
 	int			open_quote;
@@ -145,6 +144,12 @@ void	sigquit(int sig);
 //lexer.c
 
 int		lexer(char **str);
+int		get_type(char *str);
+
+//lexer_utils.c
+
+int		ig_check_pipe(t_token *token);
+void	ig_check_open(char *token, char **str);
 
 //tokenizer.c
 
@@ -168,6 +173,7 @@ t_cmd	*new_cmd(char *name, int type);
 void	add_cmd(t_cmd *cmd);
 void	clear_cmd_list(void);
 void	print_cmd_list(void); //test function
+int		get_argc(t_token *tmp);
 
 //expand_var.c
 
@@ -184,6 +190,13 @@ void	arrange_cmd_list(void);
 void	fd_error(char *str);
 void	remove_redir(void);
 
+//set_redirects_utils.c
+
+void	check_outfile(t_cmd *cmd, t_cmd *tmp);
+void	change_cmd(t_cmd *cmd, t_cmd *tmp);
+void	save_input_file(t_cmd *cmd, t_cmd *tmp);
+void	set_heredoc(t_cmd *cmd, t_cmd *tmp);
+
 //EXEC------------------------------------------
 //builtin.c
 
@@ -199,7 +212,7 @@ void	set_fd(t_cmd *cmd);
 //executor_utils.c
 
 int		file_dir_check(t_cmd *cmd);
-int 	is_directory(const char *path);
+int		is_directory(const char *path);
 int		check_if_builtin(char *name);
 char	*check_path(char *name);
 
@@ -208,6 +221,7 @@ char	*check_path(char *name);
 
 int		ft_export(char **args, int argc, int fd);
 char	**split_var(char *var);
+int		is_valid_char(char *str);
 
 //export_print.c
 
@@ -278,6 +292,7 @@ void	ig_pipe(t_cmd *cmd);
 //error.c
 
 int		ft_error(char *str, char *msg, int err);
+int		syntax_error(char *str);
 
 //------------------TEST FUNCTIONS-----------------------
 //------------------TEST FUNCTIONS-----------------------

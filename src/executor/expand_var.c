@@ -6,15 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/04 20:59:42 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 23:31:40 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-//The functions in this file are used to expand the variables in the command
-// line. For example, if the user types "echo $USER", the program will print
-// "echo rseelaen".
 
 static char	*remove_dollar(char	*var)
 {
@@ -37,15 +33,13 @@ static char	*get_var_name(const char *str)
 		start++;
 	end = start + 1;
 	while (str[end] && !ft_iswhitespace(str[end]) && str[end] != '$'
-		&& ft_isalnum(str[end])) //change to is_valid_var_char
+		&& (isalnum(str[end]) || str[end] == '_'))
 		end++;
 	if (start != end)
 		var = ft_strndup((str + start), end - start);
 	var = remove_dollar(var);
 	return (var);
 }
-
-//maybe change ft_strjoin so it doens't need outside free()'s
 
 static char	*insert_value(char *str, char *value, int name_len, int pos)
 {
@@ -106,7 +100,6 @@ char	*expand_var(char *str)
 	quote = 0;
 	while ((size_t)++i < ft_strlen(str) && str[i])
 	{
-		printf("str[i] = %c\n", str[i]);
 		if (str[i] == '\'' || str[i] == '\"')
 			quote = check_quote(quote, str[i]);
 		while (str[i] && str[i] != '\'' && quote == 1)

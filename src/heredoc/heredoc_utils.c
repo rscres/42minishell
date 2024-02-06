@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 19:20:54 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/02 12:29:18 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:32:14 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	heredoc_exit(int status)
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
 	clear_cmd_list();
-	ft_safe_free((void**)&g_main.pipe->path); // leaks
-	ft_safe_free((void**)&g_main.pipe); // leaks
+	ft_safe_free((void **)&g_main.pipe->path);
+	ft_safe_free((void **)&g_main.pipe);
 	exit(status);
 }
 

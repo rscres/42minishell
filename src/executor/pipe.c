@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/01/09 11:20:13 by igenial          ###   ########.fr       */
+/*   Updated: 2024/02/05 23:51:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-void ig_pipe_execute_cmd(void);
-void ig_pipe_executer(t_cmd *cmd, int fd);
-void ig_middle_pipes(t_cmd *cmd);
-void ig_edge_pipes(t_cmd *cmd);
+void	ig_pipe_execute_cmd(void);
+void	ig_pipe_executer(t_cmd *cmd, int fd);
+void	ig_middle_pipes(t_cmd *cmd);
+void	ig_edge_pipes(t_cmd *cmd);
 
-void ig_pipe(t_cmd *cmd)
+void	ig_pipe(t_cmd *cmd)
 {
-	int fd_read;
+	int	fd_read;
 
 	fd_read = dup(STDIN_FILENO);
 	while (g_main.pipe->pipe_counter + 1)
@@ -27,12 +27,6 @@ void ig_pipe(t_cmd *cmd)
 		if (cmd->type == WORD)
 		{
 			ig_pipe_executer(cmd, fd_read);
-//			pipe(g_main.pipe->fd1);
-//			g_main.pipe->path = check_path(cmd->name);
-//			ig_middle_born(cmd, fd_read);
-//			dup2(g_main.pipe->fd1[0], fd_read);
-//			close(g_main.pipe->fd1[0]);
-//			close(g_main.pipe->fd1[1]);
 			g_main.pipe->pipe_counter--;
 		}
 		cmd = cmd->next;
@@ -41,9 +35,9 @@ void ig_pipe(t_cmd *cmd)
 	clear_cmd_list();
 }
 
-void ig_middle_born(t_cmd *cmd, int fd)
+void	ig_middle_born(t_cmd *cmd, int fd)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
@@ -59,9 +53,10 @@ void ig_middle_born(t_cmd *cmd, int fd)
 	}
 }
 
-void ig_pipe_executer(t_cmd *cmd, int fd)
+void	ig_pipe_executer(t_cmd *cmd, int fd)
 {
-	char *tmp;
+	char	*tmp;
+
 	pipe(g_main.pipe->fd1);
 	tmp = g_main.pipe->path;
 	g_main.pipe->path = check_path(cmd->name);
@@ -72,29 +67,33 @@ void ig_pipe_executer(t_cmd *cmd, int fd)
 	close(g_main.pipe->fd1[1]);
 }
 
-
 void	ig_pipe_execute_cmd(void)
 {
-	t_cmd *cmd;
-	char *path;
-	int fd;
+	t_cmd	*cmd;
+	char	*path;
+	int		fd;
 
 	cmd = g_main.cmd_list;
 	fd = 0;
-	while (cmd) {
-		if (cmd->type == WORD) {
+	while (cmd)
+	{
+		if (cmd->type == WORD)
+		{
 			g_main.is_cmd_running = 1;
-			if (cmd->infile) {
+			if (cmd->infile)
+			{
 				fd = open(cmd->infile, O_RDONLY);
-				if (fd == -1) {
+				if (fd == -1)
+				{
 					ft_error(cmd->infile, NULL, 1);
-					return;
+					return ;
 				}
 				close(fd);
 			}
-			if (is_directory(cmd->name)) {
+			if (is_directory(cmd->name))
+			{
 				ft_error(cmd->name, "is a directory", 126);
-				return;
+				return ;
 			}
 			path = check_path(cmd->name);
 			if (check_if_builtin(cmd->name))
@@ -118,7 +117,7 @@ void	ig_pipe_execute_cmd(void)
 	heredoc_files(REMOVE);
 	clear_cmd_list();
 }
-void ig_open_linked(void)
+void	ig_open_linked(void)
 {
 	pipe(g_main.pipe->fd1);
 }

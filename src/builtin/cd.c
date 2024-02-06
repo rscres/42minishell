@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/05 20:18:10 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/05 22:20:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	update_pwd(char *backup)
 	if (!search(g_main.env_var, "OLDPWD"))
 		insert_key(g_main.env_var, "OLDPWD", backup);
 	else
-		update_key(g_main.env_var, "OLDPWD", search_value(g_main.env_var, "PWD"));
+		update_key(g_main.env_var, "OLDPWD",
+			search_value(g_main.env_var, "PWD"));
 	if (!search(g_main.env_var, "PWD"))
 		insert_key(g_main.env_var, "PWD", dir);
 	else
@@ -38,9 +39,19 @@ char	*get_home(void)
 	return (home->value);
 }
 
+int	invalid_path(char *oldpwd)
+{
+	if (search(g_main.env_var, "HOME") == NULL)
+		ft_putendl_fd("cd: HOME not set", 2);
+	else
+		perror("cd");
+	ft_safe_free((void **)&oldpwd);
+	return (1);
+}
+
 int	ft_cd(char **args)
 {
-	int		ret = 0;
+	int		ret;
 	char	*oldpwd;
 
 	oldpwd = getcwd(NULL, 0);
@@ -55,14 +66,7 @@ int	ft_cd(char **args)
 	else if (g_main.cmd_list->argc == 2)
 		ret = chdir(args[1]);
 	if (ret != 0)
-	{
-		if (search(g_main.env_var, "HOME") == NULL)
-			ft_putendl_fd("cd: HOME not set", 2);
-		else
-			perror("cd");
-		ft_safe_free((void **)&oldpwd);
-		return (1);
-	}
+		return (invalid_path(oldpwd));
 	update_pwd(oldpwd);
 	ft_safe_free((void **)&oldpwd);
 	return (0);
