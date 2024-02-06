@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/05 22:14:27 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 16:18:24 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-// void	backup_fd(int backup[2])
-// {
-// 	backup[0] = dup(0);
-// 	backup[1] = dup(1);
-// }
-
-// void	restore_fd(int backup[2])
-// {
-// 	dup2(backup[0], 0);
-// 	close(backup[0]);
-// 	dup2(backup[1], 1);
-// 	close(backup[1]);
-// }
-
-// void	prep_exit(t_cmd *cmd, int backup[2])
-// {
-// 	restore_fd(backup);
-// 	close(0);
-// 	close(1);
-// 	ft_exit(cmd->args, cmd->argc);
-// }
 
 int	set_fd_in(t_cmd *cmd)
 {

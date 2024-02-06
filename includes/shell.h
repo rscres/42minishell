@@ -208,8 +208,9 @@ void	exec_cmd(t_cmd *cmd);
 void	execute_cmd_list(void);
 void	exec(t_cmd *cmd, char *path);
 void	set_fd(t_cmd *cmd);
+int		file_dir_check(t_cmd *cmd);
 
-//executor_utils.c
+//execute_utils.c
 
 int		file_dir_check(t_cmd *cmd);
 int		is_directory(const char *path);

@@ -25,7 +25,6 @@ SRC =	main.c						\
 		builtin/export.c			\
 		builtin/export_print.c		\
 		builtin/exit.c				\
-		builtin/pipe.c				\
 		builtin/echo.c				\
 		builtin/cd.c				\
 		heredoc/heredoc.c			\
@@ -34,6 +33,7 @@ SRC =	main.c						\
 		executor/expand_var.c		\
 		executor/execute.c			\
 		executor/execute_utils.c	\
+		builtin/pipe.c\
 		error/error.c
 
 OBJ_DIR = obj

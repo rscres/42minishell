@@ -27,11 +27,10 @@ void	ig_pipe(t_cmd *cmd)
 {
 	int	fd_read;
 	int	counter;
-	int	i;
 
-	counter = g_main.pipe->pipe_counter;
+	counter = g_main.pipe->pipe_counter + 1;
 	fd_read = dup(STDIN_FILENO);
-	while (g_main.pipe->pipe_counter + 1)
+	while (g_main.pipe->pipe_counter + 1 && cmd)
 	{
 		if (cmd->type == WORD)
 		{
@@ -41,11 +40,10 @@ void	ig_pipe(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	close(fd_read);
-	i = 0;
-	while (i < counter + 1)
+	while (counter)
 	{
 		waitpid(-1, &g_main.status, 0);
-		i++;
+		counter--;
 	}
 	ig_close_linked();
 	clear_cmd_list();
@@ -79,6 +77,14 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		close(g_main.pipe->fd1[0]);
 		close(g_main.pipe->fd1[1]);
 		close(fd);
+		if (file_dir_check(cmd))
+		{
+			clear_hashtable(g_main.env_var);
+			ft_safe_free((void **)&g_main.pipe->path);
+			ft_safe_free((void **)&g_main.pipe);
+			clear_cmd_list();
+			exit(1);
+		}
 		if (check_if_builtin(cmd->name))
 		{
 			g_main.status = exec_builtin(cmd);
@@ -88,14 +94,16 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 			clear_cmd_list();
 			exit(g_main.status);
 		}
-		else
+		else if (g_main.pipe->path && !access(g_main.pipe->path, F_OK))
 		{
 			set_fd(cmd);
-			execve(g_main.pipe->path, cmd->args, g_main.envp);
-			ft_putstr_fd("execve error\n", 2);
-			clear_cmd_list();
-			clear_hashtable(g_main.env_var);
+			if (execve(g_main.pipe->path, cmd->args, g_main.envp) == -1)
+				ft_putstr_fd("execve error\n", 2);
 		}
+		else
+			ft_error(cmd->name, "command not found", 127);
+		clear_cmd_list();
+		clear_hashtable(g_main.env_var);
 		ig_close_linked();
 		ft_safe_free((void **)&g_main.pipe->path);
 		ft_safe_free((void **)&g_main.pipe);

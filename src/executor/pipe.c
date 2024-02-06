@@ -3,25 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/02/06 01:21:30 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 16:04:50 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/shell.h"
 
-void	ig_pipe_execute_cmd(void);
+void	ig_pipe_execute_cmd(t_cmd *cmd, int fd);
 void	ig_pipe_executer(t_cmd *cmd, int fd);
 void	ig_middle_pipes(t_cmd *cmd);
 void	ig_edge_pipes(t_cmd *cmd);
+
+void	ig_close_linked(void)
+{
+	close(g_main.pipe->fd1[0]); // Close reading end of the pipe
+	close(g_main.pipe->fd1[1]); // Close writing end of the pipe
+}
 
 void	ig_pipe(t_cmd *cmd)
 {
 	int	fd_read;
 
 	fd_read = dup(STDIN_FILENO);
+	int	counter = g_main.pipe->pipe_counter;
 	while (g_main.pipe->pipe_counter + 1)
 	{
 		if (cmd->type == WORD)
@@ -32,6 +39,12 @@ void	ig_pipe(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	close(fd_read);
+	while (counter)
+	{
+		waitpid(-1, &g_main.status, 0);
+		counter--;
+	}
+	ig_close_linked();
 	clear_cmd_list();
 }
 
@@ -47,10 +60,10 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		ig_pipe_execute_cmd(cmd, fd);
 		exit(1);
 	}
-	else
-	{
-		waitpid(pid, &g_main.status, 0);
-	}
+	// else
+	// {
+	// 	waitpid(pid, &g_main.status, 0);
+	// }
 }
 
 void	ig_pipe_executer(t_cmd *cmd, int fd)
@@ -58,6 +71,7 @@ void	ig_pipe_executer(t_cmd *cmd, int fd)
 	char	*tmp;
 
 	pipe(g_main.pipe->fd1);
+	printf("path: %s\n", g_main.pipe->path);
 	tmp = g_main.pipe->path;
 	g_main.pipe->path = check_path(cmd->name);
 	free(tmp);
@@ -67,53 +81,47 @@ void	ig_pipe_executer(t_cmd *cmd, int fd)
 	close(g_main.pipe->fd1[1]);
 }
 
-void	ig_pipe_execute_cmd(void)
+void	ig_pipe_execute_cmd(t_cmd *cmd, int fd)
 {
-	t_cmd	*cmd;
+	// t_cmd	*cmd;
 	char	*path;
-	int		fd;
+	// int		fd;
 
-	cmd = g_main.cmd_list;
-	fd = 0;
-	while (cmd)
+	// cmd = g_main.cmd_list;
+	// fd = 0;
+	g_main.is_cmd_running = 1;
+	if (cmd->infile)
 	{
-		if (cmd->type == WORD)
+		fd = open(cmd->infile, O_RDONLY);
+		if (fd == -1)
 		{
-			g_main.is_cmd_running = 1;
-			if (cmd->infile)
-			{
-				fd = open(cmd->infile, O_RDONLY);
-				if (fd == -1)
-				{
-					ft_error(cmd->infile, NULL, 1);
-					return ;
-				}
-				close(fd);
-			}
-			if (is_directory(cmd->name))
-			{
-				ft_error(cmd->name, "is a directory", 126);
-				return ;
-			}
-			path = check_path(cmd->name);
-			if (check_if_builtin(cmd->name))
-			{
-				exec_builtin(cmd);
-			}
-			else if (!access(path, F_OK))
-			{
-				signal(SIGQUIT, sigquit);
-				set_fd(cmd);
-				if (execve(path, cmd->args, g_main.envp) == -1)
-					ft_putstr_fd("execve error\n", 2);
-			}
-			else
-				ft_error(cmd->name, "command not found", 127);
-			ft_safe_free((void **) &path);
-			g_main.is_cmd_running = 0;
+			ft_error(cmd->infile, NULL, 1);
+			return ;
 		}
-		cmd = cmd->next;
+		close(fd);
 	}
+	if (is_directory(cmd->name))
+	{
+		ft_error(cmd->name, "is a directory", 126);
+		return ;
+	}
+	path = check_path(cmd->name);
+	if (check_if_builtin(cmd->name))
+	{
+		exec_builtin(cmd);
+	}
+	else if (path && !access(path, F_OK))
+	{
+		signal(SIGQUIT, sigquit);
+		set_fd(cmd);
+		if (execve(path, cmd->args, g_main.envp) == -1)
+			ft_putstr_fd("execve error\n", 2);
+		exit(1);
+	}
+	else
+		ft_error(cmd->name, "command not found", 127);
+	ft_safe_free((void **) &path);
+	g_main.is_cmd_running = 0;
 	heredoc_files(REMOVE);
 	clear_cmd_list();
 }
