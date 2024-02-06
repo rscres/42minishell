@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/02/05 23:51:43 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 01:21:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	ig_pipe_execute_cmd(void)
 	heredoc_files(REMOVE);
 	clear_cmd_list();
 }
+
 void	ig_open_linked(void)
 {
 	pipe(g_main.pipe->fd1);

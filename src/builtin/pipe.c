@@ -49,6 +49,7 @@ void	ig_pipe(t_cmd *cmd)
 	}
 	ig_close_linked();
 	clear_cmd_list();
+	ft_safe_free((void **)&g_main.pipe->path);
 }
 
 void	ig_pipe_executer(t_cmd *cmd, int fd)
@@ -84,6 +85,7 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 			clear_hashtable(g_main.env_var);
 			ft_safe_free((void **)&g_main.pipe->path);
 			ft_safe_free((void **)&g_main.pipe);
+			clear_cmd_list();
 			exit(g_main.status);
 		}
 		else

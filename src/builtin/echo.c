@@ -17,7 +17,7 @@ static int	check_n_flag(char *arg)
 	int	i;
 
 	i = 1;
-	while (arg[i])
+	while (arg && arg[i])
 	{
 		if (arg[i] != 'n')
 			return (0);
@@ -35,7 +35,8 @@ int	ft_echo(char **args, int fd)
 	n_flag = 0;
 	while (args[i])
 	{
-		if (args[i][0] == '-' && check_n_flag(args[i]))
+		if (args[i][0] == '-' && check_n_flag(args[i])
+			&& ft_strlen(args[i]) > 1)
 		{
 			n_flag = 1;
 			i++;

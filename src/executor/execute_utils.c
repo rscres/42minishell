@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 00:38:29 by renato            #+#    #+#             */
-/*   Updated: 2024/02/05 22:29:57 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 01:10:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	is_directory(const char *path) //need refactoring
 {
 	struct stat	statbuf;
 
-	if (stat(path, &statbuf) != 0)
-		return (0);
-	return (S_ISDIR(statbuf.st_mode));
+	if (stat(path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
+		return (1);
+	return (0);
 }
 
 int	file_dir_check(t_cmd *cmd)
