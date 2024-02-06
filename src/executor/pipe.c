@@ -27,12 +27,6 @@ void ig_pipe(t_cmd *cmd)
 		if (cmd->type == WORD)
 		{
 			ig_pipe_executer(cmd, fd_read);
-//			pipe(g_main.pipe->fd1);
-//			g_main.pipe->path = check_path(cmd->name);
-//			ig_middle_born(cmd, fd_read);
-//			dup2(g_main.pipe->fd1[0], fd_read);
-//			close(g_main.pipe->fd1[0]);
-//			close(g_main.pipe->fd1[1]);
 			g_main.pipe->pipe_counter--;
 		}
 		cmd = cmd->next;
@@ -81,40 +75,35 @@ void	ig_pipe_execute_cmd(void)
 
 	cmd = g_main.cmd_list;
 	fd = 0;
-	while (cmd) {
-		if (cmd->type == WORD) {
-			g_main.is_cmd_running = 1;
-			if (cmd->infile) {
-				fd = open(cmd->infile, O_RDONLY);
-				if (fd == -1) {
-					ft_error(cmd->infile, NULL, 1);
-					return;
-				}
-				close(fd);
-			}
-			if (is_directory(cmd->name)) {
-				ft_error(cmd->name, "is a directory", 126);
+
+	if (cmd->type == WORD) {
+		g_main.is_cmd_running = 1;
+		if (cmd->infile) {
+			fd = open(cmd->infile, O_RDONLY);
+			if (fd == -1) {
+				ft_error(cmd->infile, NULL, 1);
 				return;
 			}
-			path = check_path(cmd->name);
-			if (check_if_builtin(cmd->name))
-			{
-				exec_builtin(cmd);
-			}
-			else if (!access(path, F_OK))
-			{
-				signal(SIGQUIT, sigquit);
-				set_fd(cmd);
-				if (execve(path, cmd->args, g_main.envp) == -1)
-					ft_putstr_fd("execve error\n", 2);
-			}
-			else
-				ft_error(cmd->name, "command not found", 127);
-			ft_safe_free((void **) &path);
-			g_main.is_cmd_running = 0;
+			close(fd);
 		}
-		cmd = cmd->next;
+		if (is_directory(cmd->name)) {
+			ft_error(cmd->name, "is a directory", 126);
+			return;
+		}
+		path = check_path(cmd->name);
+		if (check_if_builtin(cmd->name)) {
+			exec_builtin(cmd);
+		} else if (!access(path, F_OK)) {
+			signal(SIGQUIT, sigquit);
+			set_fd(cmd);
+			if (execve(path, cmd->args, g_main.envp) == -1)
+				ft_putstr_fd("execve error\n", 2);
+		} else
+			ft_error(cmd->name, "command not found", 127);
+		ft_safe_free((void **) &path);
+		g_main.is_cmd_running = 0;
 	}
+
 	heredoc_files(REMOVE);
 	clear_cmd_list();
 }
