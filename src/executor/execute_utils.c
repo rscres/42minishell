@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 00:38:29 by renato            #+#    #+#             */
-/*   Updated: 2024/02/06 01:10:11 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 19:13:44 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,23 @@ int	file_dir_check(t_cmd *cmd)
 	if (cmd->infile)
 	{
 		fd = open(cmd->infile, O_RDONLY);
+		if (access(cmd->infile, R_OK))
+			return (1);
 		if (fd == -1)
 		{
 			ft_error(cmd->infile, NULL, 1);
+			return (1);
+		}
+		close(fd);
+	}
+	if (cmd->outfile)
+	{
+		fd = open(cmd->outfile, O_RDONLY);
+		if (access(cmd->outfile, W_OK))
+			return (1);
+		if (fd == -1)
+		{
+			ft_error(cmd->outfile, NULL, 1);
 			return (1);
 		}
 		close(fd);

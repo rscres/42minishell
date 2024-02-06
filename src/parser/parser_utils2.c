@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirects_utils.c                              :+:      :+:    :+:   */
+/*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 23:21:59 by renato            #+#    #+#             */
-/*   Updated: 2024/02/05 23:44:35 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 19:07:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	check_outfile(t_cmd *cmd, t_cmd *tmp)
+int	check_outfile(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
 
@@ -21,24 +21,31 @@ void	check_outfile(t_cmd *cmd, t_cmd *tmp)
 		fd = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tmp->type == OUTFILE)
 		fd = open(tmp->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	if (fd == -1 || access(tmp->args[0], W_OK | R_OK))
 	{
 		fd_error(tmp->args[0]);
-		return ;
+		if (cmd->outfile)
+			ft_safe_free((void **)&cmd->outfile);
+		cmd->outfile = ft_strjoin_free(getcwd(NULL, 0), "/");
+		cmd->outfile = ft_strjoin_free(cmd->outfile, tmp->args[0]);
+		return (1);
 	}
 	if (cmd->outfile)
 		ft_safe_free((void **)&cmd->outfile);
 	cmd->outfile = ft_strjoin_free(getcwd(NULL, 0), "/");
 	cmd->outfile = ft_strjoin_free(cmd->outfile, tmp->args[0]);
 	close(fd);
+	return (0);
 }
 
-void	change_cmd(t_cmd *cmd, t_cmd *tmp)
+void	change_cmd(t_cmd **cmd, t_cmd **tmp)
 {
-	cmd = tmp->next;
-	while (cmd && cmd->type != WORD)
-		cmd = cmd->next;
-	tmp = tmp->next;
+	*cmd = (*tmp)->next;
+	if ((*cmd)->type == PIPE)
+		*cmd = (*cmd)->next;
+	while (*cmd && (*cmd)->type != WORD && (*cmd)->type != PIPE)
+		*cmd = (*cmd)->next;
+	*tmp = (*tmp)->next;
 }
 
 void	save_input_file(t_cmd *cmd, t_cmd *tmp)

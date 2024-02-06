@@ -32,6 +32,7 @@
 # define TRUE 1
 # define REMOVE 1
 # define NAME 0
+# define ERROR -1
 
 typedef enum s_token_type
 {
@@ -192,8 +193,8 @@ void	remove_redir(void);
 
 //set_redirects_utils.c
 
-void	check_outfile(t_cmd *cmd, t_cmd *tmp);
-void	change_cmd(t_cmd *cmd, t_cmd *tmp);
+int		check_outfile(t_cmd *cmd, t_cmd *tmp);
+void	change_cmd(t_cmd **cmd, t_cmd **tmp);
 void	save_input_file(t_cmd *cmd, t_cmd *tmp);
 void	set_heredoc(t_cmd *cmd, t_cmd *tmp);
 

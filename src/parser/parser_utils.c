@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:34:26 by renato            #+#    #+#             */
-/*   Updated: 2024/02/06 02:09:14 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/06 18:53:22 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	remove_redir(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if ((tmp->type == INFILE || tmp->type == OUTFILE || tmp->type == APPEND
-				|| tmp->type == HEREDOC) && tmp->next)
+		while ((tmp->type == INFILE || tmp->type == OUTFILE
+				|| tmp->type == APPEND || tmp->type == HEREDOC) && tmp->next)
 		{
 			tmp->next->prev = tmp->prev;
 			if (tmp->prev)
@@ -89,8 +89,8 @@ void	remove_redir(void)
 			free_tab(tmp->args);
 			ft_safe_free((void **)&tmp->name);
 			ft_safe_free((void **)&tmp);
+			tmp = g_main.cmd_list;
 		}
-		if (tmp)
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
