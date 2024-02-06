@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/06 19:08:21 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/06 20:22:14 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	set_output(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if ((tmp->type == WORD || cmd->type == PIPE) && tmp->next)
+		if ((tmp->type == WORD || tmp->type == PIPE) && tmp->next)
 			change_cmd(&cmd, &tmp);
 		if (tmp->type == OUTFILE)
 		{
@@ -58,7 +58,7 @@ static void	set_input(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if ((tmp->type == WORD || cmd->type == PIPE) && tmp->next)
+		if ((tmp->type == WORD || tmp->type == PIPE) && tmp->next)
 			change_cmd(&cmd, &tmp);
 		if (tmp->type == INFILE)
 		{
