@@ -70,8 +70,6 @@ int	exec_builtin(t_cmd *cmd)
 		g_main.status = (ft_env());
 	else if (!ft_strcmp(cmd->name, "exit"))
 		ft_exit(cmd->args, cmd->argc);
-	else if (!ft_strcmp(cmd->name, "<<"))
-		heredoc(cmd->args[0]);
 	if (fd_set[0] == 0)
 		close(cmd->fd[0]);
 	if (fd_set[1] == 0)

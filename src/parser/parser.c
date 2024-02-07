@@ -45,7 +45,7 @@ static void	set_input(void)
 	t_cmd	*cmd;
 
 	cmd = g_main.cmd_list;
-	while (cmd && cmd->type != WORD)
+	while (cmd && (cmd->type != WORD && cmd->type != PIPE))
 		cmd = cmd->next;
 	tmp = g_main.cmd_list;
 	while (tmp)
@@ -59,8 +59,12 @@ static void	set_input(void)
 				cmd->redir[0] = INFILE;
 		}
 		else if (tmp->type == HEREDOC)
+		{
 			set_heredoc(cmd, tmp);
+		}
 		tmp = tmp->next;
+		if (tmp && tmp->type == WORD && !tmp->next)
+			break ;
 	}
 }
 
