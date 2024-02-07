@@ -74,8 +74,7 @@ static int	get_j(int i, char *save)
 			break ;
 		}
 		j++;
-		if ((is_separator(save[j]) || ft_iswhitespace(save[j])
-				|| save[j] == '\"') && !quote)
+		if ((is_separator(save[j]) || ft_iswhitespace(save[j])) && !quote)
 			break ;
 	}
 	g_main.open_quote = quote;
