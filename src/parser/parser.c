@@ -87,5 +87,6 @@ int	parser(void)
 	set_input();
 	set_output();
 	remove_redir();
+	ig_path_builtin();
 	return (0);
 }

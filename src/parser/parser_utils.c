@@ -94,3 +94,24 @@ void	remove_redir(void)
 		tmp = tmp->next;
 	}
 }
+
+void ig_path_builtin(void)
+{
+	t_cmd	*tmp;
+	char	*pos;
+
+	tmp = g_main.cmd_list;
+	while(tmp)
+	{
+		if(tmp->type == WORD && !check_if_builtin(tmp->name))
+		{
+			pos = ft_strdup(ft_strrchr(tmp->name, '/') + 1);
+			if (check_if_builtin(pos))
+			{
+				ft_safe_free((void **)&tmp->name);
+				tmp->name = pos;
+			}
+		}
+		tmp = tmp->next;
+	}
+}
