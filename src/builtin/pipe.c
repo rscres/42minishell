@@ -32,6 +32,12 @@ void	ig_pipe(t_cmd *cmd)
 	fd_read = dup(STDIN_FILENO);
 	while (g_main.pipe->pipe_counter + 1 && cmd)
 	{
+		if (cmd->type == PIPE
+			&& ((cmd->prev && cmd->prev->type == PIPE) || !cmd->prev))
+		{
+			g_main.pipe->pipe_counter--;
+			counter--;
+		}
 		if (cmd->type == WORD)
 		{
 			ig_pipe_executer(cmd, fd_read);
@@ -69,6 +75,7 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 	pid_t	pid;
 
 	pid = fork();
+	signal(SIGQUIT, sigquit);
 	if (pid == 0)
 	{
 		dup2(fd, STDIN_FILENO);
@@ -83,6 +90,7 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 			ft_safe_free((void **)&g_main.pipe->path);
 			ft_safe_free((void **)&g_main.pipe);
 			clear_cmd_list();
+			ig_close_linked();
 			exit(1);
 		}
 		if (check_if_builtin(cmd->name))
@@ -107,6 +115,9 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		ig_close_linked();
 		ft_safe_free((void **)&g_main.pipe->path);
 		ft_safe_free((void **)&g_main.pipe);
+		if (g_main.signal_received)
+			g_main.status = 130;
+		signal(SIGQUIT, SIG_IGN);
 		exit(1);
 	}
 }

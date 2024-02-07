@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:35:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/04 00:41:34 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/07 12:19:19 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sigquit(int sig)
 	(void)sig;
 	if (g_main.is_cmd_running)
 	{
-		ft_putstr_fd("Quit: 3\n", 1);
+		ft_putstr_fd("Quit: 3\n", 2);
 		g_main.status = 131;
 	}
 	else
