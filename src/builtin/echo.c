@@ -26,9 +26,8 @@ static int	check_n_flag(char *arg)
 	return (1);
 }
 
-static int	is_flag_before(char **arg, int n_flag)
+static int	is_flag_before(char **arg)
 {
-	n_flag = FALSE;
 	while (*arg && check_n_flag(*arg))
 		arg++;
 	if (arg)
@@ -62,7 +61,7 @@ int	ft_echo(char **args, int fd)
 			continue ;
 		if (args[i] != NULL && ft_strcmp(args[i], ""))
 			ft_putstr_fd(args[i], fd);
-		flag_before = is_flag_before(args, n_flag);
+		flag_before = is_flag_before(args);
 		if (args[i + 1] != NULL && ft_strcmp(args[i], ""))
 			ft_putchar_fd(' ', fd);
 		i++;
