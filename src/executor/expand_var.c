@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:40:51 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 23:31:40 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:40:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,18 @@ char	*expand_var(char *str)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			quote = check_quote(quote, str[i]);
-		while (str[i] && str[i] != '\'' && quote == 1)
+		while (str[i] && quote == 1)
+		{
 			i++;
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != '\"'
-			&& str[i + 1] != ' ')
+			if (str[i] == '\'')
+			{
+				quote = 0;
+				break ;
+			}
+		}
+		if (str[i] == '$' && str[i + 1] == '\"')
+			continue ;
+		if (str[i] == '$')
 			str = expand_var2(str, &i);
 	}
 	return (str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 19:49:39 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 22:28:54 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/07 17:03:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	create_arg_list(t_cmd *cmd, t_token *tmp_tok)
 	tmp_tok = tmp_tok->next;
 	while (tmp_tok && tmp_tok->type != PIPE)
 	{
+		if (tmp_tok && ft_strcmp(tmp_tok->name, "") == 0)
+		{
+			tmp_tok = tmp_tok->next;
+			continue ;
+		}
 		if (tmp_tok->type == WORD && tmp_tok->prev
 			&& tmp_tok->prev->type != INFILE && tmp_tok->prev->type != OUTFILE
 			&& tmp_tok->prev->type != APPEND && tmp_tok->prev->type != HEREDOC)

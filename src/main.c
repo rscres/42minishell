@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:58:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 12:46:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 17:16:08 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			g_main.line = line;
 			lexer(&line);
 			parser();
+			print_cmd_list();
 			execute_cmd_list();
 			add_history(g_main.line);
 		}

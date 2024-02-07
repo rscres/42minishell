@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 01:44:21 by renato            #+#    #+#             */
-/*   Updated: 2024/02/04 01:12:34 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/07 15:52:20 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	**save_table_to_array(void)
 
 void	print(char **tmp, int fd)
 {
+	if (ft_strcmp(tmp[0], "_") == 0)
+		return ;
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(tmp[0], fd);
 	if (tmp[1])
