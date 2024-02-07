@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 12:45:32 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:15:09 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,12 @@ static void	set_input(void)
 				cmd->redir[0] = INFILE;
 		}
 		else if (tmp->type == HEREDOC)
+		{
 			set_heredoc(cmd, tmp);
+		}
 		tmp = tmp->next;
+		if (tmp && tmp->type == WORD && !tmp->next)
+			break ;
 	}
 }
 

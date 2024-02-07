@@ -14,8 +14,6 @@
 
 void	ig_middle_born(t_cmd *cmd, int fd);
 void	ig_pipe_executer(t_cmd *cmd, int fd);
-void	ig_middle_pipes(t_cmd *cmd);
-void	ig_edge_pipes(t_cmd *cmd);
 
 void	ig_close_linked(void)
 {
@@ -28,15 +26,15 @@ void	ig_pipe(t_cmd *cmd)
 	int	fd_read;
 	int	counter;
 
-	counter = g_main.pipe->pipe_counter + 1;
+	counter = g_main.pipe->pipe_counter;
 	fd_read = dup(STDIN_FILENO);
-	while (g_main.pipe->pipe_counter + 1 && cmd)
+	while (g_main.pipe->pipe_counter >= 0 && cmd)
 	{
-		if (cmd->type == PIPE
-			&& ((cmd->prev && cmd->prev->type == PIPE) || !cmd->prev))
+		if(cmd->type == PIPE && (cmd->prev == NULL
+			|| (cmd->prev && cmd->prev->type == PIPE)))
 		{
+			ig_pipe_executer(cmd, fd_read);
 			g_main.pipe->pipe_counter--;
-			counter--;
 		}
 		if (cmd->type == WORD)
 		{
@@ -46,7 +44,7 @@ void	ig_pipe(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	close(fd_read);
-	while (counter)
+	while (counter >= 0)
 	{
 		waitpid(-1, &g_main.status, 0);
 		counter--;
@@ -108,7 +106,7 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 			if (execve(g_main.pipe->path, cmd->args, g_main.envp) == -1)
 				ft_putstr_fd("execve error\n", 2);
 		}
-		else
+		else if (cmd->type != PIPE)
 			ft_error(cmd->name, "command not found", 127);
 		clear_cmd_list();
 		clear_hashtable(g_main.env_var);
@@ -120,9 +118,4 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		signal(SIGQUIT, SIG_IGN);
 		exit(1);
 	}
-}
-
-void	ig_open_linked(void)
-{
-	pipe(g_main.pipe->fd1);
 }
