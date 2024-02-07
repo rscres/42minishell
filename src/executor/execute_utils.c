@@ -44,7 +44,7 @@ int	check_if_builtin(char *name)
 	if (ft_strcmp(name, "echo") == 0 || ft_strcmp(name, "cd") == 0
 		|| ft_strcmp(name, "pwd") == 0 || ft_strcmp(name, "export") == 0
 		|| ft_strcmp(name, "unset") == 0 || ft_strcmp(name, "env") == 0
-		|| ft_strcmp(name, "exit") == 0 || ft_strcmp(name, "<<") == 0)
+		|| ft_strcmp(name, "exit") == 0)
 		return (1);
 	return (0);
 }
