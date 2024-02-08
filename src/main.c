@@ -18,7 +18,7 @@ char	*get_line(void)
 {
 	char	*line;
 
-	line = readline("msh$ ");
+	line = readline(SETPROMPT"MiniHell"RESET "$" SET ">" RESET);
 	if (!line)
 		return (NULL);
 	while (ft_strlen(line) > 0 && line[ft_strlen(line) - 1] == '\\')
