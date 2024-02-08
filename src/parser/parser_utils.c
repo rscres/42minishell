@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:34:26 by renato            #+#    #+#             */
-/*   Updated: 2024/02/06 18:53:22 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:12:12 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ void	remove_redir(void)
 	}
 }
 
-void ig_path_builtin(void)
+void	ig_path_builtin(void)
 {
 	t_cmd	*tmp;
 	char	*pos;
 
 	tmp = g_main.cmd_list;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp->type == WORD && !check_if_builtin(tmp->name))
+		if (tmp->type == WORD && !check_if_builtin(tmp->name))
 		{
 			pos = ft_strrchr(tmp->name, '/');
 			if (pos && check_if_builtin(pos + 1))

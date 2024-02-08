@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 12:47:13 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:11:21 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	execute_cmd_list(void)
 	t_cmd	*cmd;
 
 	cmd = g_main.cmd_list;
-	if(cmd && ig_is_redir(cmd->name) && !cmd->prev && !cmd->next)
+	if (cmd && ig_is_redir(cmd->name) && !cmd->prev && !cmd->next)
 	{
 		clear_cmd_list();
-		return;
+		return ;
 	}
 	if (cmd && g_main.pipe->pipe_counter == 0)
 		simple_command(cmd);
@@ -106,10 +106,10 @@ void	execute_cmd_list(void)
 	clear_cmd_list();
 }
 
-int ig_is_redir(char *name)
+int	ig_is_redir(char *name)
 {
 	if (ft_strcmp(name, "<<") == 0 || ft_strcmp(name, ">>") == 0
 		|| ft_strcmp(name, "<") == 0 || ft_strcmp(name, ">") == 0)
-	 	return(1);
-	return(0);
+		return (1);
+	return (0);
 }

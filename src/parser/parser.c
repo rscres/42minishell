@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:54:49 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 15:15:09 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:11:51 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	set_output(void)
 				tmp = cmd;
 				continue ;
 			}
-			if(cmd)
+			if (cmd)
 				cmd->redir[1] = OUTFILE;
 		}
 		else if (tmp->type == APPEND)
@@ -42,7 +42,7 @@ static void	set_output(void)
 				tmp = cmd;
 				continue ;
 			}
-			if(cmd)
+			if (cmd)
 				cmd->redir[1] = APPEND;
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 23:21:59 by renato            #+#    #+#             */
-/*   Updated: 2024/02/06 20:22:06 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:12:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_outfile(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
-	int ret;
+	int	ret;
 
 	fd = 0;
 	ret = 0;

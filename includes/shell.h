@@ -188,7 +188,6 @@ char	*get_var_name(const char *str);
 char	*insert_value(char *str, char *value, int name_len, int pos);
 int		close_single_quote(char *str, int *i, int *quote);
 
-
 //parser.c
 
 int		parser(void);

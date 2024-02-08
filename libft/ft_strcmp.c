@@ -17,8 +17,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	unsigned const char	*str2;
 
 	i = 0;
-	if(!s1)
-		return(1);
+	if (!s1)
+		return (1);
 	str1 = (unsigned const char *)s1;
 	str2 = (unsigned const char *)s2;
 	while (str1[i] != '\0' && str2[i] != '\0')
