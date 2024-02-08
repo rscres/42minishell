@@ -6,20 +6,11 @@
 /*   By: igenial <igenial@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:20:09 by igenial           #+#    #+#             */
-/*   Updated: 2024/01/09 11:20:13 by igenial          ###   ########.fr       */
+/*   Updated: 2024/02/08 14:32:03 by igenial          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-void	ig_middle_born(t_cmd *cmd, int fd);
-void	ig_pipe_executer(t_cmd *cmd, int fd);
-
-void	ig_close_linked(void)
-{
-	close(g_main.pipe->fd1[0]);
-	close(g_main.pipe->fd1[1]);
-}
 
 void	ig_pipe(t_cmd *cmd)
 {
@@ -28,21 +19,7 @@ void	ig_pipe(t_cmd *cmd)
 
 	counter = g_main.pipe->pipe_counter;
 	fd_read = dup(STDIN_FILENO);
-	while (g_main.pipe->pipe_counter >= 0 && cmd)
-	{
-		if (cmd->type == PIPE && (cmd->prev == NULL
-				|| (cmd->prev && cmd->prev->type == PIPE)))
-		{
-			ig_pipe_executer(cmd, fd_read);
-			g_main.pipe->pipe_counter--;
-		}
-		if (cmd->type == WORD)
-		{
-			ig_pipe_executer(cmd, fd_read);
-			g_main.pipe->pipe_counter--;
-		}
-		cmd = cmd->next;
-	}
+	ig_pipe_exc(cmd, fd_read);
 	close(fd_read);
 	while (counter >= 0)
 	{
@@ -54,7 +31,7 @@ void	ig_pipe(t_cmd *cmd)
 	ft_safe_free((void **)&g_main.pipe->path);
 }
 
-void	ig_pipe_executer(t_cmd *cmd, int fd)
+void	ig_pipe_fd(t_cmd *cmd, int fd)
 {
 	char	*tmp;
 
@@ -64,8 +41,7 @@ void	ig_pipe_executer(t_cmd *cmd, int fd)
 	free(tmp);
 	ig_middle_born(cmd, fd);
 	dup2(g_main.pipe->fd1[0], fd);
-	close(g_main.pipe->fd1[0]);
-	close(g_main.pipe->fd1[1]);
+	ig_close_linked();
 }
 
 void	ig_middle_born(t_cmd *cmd, int fd)
@@ -79,43 +55,32 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		dup2(fd, STDIN_FILENO);
 		if (g_main.pipe->pipe_counter)
 			dup2(g_main.pipe->fd1[1], STDOUT_FILENO);
-		close(g_main.pipe->fd1[0]);
-		close(g_main.pipe->fd1[1]);
-		close(fd);
-		if (file_dir_check(cmd))
-		{
-			clear_hashtable(g_main.env_var);
-			ft_safe_free((void **)&g_main.pipe->path);
-			ft_safe_free((void **)&g_main.pipe);
-			clear_cmd_list();
-			ig_close_linked();
-			exit(1);
-		}
-		if (check_if_builtin(cmd->name))
-		{
-			g_main.status = exec_builtin(cmd);
-			clear_hashtable(g_main.env_var);
-			ft_safe_free((void **)&g_main.pipe->path);
-			ft_safe_free((void **)&g_main.pipe);
-			clear_cmd_list();
-			exit(g_main.status);
-		}
-		else if (g_main.pipe->path && !access(g_main.pipe->path, F_OK))
-		{
-			set_fd(cmd);
-			if (execve(g_main.pipe->path, cmd->args, g_main.envp) == -1)
-				ft_putstr_fd("execve error\n", 2);
-		}
-		else if (cmd->type != PIPE)
-			ft_error(cmd->name, "command not found", 127);
-		clear_cmd_list();
-		clear_hashtable(g_main.env_var);
 		ig_close_linked();
-		ft_safe_free((void **)&g_main.pipe->path);
-		ft_safe_free((void **)&g_main.pipe);
+		close(fd);
+		ig_pipe_handler(cmd);
+		ig_pipe_closer();
 		if (g_main.signal_received)
 			g_main.status = 130;
 		signal(SIGQUIT, SIG_IGN);
 		exit(1);
+	}
+}
+
+void	ig_pipe_exc(t_cmd *cmd, int fd_read)
+{
+	while (g_main.pipe->pipe_counter >= 0 && cmd)
+	{
+		if (cmd->type == PIPE && (cmd->prev == NULL
+				|| (cmd->prev && cmd->prev->type == PIPE)))
+		{
+			ig_pipe_fd(cmd, fd_read);
+			g_main.pipe->pipe_counter--;
+		}
+		if (cmd->type == WORD)
+		{
+			ig_pipe_fd(cmd, fd_read);
+			g_main.pipe->pipe_counter--;
+		}
+		cmd = cmd->next;
 	}
 }

@@ -28,6 +28,7 @@ SRC =	main.c						\
 		builtin/echo.c				\
 		builtin/cd.c				\
 		builtin/pipe.c				\
+		builtin/pipe_utils.c		\
 		heredoc/heredoc.c			\
 		heredoc/heredoc_utils.c		\
 		heredoc/heredoc_utils2.c	\

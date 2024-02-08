@@ -12,15 +12,8 @@
 
 #include "shell.h"
 
-static void	set_output(void)
+static void	set_output(t_cmd *tmp, t_cmd *cmd)
 {
-	t_cmd	*tmp;
-	t_cmd	*cmd;
-
-	cmd = g_main.cmd_list;
-	while (cmd && cmd->type != WORD && cmd->type != PIPE)
-		cmd = cmd->next;
-	tmp = g_main.cmd_list;
 	while (tmp)
 	{
 		if (cmd && (tmp->type == WORD || tmp->type == PIPE) && tmp->next)
@@ -28,36 +21,23 @@ static void	set_output(void)
 		if (tmp->type == OUTFILE)
 		{
 			if (check_outfile(cmd, tmp))
-			{
 				tmp = cmd;
-				continue ;
-			}
-			if (cmd)
+			else if (cmd)
 				cmd->redir[1] = OUTFILE;
 		}
 		else if (tmp->type == APPEND)
 		{
 			if (check_outfile(cmd, tmp))
-			{
 				tmp = cmd;
-				continue ;
-			}
-			if (cmd)
+			else if (cmd)
 				cmd->redir[1] = APPEND;
 		}
 		tmp = tmp->next;
 	}
 }
 
-static void	set_input(void)
+static void	set_input(t_cmd	*tmp, t_cmd	*cmd)
 {
-	t_cmd	*tmp;
-	t_cmd	*cmd;
-
-	cmd = g_main.cmd_list;
-	while (cmd && cmd->type != WORD && cmd->type != PIPE)
-		cmd = cmd->next;
-	tmp = g_main.cmd_list;
 	while (tmp)
 	{
 		if (cmd && (tmp->type == WORD || tmp->type == PIPE) && tmp->next)
@@ -66,11 +46,8 @@ static void	set_input(void)
 		{
 			save_input_file(cmd, tmp);
 			if (access(cmd->infile, R_OK))
-			{
 				tmp = cmd;
-				continue ;
-			}
-			if (cmd)
+			else if (cmd)
 				cmd->redir[0] = INFILE;
 		}
 		else if (tmp->type == HEREDOC)
@@ -83,11 +60,23 @@ static void	set_input(void)
 	}
 }
 
+static void	set_input_output(void)
+{
+	t_cmd	*tmp;
+	t_cmd	*cmd;
+
+	cmd = g_main.cmd_list;
+	while (cmd && cmd->type != WORD && cmd->type != PIPE)
+		cmd = cmd->next;
+	tmp = g_main.cmd_list;
+	set_input(tmp, cmd);
+	set_output(tmp, cmd);
+}
+
 int	parser(void)
 {
 	arrange_cmd_list();
-	set_input();
-	set_output();
+	set_input_output();
 	remove_redir();
 	ig_path_builtin();
 	return (0);

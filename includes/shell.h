@@ -255,6 +255,14 @@ int		ft_unset(char **args);
 
 int		ft_pwd(int fd);
 
+//pipe.c
+void	ig_middle_born(t_cmd *cmd, int fd);
+void	ig_pipe_fd(t_cmd *cmd, int fd);
+void	ig_pipe_exc(t_cmd *cmd, int fd_read);
+void	ig_pipe_closer(void );
+void	ig_pipe_handler(t_cmd *cmd);
+void	ig_close_linked(void);
+
 //ENV-------------------------------------------
 //set_env.c
 
