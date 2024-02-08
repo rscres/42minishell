@@ -27,13 +27,14 @@ SRC =	main.c						\
 		builtin/exit.c				\
 		builtin/echo.c				\
 		builtin/cd.c				\
+		builtin/pipe.c				\
 		heredoc/heredoc.c			\
 		heredoc/heredoc_utils.c		\
 		heredoc/heredoc_utils2.c	\
 		executor/expand_var.c		\
+		executor/expand_var_utils.c	\
 		executor/execute.c			\
 		executor/execute_utils.c	\
-		builtin/pipe.c\
 		error/error.c
 
 OBJ_DIR = obj

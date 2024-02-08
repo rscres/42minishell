@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 00:38:29 by renato            #+#    #+#             */
-/*   Updated: 2024/02/06 19:13:44 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/07 21:45:41 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_if_builtin(char *name)
 	return (0);
 }
 
-int	is_directory(const char *path) //need refactoring
+int	is_directory(const char *path)
 {
 	struct stat	statbuf;
 
@@ -58,7 +58,7 @@ int	is_directory(const char *path) //need refactoring
 	return (0);
 }
 
-int	file_dir_check(t_cmd *cmd)
+int	check_infile(t_cmd *cmd)
 {
 	int		fd;
 
@@ -75,6 +75,16 @@ int	file_dir_check(t_cmd *cmd)
 		}
 		close(fd);
 	}
+	return (0);
+}
+
+int	file_dir_check(t_cmd *cmd)
+{
+	int	fd;
+
+	fd = 0;
+	if (check_infile(cmd))
+		return (1);
 	if (cmd->outfile)
 	{
 		fd = open(cmd->outfile, O_RDONLY);
