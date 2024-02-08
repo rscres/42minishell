@@ -17,8 +17,8 @@ void	ig_pipe_executer(t_cmd *cmd, int fd);
 
 void	ig_close_linked(void)
 {
-	close(g_main.pipe->fd1[0]); // Close reading end of the pipe
-	close(g_main.pipe->fd1[1]); // Close writing end of the pipe
+	close(g_main.pipe->fd1[0]);
+	close(g_main.pipe->fd1[1]);
 }
 
 void	ig_pipe(t_cmd *cmd)
@@ -30,8 +30,8 @@ void	ig_pipe(t_cmd *cmd)
 	fd_read = dup(STDIN_FILENO);
 	while (g_main.pipe->pipe_counter >= 0 && cmd)
 	{
-		if(cmd->type == PIPE && (cmd->prev == NULL
-			|| (cmd->prev && cmd->prev->type == PIPE)))
+		if (cmd->type == PIPE && (cmd->prev == NULL
+				|| (cmd->prev && cmd->prev->type == PIPE)))
 		{
 			ig_pipe_executer(cmd, fd_read);
 			g_main.pipe->pipe_counter--;

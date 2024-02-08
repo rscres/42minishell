@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 22:31:56 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/07 21:38:17 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static void	child_heredoc(int pipefd[2], char *delimiter)
 {
 	char	*heredoc;
 
-	close(pipefd[0]); // Close unused read end
+	close(pipefd[0]);
 	heredoc = ft_strdup("");
 	heredoc = heredoc_loop(delimiter, heredoc);
 	if (!heredoc)
 		heredoc_exit(EXIT_FAILURE);
-	write(pipefd[1], heredoc, strlen(heredoc) + 1); // Write heredoc to pipe
-	close(pipefd[1]); // Close write end
+	write(pipefd[1], heredoc, strlen(heredoc) + 1);
+	close(pipefd[1]);
 	free(heredoc);
 	heredoc_exit(EXIT_SUCCESS);
 }
@@ -68,11 +68,11 @@ static char	*parent_heredoc(int pipefd[2], pid_t pid, char *delimiter)
 	char	buffer[4096];
 	char	*heredoc;
 
-	close(pipefd[1]); // Close unused write end
-	wait(&pid); // Wait for the child process to finish
-	read(pipefd[0], buffer, sizeof(buffer)); // Read heredoc from pipe
+	close(pipefd[1]);
+	wait(&pid);
+	read(pipefd[0], buffer, sizeof(buffer));
 	heredoc = strdup(buffer);
-	close(pipefd[0]); // Close read end
+	close(pipefd[0]);
 	name = save_heredoc(delimiter, heredoc);
 	g_main.line = ft_strjoin_free(g_main.line, "\n");
 	g_main.line = ft_strjoin_free(g_main.line, heredoc);
