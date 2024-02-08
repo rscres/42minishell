@@ -15,8 +15,10 @@
 int	check_outfile(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
+	int ret;
 
 	fd = 0;
+	ret = 0;
 	if (tmp->type == APPEND)
 		fd = open(tmp->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (tmp->type == OUTFILE)
@@ -24,18 +26,17 @@ int	check_outfile(t_cmd *cmd, t_cmd *tmp)
 	if (fd == -1 || access(tmp->args[0], W_OK | R_OK))
 	{
 		fd_error(tmp->args[0]);
+		ret = 1;
+	}
+	if (cmd)
+	{
 		if (cmd->outfile)
-			ft_safe_free((void **)&cmd->outfile);
+			ft_safe_free((void **) &cmd->outfile);
 		cmd->outfile = ft_strjoin_free(getcwd(NULL, 0), "/");
 		cmd->outfile = ft_strjoin_free(cmd->outfile, tmp->args[0]);
-		return (1);
 	}
-	if (cmd->outfile)
-		ft_safe_free((void **)&cmd->outfile);
-	cmd->outfile = ft_strjoin_free(getcwd(NULL, 0), "/");
-	cmd->outfile = ft_strjoin_free(cmd->outfile, tmp->args[0]);
 	close(fd);
-	return (0);
+	return (ret);
 }
 
 void	change_cmd(t_cmd **cmd, t_cmd **tmp)

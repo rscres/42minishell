@@ -49,7 +49,7 @@ int	main(__attribute__((unused))int argc, __attribute__((unused))char **argv,
 			g_main.line = line;
 			lexer(&line);
 			parser();
-			print_cmd_list();
+			//print_cmd_list();
 			execute_cmd_list();
 			add_history(g_main.line);
 		}

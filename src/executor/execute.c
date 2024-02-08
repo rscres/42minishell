@@ -93,12 +93,23 @@ void	execute_cmd_list(void)
 	t_cmd	*cmd;
 
 	cmd = g_main.cmd_list;
-	if (!cmd)
-		return ;
-	if (g_main.pipe->pipe_counter == 0)
+	if(cmd && ig_is_redir(cmd->name) && !cmd->prev && !cmd->next)
+	{
+		clear_cmd_list();
+		return;
+	}
+	if (cmd && g_main.pipe->pipe_counter == 0)
 		simple_command(cmd);
-	if (g_main.pipe->pipe_counter != 0)
+	if (cmd && g_main.pipe->pipe_counter != 0)
 		ig_pipe(cmd);
 	heredoc_files(REMOVE);
 	clear_cmd_list();
+}
+
+int ig_is_redir(char *name)
+{
+	if (ft_strcmp(name, "<<") == 0 || ft_strcmp(name, ">>") == 0
+		|| ft_strcmp(name, "<") == 0 || ft_strcmp(name, ">") == 0)
+	 	return(1);
+	return(0);
 }

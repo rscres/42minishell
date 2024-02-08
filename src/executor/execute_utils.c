@@ -63,7 +63,7 @@ int	file_dir_check(t_cmd *cmd)
 	int		fd;
 
 	fd = 0;
-	if (cmd->infile)
+	if (cmd && cmd->infile)
 	{
 		fd = open(cmd->infile, O_RDONLY);
 		if (access(cmd->infile, R_OK))
@@ -75,7 +75,7 @@ int	file_dir_check(t_cmd *cmd)
 		}
 		close(fd);
 	}
-	if (cmd->outfile)
+	if (cmd && cmd->outfile)
 	{
 		fd = open(cmd->outfile, O_RDONLY);
 		if (access(cmd->outfile, W_OK))
@@ -87,7 +87,7 @@ int	file_dir_check(t_cmd *cmd)
 		}
 		close(fd);
 	}
-	if (is_directory(cmd->name))
+	if (cmd && is_directory(cmd->name))
 	{	
 		ft_error(cmd->name, "is a directory", 126);
 		return (1);

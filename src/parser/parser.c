@@ -23,7 +23,7 @@ static void	set_output(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if ((tmp->type == WORD || tmp->type == PIPE) && tmp->next)
+		if (cmd && (tmp->type == WORD || tmp->type == PIPE) && tmp->next)
 			change_cmd(&cmd, &tmp);
 		if (tmp->type == OUTFILE)
 		{
@@ -32,7 +32,8 @@ static void	set_output(void)
 				tmp = cmd;
 				continue ;
 			}
-			cmd->redir[1] = OUTFILE;
+			if(cmd)
+				cmd->redir[1] = OUTFILE;
 		}
 		else if (tmp->type == APPEND)
 		{
@@ -41,7 +42,8 @@ static void	set_output(void)
 				tmp = cmd;
 				continue ;
 			}
-			cmd->redir[1] = APPEND;
+			if(cmd)
+				cmd->redir[1] = APPEND;
 		}
 		tmp = tmp->next;
 	}
@@ -58,7 +60,7 @@ static void	set_input(void)
 	tmp = g_main.cmd_list;
 	while (tmp)
 	{
-		if ((tmp->type == WORD || tmp->type == PIPE) && tmp->next)
+		if (cmd && (tmp->type == WORD || tmp->type == PIPE) && tmp->next)
 			change_cmd(&cmd, &tmp);
 		if (tmp->type == INFILE)
 		{

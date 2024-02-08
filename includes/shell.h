@@ -190,6 +190,7 @@ int		parser(void);
 void	arrange_cmd_list(void);
 void	fd_error(char *str);
 void	remove_redir(void);
+void	ig_path_builtin(void);
 
 //set_redirects_utils.c
 
@@ -210,6 +211,7 @@ void	execute_cmd_list(void);
 void	exec(t_cmd *cmd, char *path);
 void	set_fd(t_cmd *cmd);
 int		file_dir_check(t_cmd *cmd);
+int		ig_is_redir(char *name);
 
 //execute_utils.c
 

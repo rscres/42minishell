@@ -105,9 +105,10 @@ void ig_path_builtin(void)
 	{
 		if(tmp->type == WORD && !check_if_builtin(tmp->name))
 		{
-			pos = ft_strdup(ft_strrchr(tmp->name, '/') + 1);
-			if (check_if_builtin(pos))
+			pos = ft_strrchr(tmp->name, '/');
+			if (pos && check_if_builtin(pos + 1))
 			{
+				pos = ft_strdup(ft_strrchr(tmp->name, '/') + 1);
 				ft_safe_free((void **)&tmp->name);
 				tmp->name = pos;
 			}
