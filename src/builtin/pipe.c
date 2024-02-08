@@ -32,13 +32,9 @@ void	ig_pipe(t_cmd *cmd)
 
 void	ig_pipe_fd(t_cmd *cmd, int fd)
 {
-	//char	*tmp;
-
 	pipe(g_main.pipe->fd1);
-	//tmp = g_main.pipe->path;
 	if (cmd->name)
 		g_main.pipe->path = check_path(cmd->name);
-	//free(tmp);
 	ig_middle_born(cmd, fd);
 	free(g_main.pipe->path);
 	dup2(g_main.pipe->fd1[0], fd);
@@ -74,17 +70,9 @@ void	ig_pipe_exc(t_cmd *cmd, int fd_read)
 {
 	while (g_main.pipe->pipe_counter >= 0 && cmd)
 	{
-		if ((cmd->type == PIPE && !cmd->prev) || (cmd->type == PIPE && cmd->prev->type == PIPE))
+		if ((cmd->type == PIPE && !cmd->prev)
+			|| (cmd->type == PIPE && cmd->prev->type == PIPE))
 		{
-//			if (cmd->prev->type == PIPE)
-//			{
-//				printf("Entrei aqui tiozão:%d\n", cmd->prev->type);
-//				ig_pipe_fd(cmd, fd_read);
-//			}
-//			else if (!cmd->prev)
-//			{
-//				ig_pipe_fd(cmd, fd_read);
-//			}
 			ig_pipe_fd(cmd, fd_read);
 			g_main.pipe->pipe_counter--;
 		}
@@ -93,7 +81,6 @@ void	ig_pipe_exc(t_cmd *cmd, int fd_read)
 			ig_pipe_fd(cmd, fd_read);
 			g_main.pipe->pipe_counter--;
 		}
-		//ig_close_linked();
 		cmd = cmd->next;
 	}
 }

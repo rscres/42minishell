@@ -40,7 +40,6 @@ static void	move_cmd(t_cmd *cmd)
 		cmd->next = tmp->next;
 		tmp->next->prev = cmd;
 	}
-
 	else
 		cmd->next = NULL;
 	tmp->next = cmd;
@@ -86,16 +85,13 @@ void	remove_redir(void)
 				|| tmp->type == APPEND || tmp->type == HEREDOC) && tmp->next)
 		{
 			tmp->next->prev = tmp->prev;
-			//tmp->next->type = tmp->type;
 			if (tmp->prev)
 			{
 				tmp->prev->next = tmp->next;
-			//	tmp->prev->type = tmp->type;
 			}
 			else
 			{
 				g_main.cmd_list = tmp->next;
-			//	g_main.cmd_list->type = tmp->next->type;
 			}
 			free_tab(tmp->args);
 			ft_safe_free((void **)&tmp->name);

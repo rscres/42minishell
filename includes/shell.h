@@ -27,9 +27,9 @@
 # include <errno.h>
 # include "../libft/libft.h"
 
-#define SETPROMPT "\001\e[9;35m\002"
-#define SET "\001\e[5;33m\002"
-#define RESET   "\001\e[0m\002"
+# define SETPROMPT "\001\e[9;35m\002"
+# define SET "\001\e[5;33m\002"
+# define RESET   "\001\e[0m\002"
 
 # define TABLE_SIZE 256
 # define FALSE 0

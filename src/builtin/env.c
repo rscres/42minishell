@@ -18,7 +18,7 @@ int	free_tab(char **tab)
 
 	i = 0;
 	if (!tab)
-			return (1);
+		return (1);
 	while (tab[i])
 		ft_safe_free((void **)&tab[i++]);
 	ft_safe_free((void **)&tab);
