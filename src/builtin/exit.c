@@ -53,7 +53,6 @@ void	ft_exit(char **args, int argc)
 
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
-	ft_safe_free((void **)&g_main.pipe->path);
 	ft_safe_free((void **)&g_main.pipe);
 	printf("exit\n");
 	if (argc > 2)
@@ -66,5 +65,8 @@ void	ft_exit(char **args, int argc)
 	check_if_num(args[1]);
 	status = adjust_status(ft_atoi(args[1]));
 	clear_cmd_list();
+	close(0);
+	close(1);
+	close(2);
 	exit(status);
 }

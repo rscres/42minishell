@@ -76,8 +76,9 @@ void	heredoc_exit(int status)
 	clear_hashtable(g_main.env_var);
 	clear_token_list();
 	clear_cmd_list();
-	ft_safe_free((void **)&g_main.pipe->path);
+	//ft_safe_free((void **)&g_main.pipe->path);
 	ft_safe_free((void **)&g_main.pipe);
+	free(g_main.line);
 	exit(status);
 }
 

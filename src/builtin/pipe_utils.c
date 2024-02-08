@@ -25,6 +25,7 @@ void	ig_pipe_closer(void)
 	ig_close_linked();
 	ft_safe_free((void **) &g_main.pipe->path);
 	ft_safe_free((void **) &g_main.pipe);
+	free(g_main.line);
 }
 
 void	ig_pipe_handler(t_cmd *cmd)
@@ -32,12 +33,18 @@ void	ig_pipe_handler(t_cmd *cmd)
 	if (file_dir_check(cmd))
 	{
 		ig_pipe_closer();
+		close(0);
+		close(1);
+		close(2);
 		exit(1);
 	}
 	if (check_if_builtin(cmd->name))
 	{
 		g_main.status = exec_builtin(cmd);
 		ig_pipe_closer();
+		close(0);
+		close(1);
+		close(2);
 		exit(g_main.status);
 	}
 	else if (g_main.pipe->path && !access(g_main.pipe->path, F_OK))
