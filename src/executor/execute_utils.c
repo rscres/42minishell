@@ -6,12 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 00:38:29 by renato            #+#    #+#             */
-/*   Updated: 2024/02/07 22:03:55 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:27:55 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-#include <sys/stat.h>
 
 char	*check_path(char *name)
 {
