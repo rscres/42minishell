@@ -6,13 +6,12 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 12:32:42 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 22:11:21 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:45:52 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-//Need flag to know if output is outfile or append
 void	set_fd(t_cmd *cmd)
 {
 	if (cmd->infile != NULL)
@@ -68,10 +67,10 @@ void	simple_command(t_cmd *cmd)
 {
 	char	*path;
 
-	g_main.is_cmd_running = 1;
+	g_main.is_cmd_running = TRUE;
 	if (file_dir_check(cmd))
 	{
-		g_main.is_cmd_running = 0;
+		g_main.is_cmd_running = FALSE;
 		return ;
 	}
 	path = check_path(cmd->name);
@@ -85,7 +84,7 @@ void	simple_command(t_cmd *cmd)
 	else
 		ft_error(cmd->name, "command not found", 127);
 	ft_safe_free((void **)&path);
-	g_main.is_cmd_running = 0;
+	g_main.is_cmd_running = FALSE;
 }
 
 void	execute_cmd_list(void)

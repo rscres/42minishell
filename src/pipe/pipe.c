@@ -17,6 +17,7 @@ void	ig_pipe(t_cmd *cmd)
 	int	fd_read;
 	int	counter;
 
+	g_main.is_cmd_running = TRUE;
 	counter = g_main.pipe->pipe_counter;
 	fd_read = dup(STDIN_FILENO);
 	ig_pipe_exc(cmd, fd_read);
@@ -28,6 +29,7 @@ void	ig_pipe(t_cmd *cmd)
 	}
 	ig_close_linked();
 	clear_cmd_list();
+	g_main.is_cmd_running = FALSE;
 }
 
 void	ig_pipe_fd(t_cmd *cmd, int fd)

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:35:19 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 12:19:19 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:54:59 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sigquit(int sig)
 	}
 }
 
-void	handler(int sig)
+void	sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -43,7 +43,7 @@ void	handler(int sig)
 
 int	signal_set(void)
 {
-	signal(SIGINT, handler);
+	signal(SIGINT, sigint);
 	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }

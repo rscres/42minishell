@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:27:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/07 16:47:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:57:55 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ int	get_type(char *str)
 		return (OUTFILE);
 	else if (!ft_strcmp(str, "<"))
 		return (INFILE);
-	else if (!ft_strcmp(str, "&&"))
-		return (AND);
-	else if (!ft_strcmp(str, "||"))
-		return (OR);
 	else if (!ft_strcmp(str, "|"))
 		return (PIPE);
 	return (WORD);
@@ -69,7 +65,7 @@ static int	check_syntax(void)
 			if (!tmp->next || tmp->next->type != WORD)
 				return (syntax_error(tmp->name));
 		}
-		if (tmp->type == PIPE && (tmp->prev == NULL
+		if (tmp->type == PIPE && (tmp->prev == NULL || tmp->next == NULL
 				|| (tmp->next && tmp->next->type == PIPE)))
 			return (syntax_error(tmp->name));
 		tmp = tmp->next;
@@ -107,12 +103,11 @@ int	lexer(char **str)
 		ft_safe_free((void **)&token);
 		token = tokenizer(NULL);
 	}
-	ig_check_open(token, str);
 	g_main.line = *str;
 	if (g_main.open_quote)
 	{
 		ft_putstr_fd("Error: unclosed quotes\n", 2);
-		g_main.open_quote = 0;
+		g_main.open_quote = FALSE;
 		clear_token_list();
 		g_main.status = 1;
 		return (1);

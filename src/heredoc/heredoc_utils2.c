@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 18:08:53 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/01/28 18:59:32 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:53:23 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*heredoc_error(char *delimiter, int line_count)
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimiter, 2);
 	ft_putstr_fd("')\n", 2);
-	g_main.is_cmd_running = 0;
+	g_main.is_cmd_running = FALSE;
 	g_main.status = 0;
 	return (NULL);
 }

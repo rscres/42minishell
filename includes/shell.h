@@ -139,7 +139,7 @@ void	init_shell(char **env);
 //signal.c
 
 int		signal_set(void);
-void	handler(int sig);
+void	sigint(int sig);
 void	sigquit(int sig);
 
 //PARSER----------------------------------------
@@ -147,11 +147,6 @@ void	sigquit(int sig);
 
 int		lexer(char **str);
 int		get_type(char *str);
-
-//lexer_utils.c
-
-int		ig_check_pipe(t_token *token);
-void	ig_check_open(char *token, char **str);
 
 //tokenizer.c
 

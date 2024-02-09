@@ -12,9 +12,6 @@
 
 #include "../../includes/shell.h"
 
-//The update_save function is used to update the static variable save.
-//It is used to save the remaining string after the token has been extracted.
-//It receives the current save and the index of the last character of the token
 static char	*update_save(char *save, int i)
 {
 	char	*tmp;
@@ -24,8 +21,6 @@ static char	*update_save(char *save, int i)
 	return (tmp);
 }
 
-//The is_separator function is used to check if the current character is a
-//separator(|, <, >). It returns 1 if it is and 0 if it isn't.
 static int	is_separator(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
@@ -33,10 +28,6 @@ static int	is_separator(char c)
 	return (0);
 }
 
-//The check_quote function is used to check if quotes are open or closed. 
-//And the type of quotes. It receives the current quote status:
-//0 for closed or no quotes, 1 for open '\'' and 2 for open '\"', and the 
-//current character. And returns the new quote status.
 int	check_quote(int quote, char c)
 {
 	if (quote == 0 && c == '\'')
@@ -50,9 +41,6 @@ int	check_quote(int quote, char c)
 	return (quote);
 }
 
-//The get_j function is used to get the index of the last character of the
-//token. It receives the index of the first character of the token and the
-//current save string. It returns the index of the last character of the token.
 static int	get_j(int i, char *save)
 {
 	int	j;
@@ -81,11 +69,6 @@ static int	get_j(int i, char *save)
 	return (j);
 }
 
-//The tokenizer function is used to split the input into tokens.
-//It is my own implementation of the strtok function and it works similarly.
-//When first called it takes the input string and saves it in a static variable.
-//All subsequent calls to the function will use the static variable instead of 
-//the input string.
 char	*tokenizer(char *str)
 {
 	static char	*save;

@@ -60,7 +60,7 @@ void	init_global(char **envp)
 	g_main.token_list = NULL;
 	g_main.line = NULL;
 	g_main.envp = envp;
-	g_main.open_quote = 0;
+	g_main.open_quote = FALSE;
 	g_main.status = 0;
 	g_main.is_cmd_running = FALSE;
 	g_main.signal_received = FALSE;

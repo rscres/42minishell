@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:04:44 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/07 21:38:17 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:54:59 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*heredoc_loop(char *delim, char *heredoc)
 			break ;
 		ft_safe_free((void **)&line);
 	}
-	signal(SIGINT, handler);
+	signal(SIGINT, sigint);
 	g_main.signal_received = FALSE;
 	return (heredoc);
 }
@@ -77,7 +77,7 @@ static char	*parent_heredoc(int pipefd[2], pid_t pid, char *delimiter)
 	g_main.line = ft_strjoin_free(g_main.line, "\n");
 	g_main.line = ft_strjoin_free(g_main.line, heredoc);
 	ft_safe_free((void **)&heredoc);
-	g_main.is_cmd_running = 0;
+	g_main.is_cmd_running = FALSE;
 	g_main.status = 0;
 	return (name);
 }
@@ -105,6 +105,6 @@ char	*heredoc(char *delimiter)
 		child_heredoc(pipefd, delimiter);
 	else
 		name = parent_heredoc(pipefd, pid, delimiter);
-	signal(SIGINT, handler);
+	signal(SIGINT, sigint);
 	return (name);
 }
