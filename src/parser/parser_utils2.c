@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 23:21:59 by renato            #+#    #+#             */
-/*   Updated: 2024/02/07 22:12:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/08 21:08:28 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	change_cmd(t_cmd **cmd, t_cmd **tmp)
 	*tmp = (*tmp)->next;
 }
 
-void	save_input_file(t_cmd *cmd, t_cmd *tmp)
+int	save_input_file(t_cmd *cmd, t_cmd *tmp)
 {
 	int	fd;
 
 	fd = 0;
 	if (!cmd)
-		return ;
+		return (0);
 	fd = open(tmp->args[0], O_RDONLY, 0644);
 	if (cmd->infile)
 		ft_safe_free((void **)&cmd->infile);
@@ -70,6 +70,9 @@ void	save_input_file(t_cmd *cmd, t_cmd *tmp)
 			cmd->infile = ft_strjoin_free(cmd->infile, tmp->args[0]);
 	}
 	close(fd);
+	if (fd < 0 || access(tmp->args[0], R_OK))
+		return (1);
+	return (0);
 }
 
 void	set_heredoc(t_cmd *cmd, t_cmd *tmp)

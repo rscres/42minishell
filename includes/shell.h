@@ -206,8 +206,8 @@ void	ig_path_builtin(void);
 //set_redirects_utils.c
 
 int		check_outfile(t_cmd *cmd, t_cmd *tmp);
+int		save_input_file(t_cmd *cmd, t_cmd *tmp);
 void	change_cmd(t_cmd **cmd, t_cmd **tmp);
-void	save_input_file(t_cmd *cmd, t_cmd *tmp);
 void	set_heredoc(t_cmd *cmd, t_cmd *tmp);
 
 //EXEC------------------------------------------
