@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 19:12:27 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/05 23:00:38 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:19:07 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,3 @@ int	get_argc(t_token *tmp)
 	}
 	return (i);
 }
-
-//------------------TEST FUNCTIONS------------------//
-//------------------TEST FUNCTIONS------------------//
-void	print_cmd_list(void)
-{
-	t_cmd	*tmp;
-	int		i;
-
-	tmp = g_main.cmd_list;
-	while (tmp)
-	{
-		printf("cmd = %s\n", tmp->name);
-		i = 0;
-		while (i < tmp->argc)
-		{
-			printf("arg[%i] = %s\n", i, tmp->args[i]);
-			i++;
-		}
-		printf("argc = %i\n", tmp->argc);
-		printf("redir[0] = %i\n", tmp->redir[0]);
-		printf("redir[1] = %i\n", tmp->redir[1]);
-		tmp = tmp->next;
-	}
-}
-//------------------TEST FUNCTIONS------------------//
-//------------------TEST FUNCTIONS------------------//

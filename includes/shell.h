@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/wait.h>
@@ -45,8 +44,6 @@ typedef enum s_token_type
 	HEREDOC,
 	OUTFILE,
 	INFILE,
-	AND,
-	OR,
 	PIPE
 }	t_token_type;
 
@@ -177,7 +174,6 @@ void	clear_cmd_list(void);
 t_cmd	*new_cmd(char *name, int type);
 void	add_cmd(t_cmd *cmd);
 void	clear_cmd_list(void);
-void	print_cmd_list(void); //test function
 int		get_argc(t_token *tmp);
 
 //expand_var.c

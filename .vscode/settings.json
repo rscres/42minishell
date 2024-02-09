@@ -6,6 +6,7 @@
 		"compare": "c",
 		"type_traits": "c",
 		"typeinfo": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"dirent.h": "c"
 	}
 }
