@@ -61,21 +61,25 @@ void	print_vars(int fd)
 	char	**tmp;
 	int		i;
 
-	i = -1;
+	i = 0;
+	signal(SIGPIPE, SIG_IGN);
 	array = save_table_to_array();
 	tmp = malloc(sizeof(char *) * 2);
 	if (!array)
 		return ;
 	ft_merge_sort(ft_arrlen(array), array);
-	while (array[++i])
+	while (array[i])
 	{
-		tmp[1] = ft_strchr(array[i], '=');
+		tmp[1] = ft_strdup(ft_strchr(array[i], '='));
 		tmp[0] = ft_strndup(array[i], ft_strlen(array[i])
 				- ft_strlen(tmp[1]));
 		print(tmp, fd);
 		ft_safe_free((void **)&tmp[0]);
+		ft_safe_free((void **)&tmp[1]);
+		i++;
 	}
 	tmp[1] = NULL;
 	ft_safe_free((void **)&tmp);
 	free_tab(array);
+	signal(SIGPIPE, SIG_DFL);
 }
