@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 01:44:21 by renato            #+#    #+#             */
-/*   Updated: 2024/02/09 13:03:45 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:11:57 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	print_vars(int fd)
 	char	**tmp;
 	int		i;
 
-	i = -1;
-	fd = 1;
+	i = 0;
+	signal(SIGPIPE, SIG_IGN);
 	array = save_table_to_array();
 	if (!array)
 		return ;
@@ -70,15 +70,17 @@ void	print_vars(int fd)
 	ft_merge_sort(ft_arrlen(array), array);
 	while (array && array[++i])
 	{
-		tmp[1] = ft_strchr(array[i], '=');
+		tmp[1] = ft_strdup(ft_strchr(array[i], '='));
 		tmp[0] = ft_strndup(array[i], ft_strlen(array[i])
 				- ft_strlen(tmp[1]));
-		print(tmp, 1);
+		print(tmp, fd);
 		ft_safe_free((void **)&tmp[0]);
-		tmp[1] = NULL;
+		ft_safe_free((void **)&tmp[1]);
+		i++;
 	}
 	tmp[1] = NULL;
 	ft_safe_free((void **)&tmp[1]);
 	ft_safe_free((void **)&tmp);
 	free_tab(array);
+	signal(SIGPIPE, SIG_DFL);
 }

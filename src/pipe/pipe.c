@@ -59,9 +59,6 @@ void	ig_middle_born(t_cmd *cmd, int fd)
 		if (g_main.signal_received)
 			g_main.status = 130;
 		signal(SIGQUIT, SIG_IGN);
-		close(0);
-		close(1);
-		close(2);
 		exit(1);
 	}
 }
