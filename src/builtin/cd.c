@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 01:24:07 by renato            #+#    #+#             */
-/*   Updated: 2024/02/05 22:20:24 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/09 11:44:28 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_cd(char **args)
 	}
 	if (g_main.cmd_list->argc <= 1)
 		ret = chdir(get_home());
-	else if (g_main.cmd_list->argc == 2)
+	else if (g_main.cmd_list->argc == 2 && args[1] != NULL)
 		ret = chdir(args[1]);
 	if (ret != 0)
 		return (invalid_path(oldpwd));

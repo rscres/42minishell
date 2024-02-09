@@ -272,7 +272,7 @@ void	ig_close_linked(void);
 
 int		set_env(t_env **env_var, char **env);
 int		free_tab(char **tab);
-int		ft_env(void);
+int		ft_env(int fd);
 
 //HASHTABLE-------------------------------------
 //hashtable.c
@@ -281,6 +281,7 @@ int		hash(char *key);
 int		update_key(t_env **env_var, char *key, char *value);
 t_env	*search(t_env **env_var, char *key);
 char	*search_value(t_env **env_var, char *key);
+void	print_hashtable(t_env **env_var, int fd);
 
 //hashtable_utils.c
 
@@ -316,9 +317,5 @@ void	ig_pipe(t_cmd *cmd);
 
 int		ft_error(char *str, char *msg, int err);
 int		syntax_error(char *str);
-
-//------------------TEST FUNCTIONS-----------------------
-//------------------TEST FUNCTIONS-----------------------
-void	print_hashtable(t_env **env_var);
 
 #endif //SHELL_H

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 01:18:46 by renato            #+#    #+#             */
-/*   Updated: 2024/02/07 12:46:56 by rseelaen         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:40:18 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	exec_builtin(t_cmd *cmd)
 	else if (!ft_strcmp(cmd->name, "unset"))
 		g_main.status = (ft_unset(cmd->args + 1));
 	else if (!ft_strcmp(cmd->name, "env"))
-		g_main.status = (ft_env());
+		g_main.status = (ft_env(cmd->fd[1]));
 	else if (!ft_strcmp(cmd->name, "exit"))
 		ft_exit(cmd->args, cmd->argc);
 	if (fd_set[0] == 0)

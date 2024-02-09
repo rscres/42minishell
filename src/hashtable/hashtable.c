@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 09:59:28 by rseelaen          #+#    #+#             */
-/*   Updated: 2024/02/04 16:14:20 by renato           ###   ########.fr       */
+/*   Updated: 2024/02/09 11:42:19 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ int	update_key(t_env **env_var, char *key, char *value)
 	return (0);
 }
 
-//For testing purposes-----------------------------------------
-void	print_hashtable(t_env **env_var)
+void	print_hashtable(t_env **env_var, int fd)
 {
 	int		i;
 	t_env	*tmp;
@@ -108,10 +107,9 @@ void	print_hashtable(t_env **env_var)
 			tmp = env_var[i];
 			while (tmp)
 			{
-				printf("%s", tmp->key);
-				printf("=");
-				printf("%s", tmp->value);
-				printf("\n");
+				ft_putstr_fd(tmp->key, fd);
+				ft_putchar_fd('=', fd);
+				ft_putendl_fd(tmp->value, fd);
 				tmp = tmp->next;
 			}
 		}
