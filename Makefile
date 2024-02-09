@@ -4,38 +4,38 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -g3
 
 SRC_DIR = src
-SRC =	main.c						\
-		init.c						\
-		signal/signals.c			\
-		lexer/tokenizer.c			\
-		lexer/token_utils.c			\
-		lexer/lexer.c				\
-		lexer/lexer_utils.c			\
-		parser/parser.c				\
-		parser/parser_utils.c		\
-		parser/parser_utils2.c		\
-		cmd_list/hashtable.c		\
-		cmd_list/hashtable_utils.c	\
-		cmd_list/cmd_list.c			\
-		cmd_list/cmd_list_utils.c	\
-		builtin/builtin.c			\
-		builtin/pwd.c				\
-		builtin/unset.c				\
-		builtin/env.c				\
-		builtin/export.c			\
-		builtin/export_print.c		\
-		builtin/exit.c				\
-		builtin/echo.c				\
-		builtin/cd.c				\
-		builtin/pipe.c				\
-		builtin/pipe_utils.c		\
-		heredoc/heredoc.c			\
-		heredoc/heredoc_utils.c		\
-		heredoc/heredoc_utils2.c	\
-		executor/expand_var.c		\
-		executor/expand_var_utils.c	\
-		executor/execute.c			\
-		executor/execute_utils.c	\
+SRC =	main.c							\
+		init.c							\
+		signal/signals.c				\
+		lexer/tokenizer.c				\
+		lexer/token_utils.c				\
+		lexer/lexer.c					\
+		lexer/lexer_utils.c				\
+		parser/parser.c					\
+		parser/parser_utils.c			\
+		parser/parser_utils2.c			\
+		hashtable/hashtable.c			\
+		hashtable/hashtable_utils.c		\
+		cmd_list/cmd_list.c				\
+		cmd_list/cmd_list_utils.c		\
+		builtin/builtin.c				\
+		builtin/pwd.c					\
+		builtin/unset.c					\
+		builtin/env.c					\
+		builtin/export.c				\
+		builtin/export_print.c			\
+		builtin/exit.c					\
+		builtin/echo.c					\
+		builtin/cd.c					\
+		pipe/pipe.c						\
+		pipe/pipe_utils.c				\
+		heredoc/heredoc.c				\
+		heredoc/heredoc_utils.c			\
+		heredoc/heredoc_utils2.c		\
+		expand_var/expand_var.c			\
+		expand_var/expand_var_utils.c	\
+		executor/execute.c				\
+		executor/execute_utils.c		\
 		error/error.c
 
 OBJ_DIR = obj
