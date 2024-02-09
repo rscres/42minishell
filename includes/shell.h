@@ -35,7 +35,6 @@
 # define TRUE 1
 # define REMOVE 1
 # define NAME 0
-# define ERROR -1
 
 typedef enum s_token_type
 {
